@@ -1,0 +1,10 @@
+Package: EBImageExtra
+Title: Helper Functions for EBImage
+Version: 0.0.0.1
+Authors@R: person("David", "Ornelles", email = "ornelles@wakehealth.edu", role = c("aut", "cre"))
+Description: Helper functions extending the functionality of EBImagetiter.
+Depends: R (>= 3.2.1), lattice, EBImage
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
