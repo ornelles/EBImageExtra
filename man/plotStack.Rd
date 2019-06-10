@@ -4,12 +4,12 @@
 \alias{plotStack}
 \title{Plot image stack with optional labels}
 \usage{
-plotStack(x, label = FALSE, nx, ...)
+plotStack(x, labels = FALSE, nx, ...)
 }
 \arguments{
 \item{x}{An \code{Image} object of \code{array} of such objects}
 
-\item{label}{A \code{logical} value, a \code{character} vector, or an
+\item{labels}{A \code{logical} value, a \code{character} vector, or an
 \code{expression} specifying the addition of labels. No labels are added with
 the default value of \code{FALSE}}
 
@@ -29,16 +29,16 @@ option of labeling each frame.
 }
 \details{
 The image in \code{x} will be plotted by the command
-\code{plot(x, all = TRUE, nx = nx)}. If \code{label} is not \code{FALSE},
+\code{plot(x, all = TRUE, nx = nx)}. If \code{labels} is not \code{FALSE},
 labels will be generated and added with \code{\link{labelStack}} where
 \code{labels = TRUE} will simply number each frame. Other values of
-\code{label} will be used as a label, replicating the values in
-\code{label} as necessary.
+\code{labels} will be used as a label, replicating the values in
+\code{labels} as necessary.
 }
 \examples{
 x <- readImage(system.file("images", "sample-color.png", package="EBImage"))
 x <- EBImage::untile(x, c(4, 3), lwd = 0)
-plotStack(x, label = paste("Frame", 1:12))
+plotStack(x, labels = paste("Frame", 1:12))
 
 }
 \seealso{

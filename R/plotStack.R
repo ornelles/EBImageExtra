@@ -4,7 +4,7 @@
 #' option of labeling each frame.
 #' 
 #' @param x An \code{Image} object of \code{array} of such objects
-#' @param label A \code{logical} value, a \code{character} vector, or an
+#' @param labels A \code{logical} value, a \code{character} vector, or an
 #'   \code{expression} specifying the addition of labels. No labels are added with
 #'   the default value of \code{FALSE}
 #' @param nx An \code{integer} of length 1 specifying the width of the image
@@ -14,11 +14,11 @@
 #' 
 #' @details
 #' The image in \code{x} will be plotted by the command
-#' \code{plot(x, all = TRUE, nx = nx)}. If \code{label} is not \code{FALSE},
+#' \code{plot(x, all = TRUE, nx = nx)}. If \code{labels} is not \code{FALSE},
 #' labels will be generated and added with \code{\link{labelStack}} where
 #' \code{labels = TRUE} will simply number each frame. Other values of
-#' \code{label} will be used as a label, replicating the values in
-#' \code{label} as necessary.
+#' \code{labels} will be used as a label, replicating the values in
+#' \code{labels} as necessary.
 #' 
 #' @seealso \code{\link{labelStack}}, \code{\link{locatorStack}}
 #' 
@@ -29,13 +29,13 @@
 #' @examples
 #' x <- readImage(system.file("images", "sample-color.png", package="EBImage"))
 #' x <- EBImage::untile(x, c(4, 3), lwd = 0)
-#' plotStack(x, label = paste("Frame", 1:12))
+#' plotStack(x, labels = paste("Frame", 1:12))
 #' 
 #' @import EBImage
 #' 
 #' @export
 #' 
-plotStack <- function(x, label = FALSE, nx, ...)
+plotStack <- function(x, labels = FALSE, nx, ...)
 {
 	if (class(x) != "Image")
 		stop("'x' must be an Image object")
@@ -44,12 +44,12 @@ plotStack <- function(x, label = FALSE, nx, ...)
 		nx <- ceiling(sqrt(nf))
 	plot(x, all = TRUE, nx = nx)
 
-	if (is.null(label))
-		labelStack(x, labs = NULL, nx = nx, ...)
-	else if (is(label, "logical") && label == TRUE)
-		labelStack(x, labs = NULL, nx = nx, ...)
-	else if (is(label, "expression") | is(label, "character"))
-		labelStack(x, labs = label, nx = nx, ...)
-	else if (!is(label, "logical"))
-		labelStack(x, labs = as.character(label), nx = nx, ...)
+	if (is.null(labels))
+		labelStack(x, labels = NULL, nx = nx, ...)
+	else if (is(labels, "logical") && labels == TRUE)
+		labelStack(x, labels = NULL, nx = nx, ...)
+	else if (is(labels, "expression") | is(labels, "character"))
+		labelStack(x, labels = labels, nx = nx, ...)
+	else if (!is(labels, "logical"))
+		labelStack(x, labels = as.character(labels), nx = nx, ...)
 }

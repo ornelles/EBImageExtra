@@ -4,14 +4,14 @@
 \alias{labelStack}
 \title{Label frames of an image stack}
 \usage{
-labelStack(x, labs = NULL, nx, col = "white", offset = c(0.05, 0.05),
-  adj = c(0, 1), ...)
+labelStack(x, labels = NULL, nx, col = "white", offset = c(0.05,
+  0.05), adj = c(0, 1), ...)
 }
 \arguments{
 \item{x}{A recently plotted \code{Image} object of \code{array} of such
 objects}
 
-\item{labs}{Labels to be added to each frame of the image as a
+\item{labels}{Labels to be added to each frame of the image as a
 \code{character} vector, or an \code{expression}. If \code{NULL}, the number
 of each frame will serve as the label}
 
@@ -46,7 +46,7 @@ x <- readImage(system.file("images", "sample-color.png", package="EBImage"))
 x <- EBImage::untile(x, c(4, 3), lwd = 0)
 idx <- sample(1:12)
 plotStack(x[,,,idx], label = paste("Frame", 1:12))
-labelStack(x, labs = idx, col = "yellow", offset = 0.5, adj = 0.5, cex = 2)
+labelStack(x, labels = idx, col = "yellow", offset = 0.5, adj = 0.5, cex = 2)
 
 }
 \seealso{

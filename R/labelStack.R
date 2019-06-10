@@ -4,7 +4,7 @@
 #' 
 #' @param x A recently plotted \code{Image} object of \code{array} of such
 #'   objects
-#' @param labs Labels to be added to each frame of the image as a
+#' @param labels Labels to be added to each frame of the image as a
 #'   \code{character} vector, or an \code{expression}. If \code{NULL}, the number
 #'   of each frame will serve as the label
 #' @param nx An \code{integer} of length 1 specifying the width of the image
@@ -33,13 +33,13 @@
 #' x <- EBImage::untile(x, c(4, 3), lwd = 0)
 #' idx <- sample(1:12)
 #' plotStack(x[,,,idx], label = paste("Frame", 1:12))
-#' labelStack(x, labs = idx, col = "yellow", offset = 0.5, adj = 0.5, cex = 2)
+#' labelStack(x, labels = idx, col = "yellow", offset = 0.5, adj = 0.5, cex = 2)
 #' 
 #' @import EBImage
 #' 
 #' @export
 #' 
-labelStack <- function(x, labs = NULL, nx, col = "white",
+labelStack <- function(x, labels = NULL, nx, col = "white",
 		offset = c(0.05, 0.05), adj = c(0, 1), ...)
 {
 	if (class(x) != "Image") stop("'x' must be an Image object")
@@ -48,16 +48,16 @@ labelStack <- function(x, labs = NULL, nx, col = "white",
 	nf <- numberOfFrames(x, type = "render")
 	if (missing(nx)) nx <- ceiling(sqrt(nf))
 	ss <- seq_len(nf)
-	if (is.null(labs))
-		labs <- as.character(ss)
-	else if (is(labs, "logical") && labs == TRUE)
-		labs <- as.character(ss)
-	else if (is(labs, "logical") && labs == FALSE)
-		labs <- ""
+	if (is.null(labels))
+		labels <- as.character(ss)
+	else if (is(labels, "logical") && labels == TRUE)
+		labels <- as.character(ss)
+	else if (is(labels, "logical") && labels == FALSE)
+		labels <- ""
 	ix <- (ss - 1)%%nx
 	iy <- (ss - 1)%/%nx
 	dm <- dim(x)
 	xx <- dm[1]*(ix + offset[1])
 	yy <- dm[2]*(iy + offset[2])
-	text(xx, yy, labs, adj = adj[1:2], col = col, ...)
+	text(xx, yy, labels, adj = adj[1:2], col = col, ...)
 }

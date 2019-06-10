@@ -4,13 +4,13 @@
 \alias{locatorStack}
 \title{Interact with plotted image stack to select frames}
 \usage{
-locatorStack(x, labs, nx, col = "red", offset = c(0.05, 0.05),
+locatorStack(x, labels, nx, col = "red", offset = c(0.05, 0.05),
   adj = c(0, 1), ...)
 }
 \arguments{
 \item{x}{An \code{Image} object of \code{array} of such objects}
 
-\item{labs}{Optional labels to be added to each found frame. If
+\item{labels}{Optional labels to be added to each found frame. If
 \code{missing}, the number of each frame will serve as the label}
 
 \item{nx}{An \code{integer} of length 1 specifying the width of the image

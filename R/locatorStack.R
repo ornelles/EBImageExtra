@@ -4,7 +4,7 @@
 #' on an image stack.
 #' 
 #' @param x An \code{Image} object of \code{array} of such objects
-#' @param labs Optional labels to be added to each found frame. If
+#' @param labels Optional labels to be added to each found frame. If
 #'   \code{missing}, the number of each frame will serve as the label
 #' @param nx An \code{integer} of length 1 specifying the width of the image
 #'   stack. If missing, a value will be chosen to create an equal number of
@@ -34,7 +34,7 @@
 #' 
 #' @export
 #'
-locatorStack <- function(x, labs, nx, col = "red",
+locatorStack <- function(x, labels, nx, col = "red",
 		offset = c(0.05, 0.05), adj = c(0, 1), ...)
 {
 	if (class(x) != "Image") stop("'x' must be an Image object")
@@ -47,7 +47,7 @@ locatorStack <- function(x, labs, nx, col = "red",
 	dm <- dim(x)
 	xx <- dm[1]*((ss - 1)%%nx + offset[1])
 	yy <- dm[2]*((ss - 1)%/%nx + offset[2])
-	if (missing(labs)) labs <- as.character(ss)
+	if (missing(labels)) labels <- as.character(ss)
 
 # intervals for binning mouse clicks
 	vx <- seq(0, dm[1]*nx + 1, length = nx + 1)
@@ -62,7 +62,7 @@ locatorStack <- function(x, labs, nx, col = "red",
 		iy <- findInterval(p$y, vy)
 		i <- ix + nx*(iy - 1)
 		if (!i %in% ss) next # only accept valid values
-		text(xx[i], yy[i], labs[i], adj = adj[1:2], col = col, ...)
+		text(xx[i], yy[i], labels[i], adj = adj[1:2], col = col, ...)
 		found <- unique(c(found, i))
 		cat("count:", length(found), "\r")
 		flush.console()
