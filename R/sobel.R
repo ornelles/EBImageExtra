@@ -6,7 +6,9 @@
 #' 
 #' @details
 #' The following matrix and its transpose are sequentially applied in
-#' \code{\link{filter2}} to highlight edges in the image.
+#' \code{\link{filter2}} to identify edges in the image as described
+#' in this \href{https://en.wikipedia.org/wiki/Sobel_operator}{Wikipedia} page. 
+#' 
 #' \preformatted{
 #'      [,1] [,2] [,3]
 #' [1,]    1    0   -1

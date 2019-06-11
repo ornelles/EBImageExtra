@@ -12,21 +12,25 @@ usm(x, radius = 50, amount = 0.2, inputRange)
 \item{radius}{\code{Integer} value to determine Gaussian blur effect, 
 default value of 50}
 
-\item{amount}{A \code{numeric} value between 0 and 1 specifying the amount of
-blur to apply, default value of 0.2.}
+\item{amount}{A \code{numeric} fraction between 0 and ~2 specifying
+the amount of blur to apply, default value of 0.2}
 
 \item{inputRange}{value A optional \code{numeric} vector of 2 values handed to
 \code{\link[EBImage]{normalize}} to normalize the final image. If missing,
 the range of the input object will be used}
 }
 \value{
-A sharpened \code{Image} object of the same size
+A sharpened \code{Image} object of the same size as the input
 }
 \description{
 Sharpen image with unsharp mask algorithm
 }
 \details{
-The unsharp mask algorithm is applied.
+The \href{https://en.wikipedia.org/wiki/Unsharp_masking}{unsharp mask algorithm}
+is applied. The value for \code{amount}
+controls the magnitude of the contrast added at the edges.
+The value for \code{radius} determines the size of the edges to be enhanced
+where a smaller radius enhances details on a smaller scale.
 }
 \examples{
 x <- readImage(system.file("images", "sample-color.png", package="EBImage"))
