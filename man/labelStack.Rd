@@ -8,20 +8,21 @@ labelStack(x, labels = NULL, nx, col = "white", offset = c(0.05,
   0.05), adj = c(0, 1), ...)
 }
 \arguments{
-\item{x}{A recently plotted \code{Image} object of \code{array} of such
+\item{x}{A recently plotted \code{Image} object or \code{array} of such
 objects}
 
 \item{labels}{Labels to be added to each frame of the image as a
 \code{character} vector, or an \code{expression}. If \code{NULL}, the number
 of each frame will serve as the label}
 
-\item{nx}{An \code{integer} of length 1 specifying the width of the image
+\item{nx}{An \code{integer} of length 1 specifying the number of frames in
+the x-direction of the image
 stack. If missing, a value will be chosen to create an equal number of
 frames in the x- and y-directions}
 
 \item{col}{Color of the label to be added}
 
-\item{offset}{A numeric vector of length 2 specifying the relative position
+\item{offset}{A numeric vector of length 1 or 2 specifying the relative position
 of the label in each frame where the default values of \code{c(0.05, 0.05)}
 place the label at the top left corner}
 

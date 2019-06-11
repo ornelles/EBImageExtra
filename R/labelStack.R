@@ -2,16 +2,17 @@
 #' 
 #' Add labels to a plotted image stack
 #' 
-#' @param x A recently plotted \code{Image} object of \code{array} of such
+#' @param x A recently plotted \code{Image} object or \code{array} of such
 #'   objects
 #' @param labels Labels to be added to each frame of the image as a
 #'   \code{character} vector, or an \code{expression}. If \code{NULL}, the number
 #'   of each frame will serve as the label
-#' @param nx An \code{integer} of length 1 specifying the width of the image
+#' @param nx An \code{integer} of length 1 specifying the number of frames in
+#'   the x-direction of the image
 #'   stack. If missing, a value will be chosen to create an equal number of
 #'   frames in the x- and y-directions
 #' @param col Color of the label to be added
-#' @param offset A numeric vector of length 2 specifying the relative position
+#' @param offset A numeric vector of length 1 or 2 specifying the relative position
 #'   of the label in each frame where the default values of \code{c(0.05, 0.05)}
 #'   place the label at the top left corner
 #' @param adj One or two values in [0, 1] which specify the \code{x} (and
