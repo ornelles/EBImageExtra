@@ -10,14 +10,14 @@ ni(x, ir = c(0, 2^-4), separate = TRUE, ft = c(0, 1))
 \arguments{
 \item{x}{An \code{Image} object or array or a list of \code{Image} objects}
 
-\item{ir}{A numeric vector or list vectors of 2 values to set the range of
-input intensity. This value is passed to \code{inputRange} for
-\code{\link[EBImage]{normalize}}}
+\item{ir}{A numeric vector or a list of vectors to set the input
+intensity range. This value is passed to \code{\link[EBImage]{normalize}}
+as the \code{inputRange} parameter}
 
-\item{separate}{If \code{TRUE} or \code{ir} is \code{NULL}, normalize each
-frame separate}
+\item{separate}{If \code{TRUE} or if \code{ir} is \code{NULL}, each frame
+will be normalized independently}
 
-\item{ft}{A numeric vector or \code{list} of vectors of 2 values as the
+\item{ft}{A numeric vector of 2 values or \code{list} of vectors to be the
 target minimum and maximum intensity values after normalization}
 }
 \value{
@@ -26,7 +26,7 @@ the transformed object(s).
 }
 \description{
 Vectorized wrapper for \code{\link[EBImage]{normalize}} with a default
-\code{inputRange} parameter appropriate for 12-bit images.
+\code{inputRange} appropriate for 12-bit images.
 }
 \details{
 See \code{\link[EBImage]{normalize}} for details. The default here is to use

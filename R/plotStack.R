@@ -3,13 +3,12 @@
 #' This is a wrapper to plot all frames of an image as a raster object with the
 #' option of labeling each frame.
 #' 
-#' @param x An \code{Image} object of \code{array} of such objects
-#' @param labels A \code{logical} value, a \code{character} vector, or an
-#'   \code{expression} specifying the addition of labels. No labels are added with
-#'   the default value of \code{FALSE}
-#' @param nx An \code{integer} of length 1 specifying the width of the image
-#'   stack. If missing, a value will be chosen to create an equal number of
-#'   frames in the x- and y-directions
+#' @param x An \code{Image} object or \code{array} of such objects
+#' @param labels If \code{FALSE}, no labels are added. If \code{TRUE} or
+#'   \code{NULL}, frames will be sequentially number. Other values of
+#'   \code{labels} will be used to label for each frame 
+#' @param nx The number of frames in the x-direction of the image stack.
+#'   If missing, a square tile of images will be assumed
 #' @param ... Additional parameters passed to \code{\link{labelStack}}
 #' 
 #' @details
@@ -20,7 +19,11 @@
 #' \code{labels} will be used as a label, replicating the values in
 #' \code{labels} as necessary.
 #' 
-#' @seealso \code{\link{labelStack}}, \code{\link{locatorStack}}
+#' @seealso
+#' \code{\link{labelStack}}, that place custom labels on each frame of the
+#' image stack and \code{\link{locatorStack}} ,that provides an interface for
+#' selecting frames from the stack.
+#' 
 #' 
 #' @return
 #' No value is returned. This function is called to plot an entire \code{Image}

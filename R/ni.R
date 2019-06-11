@@ -1,15 +1,15 @@
 #' Vectorized normalize function
 #' 
 #' Vectorized wrapper for \code{\link[EBImage]{normalize}} with a default
-#' \code{inputRange} parameter appropriate for 12-bit images.
+#' \code{inputRange} appropriate for 12-bit images.
 #' 
 #' @param x An \code{Image} object or array or a list of \code{Image} objects
-#' @param ir A numeric vector or list vectors of 2 values to set the range of
-#'   input intensity. This value is passed to \code{inputRange} for
-#'   \code{\link[EBImage]{normalize}}
-#' @param separate If \code{TRUE} or \code{ir} is \code{NULL}, normalize each
-#'   frame separate
-#' @param ft A numeric vector or \code{list} of vectors of 2 values as the
+#' @param ir A numeric vector or a list of vectors to set the input
+#'   intensity range. This value is passed to \code{\link[EBImage]{normalize}}
+#'   as the \code{inputRange} parameter
+#' @param separate If \code{TRUE} or if \code{ir} is \code{NULL}, each frame
+#'   will be normalized independently
+#' @param ft A numeric vector of 2 values or \code{list} of vectors to be the
 #'   target minimum and maximum intensity values after normalization
 #' 
 #' @details

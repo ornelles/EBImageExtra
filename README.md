@@ -1,10 +1,10 @@
 ### Description  
-This package collects helper functions to extend the `EBImage` package and help with processing micrographs. These functions are dependent on the `EBImage` package and sometimes make use of the `lattice` package.
+This is a collection of functions to extend the `EBImage` package and provide helper functions for  processing micrographs. These functions are dependent on the `EBImage` package and sometimes make use of the `lattice` package.
 
 ### Functional Groups  
 #### Extensions to EBImage` 
-* circularity - Improved calculation of the circularity of an image object
-* perimeter - Improved calculation of the perimeter of image object
+* circularity - More precise calculation of the circularity of an image object
+* perimeter - More precise calculation of the perimeter of an image object
 * ni - Vectorized wrapper to the `normalize()` function with defaults for 12-bit images
 
 #### Image stacks  
@@ -15,11 +15,11 @@ This package collects helper functions to extend the `EBImage` package and help 
 
 #### Filters  
 * sobel - [Sobel filter](https://en.wikipedia.org/wiki/Sobel_operator) for edge detection
-* usm - [Unsharp mask filter](https://en.wikipedia.org/wiki/Unsharp_masking) to sharpen images
+* usm - [Unsharp mask filter](https://en.wikipedia.org/wiki/Unsharp_masking) to sharpen images by increasing local contrast
 
 #### Micrograph utilities  
 * scaleBar - Add horizontal scale bar to image
-* crop - Crop a grayscale or binary image to include only image
+* crop - Crop a grayscale or binary image to include non-zero pixels
 * boxtext - Add text with background box to a plot
 
 ## License  

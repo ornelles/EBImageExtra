@@ -25,7 +25,8 @@
 #' @return
 #' An \code{Image} object containing the stacked objects contained in
 #' \code{mask}. If \code{mask} contains multiple images and if \code{combine}
-#' is TRUE, \code{stackObjects2} returns a \code{list} of \code{Image} objects.
+#' is \code{TRUE}, \code{stackObjects2} returns a single combined image
+#' otherwise a \code{list} of \code{Image} objects is returned.
 #'
 #' @import EBImage
 #' 

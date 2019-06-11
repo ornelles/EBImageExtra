@@ -1,37 +1,37 @@
 #' Interact with plotted image stack to select frames
 #' 
-#' The function \code{\link{locator}} is called to identify and select frames
-#' on an image stack.
+#' Identify and select frames in a plotted image stack.
 #' 
-#' @param x An \code{Image} object of \code{array} of such objects
-#' @param labels Optional labels to be added to each found frame. If
-#'   \code{missing}, the number of each frame will serve as the label
-#' @param nx An \code{integer} of length 1 specifying the width of the image
-#'   stack. If missing, a value will be chosen to create an equal number of
-#'   frames in the x- and y-directions
+#' @param x An \code{Image} object or \code{array} of such objects
+#' @param labels Optional labels to be added to each selected frame. If
+#'   missing, the number of each frame will serve as the label
+#' @param nx The number of frames in the x-direction of the image stack.
+#'   If missing, a square tile of images will be assumed
 #' @param col Color of the label to be added
-#' @param offset A numeric vector fo length 2 specifying the relative position
-#'   of the label in each frame where the default values of \code{c(0.05, 0.05)}
-#'   place the label at the top left corner
+#' @param offset A numeric vector of length 2 specifying the relative position
+#'   of the label in each frame
 #' @param adj One or two values in [0, 1] which specify the \code{x} (and
-#'   optionally \code{y}) adjustment of the labels. See \code{\link{text}} for
-#'   details.
-#' @param value Character vector indicating the return value. The default of
-#'   \code{"found"} returns the selected frames. The option \code{"image"}
-#'   returns an \code{Image} or \code{Image} array composed of the selected frames.
+#'   optionally \code{y}) adjustment of the labels. See the function
+#' \code{\link{text}} for further details
+#' @param value Character vector indicating whether to return a numeric vector
+#'   of found frames or a new \code{Image} (see Details)
 #' @param ... Additional values passed to \code{\link{text}} for labeling
 #' 
-#' @seealso \code{\link{labelStack}}, \code{\link{plotStack}}
+#' @seealso
+#' \code{\link{plotStack}}, which allows for automatically labeling the plotted
+#' image and \code{\link{labelStack}}, that places custom labels on each 
+#' frame of the image stack.
 #' 
 #' @details
-#' The \code{base} function \code{\link{locator}} will be called until
-#' stopped by the user to identify frames in the \emph{previously} plotted
-#' image stack. The selected frame on the image will be labeled and a count
+#' The \code{base} function \code{\link{locator}} will be used to interact
+#' with the user to identify frames in the plotted
+#' image stack. Frames selected on the image will be labeled and a count
 #' of the selected (unique) frames will be reported in a running tally on the 
-#' console. The selected frames, in the order that they were selected, will
-#' either be returned as a vector of integers if \code{value} is "frames", or
-#' if \code{value} is "image", a new \code{Image} object of the selected
-#' frames will be returned.
+#' console. Selection is stopped by pressing any mouse button other than the
+#' primary button or by pressing the \code{ESC} key. The selected frames, in
+#' the order that they were selected, will be returned as a vector of integers
+#' if \code{value} is \code{"frames"} or as a new \code{Image} object of the
+#' selected frames if \code{value} is \code{"image"}.
 #' 
 #' @return
 #' \strong{Either} a numeric vector of the selected frames \strong{or} an

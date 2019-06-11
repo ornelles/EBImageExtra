@@ -7,15 +7,14 @@
 plotStack(x, labels = FALSE, nx, ...)
 }
 \arguments{
-\item{x}{An \code{Image} object of \code{array} of such objects}
+\item{x}{An \code{Image} object or \code{array} of such objects}
 
-\item{labels}{A \code{logical} value, a \code{character} vector, or an
-\code{expression} specifying the addition of labels. No labels are added with
-the default value of \code{FALSE}}
+\item{labels}{If \code{FALSE}, no labels are added. If \code{TRUE} or
+\code{NULL}, frames will be sequentially number. Other values of
+\code{labels} will be used to label for each frame}
 
-\item{nx}{An \code{integer} of length 1 specifying the width of the image
-stack. If missing, a value will be chosen to create an equal number of
-frames in the x- and y-directions}
+\item{nx}{The number of frames in the x-direction of the image stack.
+If missing, a square tile of images will be assumed}
 
 \item{...}{Additional parameters passed to \code{\link{labelStack}}}
 }
@@ -42,5 +41,7 @@ plotStack(x, labels = paste("Frame", 1:12))
 
 }
 \seealso{
-\code{\link{labelStack}}, \code{\link{locatorStack}}
+\code{\link{labelStack}}, that place custom labels on each frame of the
+image stack and \code{\link{locatorStack}} ,that provides an interface for
+selecting frames from the stack.
 }
