@@ -1,0 +1,19 @@
+choose inset
+args:
+	target
+  topleft
+  bottomright
+  width
+  height
+  asp
+  padding (white)
+return:
+  padded image
+
+place inset
+args:
+	target, inset
+  position (topleft, top, topright, ..., bottomleft)
+  lwd (border width)
+  col (line color)
+  
