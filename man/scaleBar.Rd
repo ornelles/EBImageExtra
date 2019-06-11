@@ -8,20 +8,20 @@ scaleBar(x, y = NULL, width, distance, label = NULL, col = "white",
   col.text, cex = 3/4, adj = c(0.5, -0.5), col.line, lwd = 1, ...)
 }
 \arguments{
-\item{x, y}{Coordinate vector of scale par}
+\item{x, y}{Central coordinates of the scale bar in pixels}
 
 \item{width}{Width of scale bar in pixels}
 
 \item{distance}{Corresponding distance to the scale bar in microns}
 
-\item{label}{A suitable text label of \code{expression} for the scale bar. If
-\code{NULL}, a label will be generated from \code{distance}. Use \code{""}
-or \code{NA} to add no text label}
+\item{label}{A suitable label that can be coerced to \code{character} or
+an \code{expression}. If \code{NULL}, a label will be generated from
+\code{distance}. Use \code{""} or \code{NA} to use no label}
 
-\item{col, col.text, cex, adj, ...}{Parameters passed to \code{\link{text}}
-used to place the label}
+\item{col, col.text, cex, adj, ...}{Parameters passed to the \code{\link{text}}
+function to draw the label}
 
-\item{col.line, lwd}{Parameters passed to \code{\link{lines}} used to place
+\item{col.line, lwd}{Parameters passed to \code{\link{lines}} function to draw
 the horizontal line}
 }
 \value{
@@ -32,19 +32,23 @@ Place a horizontal scale bar \code{width} pixels wide corresponding to a
 physical distance \code{distance} with an optional \code{label}.
 }
 \details{
-Place a labeled scale bar on a raster image. A default label in microns will
+This is a utility to place a labeled scale bar on a raster image. 
+A default label in microns will
 be added if \code{label} is \code{NULL}. The label is centered above the
-position in \code{x,y} as specified by the value of \code{adj = c(0.5,-0.5)}.
+position in \code{x,y} according to the values in \code{adj}. The default
+value of \code{c(0.5,-0.5)} centers the label and places it 0.5 character
+widths above the \code{x,y} position. 
 The \code{x,y} coordinates can be passed in a plotting structure
-appropriate for \code{\link{xy.coords}}. The function attempts to parse
+appropriate for \code{\link{xy.coords}}. This function attempts to parse
 \code{distance} and \code{width} from the remaining positions if they are not
-named and \code{x} is a list with \code{x} and \code{y} components. 
+named and \code{x} is a list with \code{x} and \code{y} components. This 
+allows one to interactively place a scale bar with a function call such as
+the following:
+\preformatted{
+> scaleBar(locator(), 100, 12)
+}
 
-If \code{col.text} and \code{col.line} are missing, these will be assigned
-the color specified in \code{col}. 
-
-To interactively place a scale bar, call the function with
-\code{\link{locator}} such as \code{scaleBar(locator(1), 100, 12)} to invoke
-\code{locator()} to place a 100 pixel-wide bar corresponding to a distance of
-12 um.
+Note that if \code{locator()} is used, \strong{only the last point selected}
+will be used to place the scale bar. If \code{col.text} and \code{col.line}
+are missing, these will be assigned the color specified in \code{col}.
 }
