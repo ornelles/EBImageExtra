@@ -16,7 +16,7 @@ plotStack(x, labels = FALSE, nx, ...)
 \item{nx}{The number of frames in the x-direction of the image stack.
 If missing, a square tile of images will be assumed}
 
-\item{...}{Additional parameters passed to \code{\link{labelStack}}}
+\item{...}{Additional parameters passed to \code{\link{plot.Image}}}
 }
 \value{
 No value is returned. This function is called to plot an entire \code{Image}
@@ -41,7 +41,7 @@ plotStack(x, labels = paste("Frame", 1:12))
 
 }
 \seealso{
-\code{\link{labelStack}}, that place custom labels on each frame of the
-image stack and \code{\link{locatorStack}} ,that provides an interface for
+\code{\link{labelStack}}, to place custom labels on each frame of the
+image stack and \code{\link{locatorStack}}, that provides an interface for
 selecting frames from the stack.
 }

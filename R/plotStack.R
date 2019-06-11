@@ -9,7 +9,7 @@
 #'   \code{labels} will be used to label for each frame 
 #' @param nx The number of frames in the x-direction of the image stack.
 #'   If missing, a square tile of images will be assumed
-#' @param ... Additional parameters passed to \code{\link{labelStack}}
+#' @param ... Additional parameters passed to \code{\link{plot.Image}} 
 #' 
 #' @details
 #' The image in \code{x} will be plotted by the command
@@ -20,8 +20,8 @@
 #' \code{labels} as necessary.
 #' 
 #' @seealso
-#' \code{\link{labelStack}}, that place custom labels on each frame of the
-#' image stack and \code{\link{locatorStack}} ,that provides an interface for
+#' \code{\link{labelStack}}, to place custom labels on each frame of the
+#' image stack and \code{\link{locatorStack}}, that provides an interface for
 #' selecting frames from the stack.
 #' 
 #' 
@@ -45,14 +45,14 @@ plotStack <- function(x, labels = FALSE, nx, ...)
 	nf <- numberOfFrames(x, type = "render")
 	if (missing(nx))
 		nx <- ceiling(sqrt(nf))
-	plot(x, all = TRUE, nx = nx)
+	plot(x, all = TRUE, nx = nx, ...)
 
 	if (is.null(labels))
-		labelStack(x, labels = NULL, nx = nx, ...)
+		labelStack(x, labels = NULL, nx = nx)
 	else if (is(labels, "logical") && labels == TRUE)
-		labelStack(x, labels = NULL, nx = nx, ...)
+		labelStack(x, labels = NULL, nx = nx)
 	else if (is(labels, "expression") | is(labels, "character"))
-		labelStack(x, labels = labels, nx = nx, ...)
+		labelStack(x, labels = labels, nx = nx)
 	else if (!is(labels, "logical"))
-		labelStack(x, labels = as.character(labels), nx = nx, ...)
+		labelStack(x, labels = as.character(labels), nx = nx)
 }
