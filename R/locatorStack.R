@@ -16,27 +16,37 @@
 #' @param adj One or two values in [0, 1] which specify the \code{x} (and
 #'   optionally \code{y}) adjustment of the labels. See \code{\link{text}} for
 #'   details.
+#' @param value Character vector indicating the return value. The default of
+#'   \code{"found"} returns the selected frames. The option \code{"image"}
+#'   returns an \code{Image} or \code{Image} array composed of the selected frames.
 #' @param ... Additional values passed to \code{\link{text}} for labeling
 #' 
 #' @seealso \code{\link{labelStack}}, \code{\link{plotStack}}
 #' 
 #' @details
-#' The base function \code{\link{locator}} will be called until canceled by the
-#' user to identify frames in the *previously* plotted image stack. The
-#' selected frame will be labeled and a count of the (unique) selected frames
-#' will be reported in a running tally. The selected frames, in the order that
-#' they were selected, will be returned as a vector of integers.
+#' The \code{base} function \code{\link{locator}} will be called until
+#' stopped by the user to identify frames in the \emph{previously} plotted
+#' image stack. The selected frame on the image will be labeled and a count
+#' of the selected (unique) frames will be reported in a running tally on the 
+#' console. The selected frames, in the order that they were selected, will
+#' either be returned as a vector of integers if \code{value} is "frames", or
+#' if \code{value} is "image", a new \code{Image} object of the selected
+#' frames will be returned.
 #' 
 #' @return
-#' A vector of selected frames
+#' \strong{Either} a numeric vector of the selected frames \strong{or} an
+#' \code{Image} object of the selected frames in the order that they
+#' were selected. 
 #' 
 #' @import EBImage
 #' 
 #' @export
 #'
 locatorStack <- function(x, labels, nx, col = "red",
-		offset = c(0.05, 0.05), adj = c(0, 1), ...)
+		offset = c(0.05, 0.05), adj = c(0, 1), value = c("frames", "image"),
+		...)
 {
+	value <- match.arg(value)
 	if (class(x) != "Image") stop("'x' must be an Image object")
 	if (length(offset) == 1) offset <- rep(offset, 2)
 	if (length(adj) == 1) adj <- rep(adj, 2)
@@ -68,5 +78,8 @@ locatorStack <- function(x, labels, nx, col = "red",
 		flush.console()
 	}
 	cat("\n")
-	return(found)
+	if (value == "frames")
+		return(found)
+	else
+		return(combine(getFrames(x, found, type = "render")))
 }
