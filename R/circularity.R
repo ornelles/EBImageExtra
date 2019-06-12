@@ -1,4 +1,4 @@
-#' Improved circularity and perimeter calculation
+#' Improved Circularity and Perimeter Calculation
 #' @rdname circularity
 #'
 #' @param x \code{Image} object mask

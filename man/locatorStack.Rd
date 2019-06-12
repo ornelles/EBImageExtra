@@ -2,7 +2,7 @@
 % Please edit documentation in R/locatorStack.R
 \name{locatorStack}
 \alias{locatorStack}
-\title{Interact with plotted image stack to select frames}
+\title{Select Frames from a Plotted Image Stack}
 \usage{
 locatorStack(x, labels, nx, col = "red", offset = c(0.05, 0.05),
   adj = c(0, 1), value = c("frames", "image"), ...)

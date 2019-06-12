@@ -2,7 +2,7 @@
 % Please edit documentation in R/labelStack.R
 \name{labelStack}
 \alias{labelStack}
-\title{Label frames of an image stack}
+\title{Label Frames of an Image Stack}
 \usage{
 labelStack(x, labels = TRUE, nx, col = "white", offset = c(0.05,
   0.05), adj = c(0, 1), ...)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/stackObjects2.R
 \name{stackObjects2}
 \alias{stackObjects2}
-\title{Place detected objects with bounding box in an image stack}
+\title{Place Detected Objects with Bounding Box in an Image Stack}
 \usage{
 stackObjects2(mask, ref, combine = TRUE, bg.col = "black", ext)
 }

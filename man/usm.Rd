@@ -2,7 +2,7 @@
 % Please edit documentation in R/usm.R
 \name{usm}
 \alias{usm}
-\title{Unsharp mask}
+\title{Unsharp Mask Filter}
 \usage{
 usm(x, radius = 50, amount = 0.2, inputRange)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sobel.R
 \name{sobel}
 \alias{sobel}
-\title{Sobel filter for edge detection}
+\title{Sobel Filter for Edge Detection}
 \usage{
 sobel(x)
 }

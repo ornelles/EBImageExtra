@@ -1,4 +1,4 @@
-#' Plot image stack with optional labels
+#' Plot Image Stack with Optional Labels
 #' 
 #' This is a wrapper to plot all frames of an image as a raster object with the
 #' option of labeling each frame.

@@ -1,4 +1,4 @@
-#' Interact with plotted image stack to select frames
+#' Select Frames from a Plotted Image Stack
 #' 
 #' Identify and select frames in a plotted image stack.
 #' 

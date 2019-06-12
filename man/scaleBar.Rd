@@ -2,7 +2,7 @@
 % Please edit documentation in R/scaleBar.R
 \name{scaleBar}
 \alias{scaleBar}
-\title{Add scale bar to image}
+\title{Add Scale Bar to Image}
 \usage{
 scaleBar(x, y = NULL, width, distance, label = NULL, col = "white",
   col.text, cex = 3/4, adj = c(0.5, -0.5), col.line, lwd = 1, ...)

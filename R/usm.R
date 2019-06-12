@@ -1,4 +1,4 @@
-#' Unsharp mask
+#' Unsharp Mask Filter
 #' 
 #' Sharpen image with unsharp mask algorithm
 #' 

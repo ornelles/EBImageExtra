@@ -1,4 +1,4 @@
-#' Add scale bar to image
+#' Add Scale Bar to Image
 #' 
 #' Place a horizontal scale bar \code{width} pixels wide corresponding to a
 #' physical distance \code{distance} with an optional \code{label}.

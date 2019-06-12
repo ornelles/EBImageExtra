@@ -3,7 +3,7 @@
 \name{circularity}
 \alias{circularity}
 \alias{perimeter}
-\title{Improved circularity and perimeter calculation}
+\title{Improved Circularity and Perimeter Calculation}
 \usage{
 circularity(x)
 
@@ -18,7 +18,7 @@ Circularity as a value between 0 (line) and 1 (circle)
 The perimeter (in pixels) of a binary object
 }
 \description{
-Improved circularity and perimeter calculation
+Improved Circularity and Perimeter Calculation
 }
 \details{
 At the cost of increased computing time, these functions provide more precise

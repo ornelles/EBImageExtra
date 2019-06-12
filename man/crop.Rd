@@ -2,7 +2,7 @@
 % Please edit documentation in R/crop.R
 \name{crop}
 \alias{crop}
-\title{Crop a grayscale or binary image}
+\title{Crop an Image to Visible Pixels}
 \usage{
 crop(img, border = 1, fill = 0)
 }

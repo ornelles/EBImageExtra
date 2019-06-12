@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotStack.R
 \name{plotStack}
 \alias{plotStack}
-\title{Plot image stack with optional labels}
+\title{Plot Image Stack with Optional Labels}
 \usage{
 plotStack(x, labels = FALSE, nx, ...)
 }

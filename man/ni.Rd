@@ -3,7 +3,7 @@
 \name{ni}
 \alias{ni}
 \alias{vni}
-\title{Vectorized normalize function}
+\title{Vectorized Normalize Function for Images}
 \usage{
 ni(x, ir = c(0, 2^-4), separate = TRUE, ft = c(0, 1))
 }

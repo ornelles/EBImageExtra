@@ -1,4 +1,4 @@
-#' Sobel filter for edge detection
+#' Sobel Filter for Edge Detection
 #' 
 #' Detect edges in an \code{Image} object
 #' 

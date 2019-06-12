@@ -1,4 +1,4 @@
-#' Crop a grayscale or binary image
+#' Crop an Image to Visible Pixels
 #' 
 #' Crop a grayscale or binary \code{Image} object to non-zero values plus a
 #' given border

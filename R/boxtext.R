@@ -1,8 +1,7 @@
-#' Add text with background box to a plot
+#' Add Text with Background Box
 #'
-#' \code{boxtext} places a text given in the vector \code{labels} 
-#' onto a plot in the base graphics system and places a coloured box behind 
-#' it to make it stand out from the background.
+#' Place text given in the vector \code{labels} 
+#' onto a plot in the base graphics system on top of a colored background.
 #' 
 #' @param x numeric vector of x-coordinates where the text labels should be 
 #' written. If the length of \code{x} and \code{y} differs, the shorter one 
@@ -10,7 +9,7 @@
 #' @param y numeric vector of y-coordinates where the text labels should be 
 #' written. 
 #' @param labels a character vector specifying the text to be written.
-#' @param col.text the colour of the text 
+#' @param col.text the color of the text 
 #' @param col.bg color(s) to fill or shade the rectangle(s) with. The default 
 #' \code{NA} means do not fill, i.e., draw transparent rectangles.
 #' @param border.bg color(s) for rectangle border(s). The default \code{NA}

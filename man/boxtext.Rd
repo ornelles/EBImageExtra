@@ -2,7 +2,7 @@
 % Please edit documentation in R/boxtext.R
 \name{boxtext}
 \alias{boxtext}
-\title{Add text with background box to a plot}
+\title{Add Text with Background Box}
 \usage{
 boxtext(x, y, labels = NA, col.text = NULL, col.bg = NA,
   border.bg = NA, adj = NULL, pos = NULL, offset = 0.5,
@@ -18,7 +18,7 @@ written.}
 
 \item{labels}{a character vector specifying the text to be written.}
 
-\item{col.text}{the colour of the text}
+\item{col.text}{the color of the text}
 
 \item{col.bg}{color(s) to fill or shade the rectangle(s) with. The default 
 \code{NA} means do not fill, i.e., draw transparent rectangles.}
@@ -54,9 +54,8 @@ as a matrix with columns corresponding to xleft, xright, ybottom, ytop.
 If just one label is placed, the coordinates are returned as a vector.
 }
 \description{
-\code{boxtext} places a text given in the vector \code{labels} 
-onto a plot in the base graphics system and places a coloured box behind 
-it to make it stand out from the background.
+Place text given in the vector \code{labels} 
+onto a plot in the base graphics system on top of a colored background.
 }
 \examples{
 ## Create noisy background

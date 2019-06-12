@@ -1,4 +1,4 @@
-#' Label frames of an image stack
+#' Label Frames of an Image Stack
 #' 
 #' Add labels to a plotted image stack
 #' 

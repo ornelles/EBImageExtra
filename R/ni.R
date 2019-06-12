@@ -1,4 +1,4 @@
-#' Vectorized normalize function
+#' Vectorized Normalize Function for Images
 #' 
 #' Vectorized wrapper for \code{\link[EBImage]{normalize}} with a default
 #' \code{inputRange} appropriate for 12-bit images.

@@ -1,4 +1,4 @@
-#' Place detected objects with bounding box in an image stack
+#' Place Detected Objects with Bounding Box in an Image Stack
 #' 
 #' Place objects in an image stack with the same logic as
 #' \code{\link[EBImage]{stackObjects}} except the entire bounding box is
