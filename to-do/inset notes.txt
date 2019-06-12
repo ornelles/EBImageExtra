@@ -1,11 +1,20 @@
 choose inset
 args:
-	target
-  topleft
-  bottomright
-  width
-  height
-  asp
+	x target image
+	method
+		by opposite corners
+		by center and dim
+		by corner and dim
+	corner.default
+		xleft, ybottom, xright, ytop
+	fundamental dimensions
+		xleft, ybottom, xright, ytop
+	derived dimensions
+		width = xright - xleft
+		height = ytop - ybottom
+		xcenter = (xright - xleft)/2
+		ycenter = (ytop - ybottom)/2
+		asp = height/width
   padding (white)
 return:
   padded image
