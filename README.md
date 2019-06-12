@@ -21,6 +21,8 @@ This is a collection of functions to extend the `EBImage` package and provide he
 * scaleBar - Add horizontal scale bar to image
 * crop - Crop a grayscale or binary image to include non-zero pixels
 * boxtext - Add text with background box to a plot
+* getInset - Extract rectangular inset from image
+* putInset - Place inset into an image (TO-DO) 
 
 ## License  
 GPL-3
