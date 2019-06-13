@@ -37,21 +37,21 @@
 #' center or corner(s) as describe below. 
 #' 
 #' \describe{
-#'   \item{Two Points}{If four values are provided for \code{x,y} and
-#'     \code{x2,y2}, these identify the lower left and upper right corners of
+#'   \item{Two Points}{If values are provided for each of \code{x,y} and
+#'     \code{x2,y2}, these are treated as opposite corners of
 #'     the rectangular selection.}
 #'   \item{One Point (with width and height)}{If only two values are provided for
 #'    \code{x,y} and \code{x2,y2}, they will be assigned to \code{x,y}. Values
 #'    for \code{w,h} must be provided as named arguments as the width and
 #'    height of the rectangular selection. The point \code{x,y} is
-#'    interpretted as \emph{either} the center (\code{method="center"}) or
-#'    corner (\code{method="corner"}) of the selection. If
+#'    interpretted as \emph{either} the center (\code{method="center"})
+#'    \emph{or} the corner (\code{method="corner"}) of the selection. If
 #'    \code{method="corner"} applies, the position of the corner is determined
 #'    by the argument \code{which.corner} as one of \code{"bottomleft", 
 #'    "topleft", "bottomright",} or \code{"topright"}.}
 #'   \item{No Points (choose opposite corners)}{If all of \code{x,y,x2,y2,w,h}
-#'    are missing, \code{locator} will allow the user to select opposite corners
-#'    of the rectangular selection.}
+#'    are missing, \code{locator} will allow the user to select two points
+#'    that define opposing corners of the rectangular selection.}
 #' }
 #' 
 #' @return
