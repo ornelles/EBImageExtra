@@ -8,13 +8,13 @@
 #' @param x2,y2 optional second pair of x and y coordinates (in pixels) to
 #'   specify the other corner of the rectangular selection 
 #' @param w,h optional width and height of the rectangular selection (in
-#'   pixels); required if (\code{x2,y2}) are missing 
-#' @param method a character vector of length 1 to specify the
-#'   location of the single \code{x,y} coordinate as either the
+#'   pixels); required if \code{x2,y2} are missing 
+#' @param method a character vector of length 1 specifying the
+#'   location of the single \code{x,y} point as either the
 #'   \code{"center"} or \code{"corner"} of the selection
-#' @param which.corner a character vector of length 1 indicating which
-#'   corner of the rectangular selection is specified by the single \code{x,y}
-#'   coordinate; applies only if \code{method = "corner"}
+#' @param which.corner a character vector of length 1 identifying the
+#'   corner of the rectangle specified by \code{x,y};
+#'   applies only if \code{method = "corner"}
 #' @param pch plotting character used by \code{locator}, default of 3 (cross)
 #' @param col color for plotting character used by \code{locator}, default of
 #'   \code{"magenta"}; use \code{NA} for no plotting character

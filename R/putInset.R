@@ -2,29 +2,33 @@
 ## putInset - add a scaled inset to the given image and return marked-up
 ##
 putInset <- function(img, ins, position, frac = NULL, mag = NULL,
-	col = "white", lwd = 2, lend = "square", res = 300, 
+	col = "white", lwd = 2, lend = "square", res = 300, frac.default = 1/3,
 	...)
 {
 # argument checks
 	if(!is(img, "Image") | !is(ins, "Image"))
 		stop ("both 'img' and 'ins' must be Image objects")
-	cm1 <- colorMode(img)
+	cmx <- colorMode(img)
 	cm2 <- colorMode(ins)
 	if (cm1 != cm2)
 		warning("grayscale image converted to RGB")
-	if (cm1 > cm2)
+	if (cmx > cm2)
 		ins <- toRGB(ins)
-	else if (cm2 > cm1)
+	else if (cm2 > cmx)
 		img <- toRGB(img)
 
-	dm.img <- dim(img)
-	dm.ins <- dim(ins)
+# Common variables
+	choices <- c("topleft", "top", "topright", "left", "center", "right",
+		"bottomleft", "bottom", "bottomright")
+	choices <- factor(choices, levels = choices)
+
+	dm.img <- dim(img)[1:2]
+	dm.ins <- dim(ins)[1:2]
 	cmx <- colorMode(img)
 
-# Determine magnification 'mag' and fractional size 'frac'
-	if (is.null(frac) & is.null(mag)) {
-		message("default value of 1/3 used for 'frac'")
-		frac <- 1/3
+# Determine magnification 'mag' from fractional size 'frac'
+	if (is.null(frac) & is.null(mag)) { # given neither 'mag' nor 'frac'
+		frac <- frac.default
 		mag <- frac * dm.img[1]/dm.ins[1]
 	}
 	else if (is.null(frac) & !is.null(mag)) { # given 'mag'
@@ -43,52 +47,53 @@ putInset <- function(img, ins, position, frac = NULL, mag = NULL,
 		if (signif(mag, 3) != signif(frac * dm.img[1]/dm.ins[1]))
 			stop("incompatible 'mag' and 'frac' values provided, use one or the other")
 		else
-			frac <- frac
+			mag <- mag
 	}
 
 # Resize inset by mag and recalculate dm.ins
   ins <- resize(ins, w = mag * dm.ins[1])
-  dm.ins <- dim(ins)
-	
-# Determine position for inset
-	CHOICES <- c("topleft", "top", "topright", "left", "center", "right",
-		"bottomleft", "bottom", "bottomright")
-	if (!missing(position))
-			position <- match.arg(position, CHOICES)
+  dm.ins <- dim(ins)[1:2]
+
+# Determine position for inset from 'position' and 'choices'
+	if (!missing(position)) {
+			if (is(position, "character"))
+				position <- match.arg(position, CHOICES)
+			else if (is.numeric(position) && position > 0 && position <= length(choices))
+				position <- levels(choices)[position]
+			else
+				stop("'position' must be a character or integer in [1,9]")
+	}
 	else {
-		vx <- seq(0, dm.img[1] + 1, length = 4)
-		vy <- seq(0, dm.img[2] + 1, length = 4)
+		nx <- 3 # number of tiles across and down
+		vx <- seq(0, dm.img[1] + 1, length = nx + 1)
+		vy <- seq(0, dm.img[2] + 1, length = nx + 1)
 		i <- 0
-		while (!i %in% 1:9) {
+		while (!i %in% seq_len(nx*nx)) {
 			p <- locator(1)
 			ix <- findInterval(p$x, vx)
 			iy <- findInterval(p$y, vy)
-			i <- ix + 3*(iy - 1)
+			i <- ix + nx*(iy - 1)
 		}
-		position <- CHOICES[i]
+		position <- levels(choices)[i]
 	}
-		
-# Calculate coordinates of inset in image
-	xpad <- floor((dm.img[1] - dm.ins[1])/2)
-	ypad <- floor((dm.img[2] - dm.ins[2])/2)
-	pp <- switch(position,
-		"topleft" = list(x = c(1, dm.ins[1]), y = c(1, dm.ins[2])),
-		"top" = list(x = xpad + c(1, dm.ins[1]), y = c(1, dm.ins[2])),
-		"topright" = list(x = c(dm.img[1]-dm.ins[1]+1, dm.img[1]), y = c(1, dm.ins[2])),
-		"left" = list(x = c(1, dm.ins[1]), y = ypad + c(1, dm.ins[2])),
-		"center" = list(x = xpad + c(1, dm.ins[1]), y = c(dm.img[2]-dm.ins[2]+1, dm.img[2]) - ypad),
-		"right" = list(x = c(dm.img[1]-dm.ins[1]+1, dm.img[1]), y = c(dm.img[2]-dm.ins[2]+1, dm.img[2]) - ypad),
-		"bottomleft" = list(x = c(1, dm.ins[1]), y = c(dm.img[2]-dm.ins[2]+1, dm.img[2])),
-		"bottom" = list(x = xpad + c(1, dm.ins[1]), y = c(dm.img[2]-dm.ins[2]+1, dm.img[2])),
-		"bottomright" = list(x = c(dm.img[1]-dm.ins[1]+1, dm.img[1]), y = c(dm.img[2]-dm.ins[2]+1, dm.img[2])))
 
-# Calculate index into image and replace
-  idx <- Map(function(v) seq.int(v[1], v[2]), pp)
-	if (colorMode(img) == Color)
-		img[idx$x, idx$y, ] <- ins
-	else
-		img[idx$x, idx$y] <- ins
-	plot(img)
+# Calculate translation adjustment for given position
+	pad <- dm.img - dm.ins
+	offset <- switch(position,
+		"topleft" = c(0, 0),
+		"top" = c(0.5, 0),
+		"topright" = c(1, 0),
+		"left" = c(0, 0.5),
+		"center" = c(0.5, 0.5),
+		"right" = c(1, 0.5),
+		"bottomleft" = c(0, 1),
+		"bottom" = c(0.5, 1),
+		"bottomright" = c(1, 1))
+	
+	mask <- Image("black", dim = dm.ins, colormode = 2)
+	mask <- translate(mask, offset * pad, output.dim = dm.img, bg.col = "white")
+	ins <- translate(ins, offset * pad, output.dim = dm.img, bg.col = "black")
+	ans <- mask * img + ins
 
 # Add possible frame to inset
 # Method 1 - replace pixels in situ ## Not quite, how to specify color across matrix
