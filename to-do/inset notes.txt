@@ -1,4 +1,8 @@
-choose inset
+set region-of-interest
+	interact with user on image
+return: opposite corners of ROI
+
+get region-of-interest (getInset)
 args:
 	x target image
 	method

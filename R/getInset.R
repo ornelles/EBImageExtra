@@ -3,18 +3,19 @@
 #' Select and extract a rectangular inset from an image.
 #' 
 #' @param img An \code{Image} object
-#' @param x,y the x and y coordinates (in pixels) of either one corner or the
-#'   center of the rectangular selection
-#' @param x2,y2 optional second pair of x and y coordinates (in pixels) to
-#'   specify the other corner of the rectangular selection 
+#' @param x,y the x and y coordinates (in pixels) of one or both corners of
+#'   rectangular selection or the location of the center of this selection
+#' @param x2,y2 optional second pair of x and y coordinates (in pixels) when
+#'   needed to specify the other corner of the rectangular selection 
 #' @param w,h optional width and height of the rectangular selection (in
 #'   pixels); required if \code{x2,y2} are missing 
-#' @param method a character vector of length 1 specifying the
-#'   location of the single \code{x,y} point as either the
-#'   \code{"center"} or \code{"corner"} of the selection
+#' @param bycenter \code{logical}. If \code{TRUE}, the default, the
+#'   location of the single \code{x,y} point is used as the
+#'   \code{"center"} of the selection. If \code{FALSE}, the point corresponds
+#'   to the corner of the selection named in \code{which.corner}
 #' @param which.corner a character vector of length 1 identifying the
 #'   corner of the rectangle specified by \code{x,y};
-#'   applies only if \code{method = "corner"}
+#'   applies only if \code{bycenter = FALSE}
 #' @param pch plotting character used by \code{locator}, default of 3 (cross)
 #' @param col color for plotting character used by \code{locator}, default of
 #'   \code{"magenta"}; use \code{NA} for no plotting character
@@ -23,8 +24,8 @@
 #' @param lwd line width of rectangle if \code{markup = TRUE}
 #' @param newplot \code{logical} value indicating if a new image should be
 #'   plotted first
-#' @param markup \code{logical} value indicating if the inset outline should be
-#'   drawn on the image
+#' @param markup \code{logical} value indicating if the image should be
+#'   redrawn with the outline drawn on the image
 #' 
 #' @seealso addInset; other stuff
 #' 
@@ -37,21 +38,24 @@
 #' center or corner(s) as describe below. 
 #' 
 #' \describe{
+#'   \item{A List of Length 2}{If \code{x} is a \code{list} of length 2, it
+#'     is assumed to hold opposite corners of the rectangular selection. This
+#'     is the typical result of a call to \code{locator(2)} with the image.}
 #'   \item{Two Points}{If values are provided for each of \code{x,y} and
 #'     \code{x2,y2}, these are treated as opposite corners of
 #'     the rectangular selection.}
 #'   \item{One Point (with width and height)}{If only two values are provided for
-#'    \code{x,y} and \code{x2,y2}, they will be assigned to \code{x,y}. Values
-#'    for \code{w,h} must be provided as named arguments as the width and
-#'    height of the rectangular selection. The point \code{x,y} is
-#'    interpretted as \emph{either} the center (\code{method="center"})
-#'    \emph{or} the corner (\code{method="corner"}) of the selection. If
-#'    \code{method="corner"} applies, the position of the corner is determined
-#'    by the argument \code{which.corner} as one of \code{"bottomleft", 
-#'    "topleft", "bottomright",} or \code{"topright"}.}
+#'     \code{x,y} and \code{x2,y2}, they will be assigned to \code{x,y}. Values
+#'     for \code{w,h} must be provided as named arguments as the width and
+#'     height of the rectangular selection. The point \code{x,y} is
+#'     interpreted as \emph{either} the center (\code{method="center"})
+#'     \emph{or} the corner (\code{method="corner"}) of the selection. If
+#'     \code{method="corner"} applies, the position of the corner is determined
+#'     by the argument \code{which.corner} as one of \code{"bottomleft", 
+#'     "topleft", "bottomright",} or \code{"topright"}.}
 #'   \item{No Points (choose opposite corners)}{If all of \code{x,y,x2,y2,w,h}
-#'    are missing, \code{locator} will allow the user to select two points
-#'    that define opposing corners of the rectangular selection.}
+#'     are missing, \code{locator} will allow the user to select two points
+#'     that define opposing corners of the rectangular selection.}
 #' }
 #' 
 #' @return
@@ -74,11 +78,9 @@
 #' 
 #' @export
 #' 
-getInset <- function(img, x, y, x2, y2, w, h, 
-	method = c("center", "corner"),
+getInset <- function(img, x, y, x2, y2, w, h, method = c("center", "corner"),
 	which.corner = c("bottomleft", "topleft", "bottomright", "topright"),
-	pch = 3, col = "magenta", border = col, lwd = 2,
-	newplot = TRUE, markup = TRUE)
+	pch = 3, col = "magenta", border = col, lwd = 2, markup = TRUE)
 {
 	if (!require("EBImage")) stop("This requires the EBImage package")
 
@@ -87,22 +89,30 @@ getInset <- function(img, x, y, x2, y2, w, h,
 	method <- match.arg(method)
 	which.corner = match.arg(which.corner)
 
-	if (newplot == TRUE) plot(img)
-
 # list of flags for missing arguments
 	F <- c(missing(x), missing(y), missing(x2), missing(y2),
 			missing(w), missing(h))
 
-#	process based on the arguments provided
-	if (!any(F[1:4])) # inset specified, done
-		pp <- list(x = sort(c(x, x2)), y = sort(c(y, y2)))
-	else if (all(F[1:6])) { # nothing provided except image
+#	process based on the arguments
+	if (all(F[1:6])) { # nothing provided except image
+		plot(img)
 		pp <- locator(2, type = "p", pch = pch, col = col)
 		pp <- lapply(pp, sort)
 	}
+	else if (!any(F[1:4])) {# inset specified, done
+		pp <- list(x = sort(c(x, x2)), y = sort(c(y, y2)))
+	}
+	else if (!F[1] & all(F[2:4])) { # only 'x', must be list of corners
+		if (is(x, "list") && length(x) == 2 && all(lengths(x) == 2))
+			pp <- setNames(lapply(x, sort), c("x", "y"))
+		else
+			stop ("if only 'x' is provided, it must be a list of two points")
+	}
 	else if (!any(F[5:6])) { # 'w' and 'h' provided
-		if (any(F[1:2])) # need to get one point
+		if (any(F[1:2])) { # need to get one point
+			plot(img)
 			pp <- locator(1, type = "p", pch = pch, col = col)
+		}
 		else # 'x' and 'y' provided as the one point
 			pp <- list(x = x, y = y)
 	# adjust the one point
@@ -129,8 +139,10 @@ getInset <- function(img, x, y, x2, y2, w, h,
 	pp <- lapply(pp, sort)
 
 # highlight the inset in the image
-	if (markup == TRUE)
+	if (markup == TRUE) {
+		plot(img)
 		rect(pp$x[1], pp$y[2], pp$x[2], pp$y[1], border = border, lwd = lwd)
+	}
 
 # create coordinates to extract inset
 	pp <- lapply(pp, function(v) seq.int(v[1], v[2]))

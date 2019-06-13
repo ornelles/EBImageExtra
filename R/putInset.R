@@ -1,13 +1,20 @@
 ##
 ## putInset - add a scaled inset to the given image and return marked-up
 ##
-putInset <- function(img, ins, position, frac = NULL, mag = NULL,
-	col = "white", lwd = 2, lend = "square", res = 300, frac.default = 1/3,
-	...)
+putInset <- function(ins, img, position, frac = NULL, mag = NULL,
+	col = "white", frame.width = 2, frac.default = 1/3, ...)
 {
 # argument checks
-	if(!is(img, "Image") | !is(ins, "Image"))
-		stop ("both 'img' and 'ins' must be Image objects")
+	if(!is(ins, "Image"))
+		stop ("'ins' must be an Image object")
+	if (is.character(img)) {
+		if (file.exists(f[[1]])
+			img <- readImage(img)
+		else
+			stop("'img' is not a valid image filename")
+	else if (!is(img, "Image"))
+		stop("'img' must be an Image object or valid filename")
+
 	cmx <- colorMode(img)
 	cm2 <- colorMode(ins)
 	if (cm1 != cm2)
@@ -57,14 +64,14 @@ putInset <- function(img, ins, position, frac = NULL, mag = NULL,
 # Determine position for inset from 'position' and 'choices'
 	if (!missing(position)) {
 			if (is(position, "character"))
-				position <- match.arg(position, CHOICES)
+				position <- match.arg(position, choices)
 			else if (is.numeric(position) && position > 0 && position <= length(choices))
 				position <- levels(choices)[position]
 			else
 				stop("'position' must be a character or integer in [1,9]")
 	}
 	else {
-		nx <- 3 # number of tiles across and down
+		nx <- 3 # three "zones" across and down
 		vx <- seq(0, dm.img[1] + 1, length = nx + 1)
 		vy <- seq(0, dm.img[2] + 1, length = nx + 1)
 		i <- 0
@@ -80,15 +87,9 @@ putInset <- function(img, ins, position, frac = NULL, mag = NULL,
 # Calculate translation adjustment for given position
 	pad <- dm.img - dm.ins
 	offset <- switch(position,
-		"topleft" = c(0, 0),
-		"top" = c(0.5, 0),
-		"topright" = c(1, 0),
-		"left" = c(0, 0.5),
-		"center" = c(0.5, 0.5),
-		"right" = c(1, 0.5),
-		"bottomleft" = c(0, 1),
-		"bottom" = c(0.5, 1),
-		"bottomright" = c(1, 1))
+		"topleft" = c(0, 0), "top" = c(0.5, 0), "topright" = c(1, 0),
+		"left" = c(0, 0.5), "center" = c(0.5, 0.5), "right" = c(1, 0.5),
+		"bottomleft" = c(0, 1), "bottom" = c(0.5, 1), "bottomright" = c(1, 1))
 	
 	mask <- Image("black", dim = dm.ins, colormode = 2)
 	mask <- translate(mask, offset * pad, output.dim = dm.img, bg.col = "white")
