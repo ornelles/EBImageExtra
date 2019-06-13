@@ -98,7 +98,7 @@ putInset <- function(img, ins, position, frac = NULL, mag = NULL,
 #	img[p1$x, p2$y, ] <- 1
 #	img[p2$x, p1$y, ] <- 1
 	
-# Method 2 - paint onto image, save and reload
+# Method 2 - paint onto image, save and reload ## NOT CORRECT
 	rect(p$x[1], p$y[1], p$x[2], p$y[2], border = col, lend = lend, lwd = lwd, ...)
 	rect(pp$x[1], pp$y[1], pp$x[2], pp$y[2], border = col, lend = lend, lwd = lwd/frac, ...)
 
