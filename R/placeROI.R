@@ -147,7 +147,7 @@ placeROI <- function(roi, img, position, frac = NULL, mag = NULL,
 		"bottomleft" = c(0, 1), "bottom" = c(0.5, 1), "bottomright" = c(1, 1))
 	
 # Assemble image by creating masks and using array math
-	mask <- Image("black", dim = dm.roi, colormode = 2)
+	mask <- Image("black", dim = dm.roi, colormode = colorMode(img))
 	mask <- translate(mask, offset * pad, output.dim = dm.img, bg.col = "white")
 	roi <- translate(roi, offset * pad, output.dim = dm.img, bg.col = "black")
 	ans <- mask * img + roi
