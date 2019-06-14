@@ -17,8 +17,8 @@ crop(img, border = 1, fill = 0)
 A cropped image with the specified border
 }
 \description{
-Crop a grayscale or binary \code{Image} object to non-zero values plus a
-given border
+Crop a grayscale or binary \code{Image} object to contain only
+non-zero values plus a given border
 }
 \details{
 Non-zero pixels on the edge of the image are removed, leaving a border of

@@ -102,5 +102,5 @@ placeROI <- function(roi, img, position, frac = NULL, mag = NULL,
 	ans <- mask * img + roi
 	if (showImage == TRUE)
 		plot(ans)
-	return(ans)
+	invisible(ans)
 }

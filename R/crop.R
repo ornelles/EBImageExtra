@@ -1,7 +1,7 @@
 #' Crop an Image to Visible Pixels
 #' 
-#' Crop a grayscale or binary \code{Image} object to non-zero values plus a
-#' given border
+#' Crop a grayscale or binary \code{Image} object to contain only
+#' non-zero values plus a given border
 #' 
 #' @param img A grayscale or binary \code{Image} object of two dimensions
 #' @param border Single integer value of border to add to cropped image

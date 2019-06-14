@@ -24,20 +24,19 @@
 #' @param border border color of rectangle if \code{markup = TRUE}; if not
 #'   specified, the value for \code{col} is used
 #' @param lwd line width of rectangle if \code{markup = TRUE}
-#' @param markup \code{logical} value indicating if the image should be
-#'   redrawn with the outline drawn on the image
-#' @param asImage \code{logical} value indicated whether the function
-#'   returns the region of interest as an \code{Image} or a list of
-#'   length two containing the \code{x,y} coordinates of the region of interest
+#' @param markup \code{logical} value (default of \code{TRUE}) indicating
+#'   that the image should be redrawn with the selection outline drawn
+#' @param asImage \code{logical} value (default of \code{TRUE}) indicating
+#'   whether the function returns the region of interest as an \code{Image}
+#'   or a list containing the \code{x,y} coordinates of the region of interest
 #' 
 #' @seealso addInset; other stuff
 #' 
 #' @details
-#' This allows the interactive or programmatic definition of a rectangular
+#' This permits the interactive or programmatic definition of a rectangular
 #' region of interest in an image by either specifying
 #' coordinates that define the rectangle or by invoking \code{\link{locator}}
-#' to allow the user to interactively select the region of interest.
-#' The region of interest
+#' to allow the user to select the region of interest. The region of interest
 #' will be trimmed to the dimensions allowed by the original image.
 #' Options allow specifying the rectangle either by
 #' the center or corner(s) as describe below. The first two options require
@@ -58,18 +57,19 @@
 #'     \code{x,y} and \code{x2,y2}, they will be assigned to \code{x,y}. Values
 #'     for \code{w,h} must be provided as named arguments for the width and
 #'     height of the rectangular selection. The point \code{x,y} is
-#'     interpreted as \emph{either} the center (\code{asCorner = FALSE})
-#'     \emph{or} the corner (\code{asCorner = TRUE}) of the selection. If
+#'     interpreted as \emph{either} the center (if \code{asCorner} is
+#'     \code{FALSE}) \emph{or} the corner of the selection if 
+#'     \code{asCorner} is \code{FALSE} (the default). If
 #'     \code{asCorner = TRUE}, the position of the corner is determined
-#'     by the argument \code{which.corner} as one of \code{"bottomleft", 
+#'     by the argument \code{which.corner} which can be one of \code{"bottomleft", 
 #'     "topleft", "bottomright",} or \code{"topright"}.}
 #'   \item{No Points (choose opposite corners)}{If all of \code{x,y, x2,y2, w,h}
-#'     are missing, \code{\link{locator}} will allow the user to select two 
-#'     points that define opposite corners of the rectangular selection.}
+#'     are missing, \code{\link{locator}} will be called to let the user to
+#'     select two points that define opposite corners of the rectangular selection.}
 #' }
 #'
 #' If \code{asImage = FALSE}, the returned value can be used as to extract the
-#' region of interest from the image or related images by a call such as:
+#' region of interest from the image or related images by code such as:
 #' \preformatted{
 #'    pp <- getROI(img, asImage = FALSE)
 #'    pp <- lapply(pp, function(v) seq.int(v[1], v[2]))
@@ -86,9 +86,11 @@
 #' @examples
 #' # Example using fixed width and height to retrieve image
 #'   lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
-#'   roi <- getROI(lighthouse, 510, 280, w = 200, h = 300)
+#' # Get region of interest as an image
+#'   roi <- getROI(lighthouse, 515, 275, w = 200, h = 300)
 #'   plot(roi)
-#'   corners <- getROI(lighthouse, 510, 280, w = 200, h = 300, asCorner = TRUE,
+#' # Get region of interest as a pair of points, anchored by top left corner
+#'   corners <- getROI(lighthouse, 515, 275, w = 200, h = 300, asCorner = TRUE,
 #'      which.corner = "topleft", asImage = FALSE)
 #'   print(corners)
 #'
