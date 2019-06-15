@@ -2,7 +2,7 @@
 % Please edit documentation in R/drawROI.R
 \name{drawROI}
 \alias{drawROI}
-\title{Draw a Rectangular Frame (ROI) within an Image}
+\title{Draw a Rectangular Frame within an Image}
 \usage{
 drawROI(img, x, y, x2, y2, w, h, lwd = 2, col = "white",
   asCorner = FALSE, which.corner = c("bottomleft", "topleft",
@@ -50,7 +50,7 @@ with the image}
 Modified image with region of interest outlined.
 }
 \description{
-Draw a rectangular frame (border) surrounding the region of
+Draw a rectangular frame surrounding the region of
 interest in an image.
 }
 \details{
@@ -72,8 +72,7 @@ to the dimensions of the image, which can override values in \code{w,h}.
 \enumerate{
   \item{\strong{List}.} If \code{x} is a \code{list} of length 2, it
     is assumed to hold opposite corners of the rectangular selection. This
-    is the typical result of a call to \code{locator(2)} after having
-    plotted the image.
+    could be the \code{loc} slot from a \code{Roi} object.
   \item{\strong{Two Points}.} If values are provided for each of \code{x,y} and
     \code{x2,y2}, these are treated as opposite corners of
     the rectangular selection.

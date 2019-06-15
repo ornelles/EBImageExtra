@@ -9,6 +9,7 @@
 #'   \code{labels} will be used to label for each frame 
 #' @param nx The number of frames in the x-direction of the image stack.
 #'   If missing, a square tile of images will be assumed
+#' @param cex The character expansion for \code{labels}
 #' @param ... Additional parameters passed to \code{\link{plot.Image}} 
 #' 
 #' @details
@@ -38,7 +39,7 @@
 #' 
 #' @export
 #' 
-plotStack <- function(x, labels = FALSE, nx, ...)
+plotStack <- function(x, labels = FALSE, nx, cex = 1, ...)
 {
 	if(!is(x, "Image"))
 		stop("'x' must be an Image object")
@@ -48,11 +49,11 @@ plotStack <- function(x, labels = FALSE, nx, ...)
 	plot(x, all = TRUE, nx = nx, ...)
 
 	if (is.null(labels))
-		labelStack(x, labels = NULL, nx = nx)
+		labelStack(x, labels = NULL, nx = nx, cex = cex)
 	else if (is(labels, "logical") && labels == TRUE)
-		labelStack(x, labels = NULL, nx = nx)
+		labelStack(x, labels = NULL, nx = nx, cex = cex)
 	else if (is(labels, "expression") | is(labels, "character"))
-		labelStack(x, labels = labels, nx = nx)
+		labelStack(x, labels = labels, nx = nx, cex = cex)
 	else if (!is(labels, "logical"))
-		labelStack(x, labels = as.character(labels), nx = nx)
+		labelStack(x, labels = as.character(labels), nx = nx, cex = cex)
 }

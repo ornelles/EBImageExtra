@@ -65,7 +65,7 @@
 #' 	 z <- lapply(1:9, function(i) putROI(ins2, img, i, lwd  = 4, show = FALSE))
 #' # z <- combine(z) # about 5-times slower than directly calling 'abind'
 #' 	 z <- do.call(abind, c(z, list(along = 4)))
-#' 	 plotStack(combine(z), nx = 3)
+#' 	 plotStack(combine(z), nx = 3, labels = TRUE, cex = 3)
 #' 	 labelStack(z, nx = 3, cex = 2)
 #'
 #' @return
