@@ -10,7 +10,7 @@ circularity(x)
 perimeter(x)
 }
 \arguments{
-\item{x}{\code{Image} object mask}
+\item{x}{An \code{Image} object mask with a single object to be analyzed.}
 }
 \value{
 Circularity as a value between 0 (line) and 1 (circle)

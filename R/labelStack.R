@@ -34,7 +34,7 @@
 #' This function is called to label a plotted image. No value is returned.
 #' 
 #' @examples
-#' x <- readImage(system.file("images", "sample-color.png", package="EBImage"))
+#' x <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
 #' x <- EBImage::untile(x, c(4, 3), lwd = 0)
 #' idx <- sample(1:12)
 #' plotStack(x[,,,idx], label = paste("Frame", 1:12))

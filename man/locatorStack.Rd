@@ -5,7 +5,7 @@
 \title{Select Frames from a Plotted Image Stack}
 \usage{
 locatorStack(x, labels, nx, col = "red", offset = c(0.05, 0.05),
-  adj = c(0, 1), value = c("frames", "image"), ...)
+  adj = c(0, 1), asImage = FALSE, ...)
 }
 \arguments{
 \item{x}{An \code{Image} object or \code{array} of such objects}
@@ -25,8 +25,9 @@ of the label in each frame}
   optionally \code{y}) adjustment of the labels. See the function
 \code{\link{text}} for further details}
 
-\item{value}{Character vector indicating whether to return a numeric vector
-of found frames or a new \code{Image} (see Details)}
+\item{asImage}{\code{logical} value (default of \code{FALSE}) indicating
+whether the function returns the selection as a new \code{Image} or
+as a numeric vector of found frames (see Details)}
 
 \item{...}{Additional values passed to \code{\link{text}} for labeling}
 }
@@ -39,15 +40,15 @@ were selected.
 Identify and select frames in a plotted image stack.
 }
 \details{
-The \code{base} function \code{\link{locator}} will be used to interact
-with the user to identify frames in the plotted
-image stack. Frames selected on the image will be labeled and a count
+The \code{\link{locator}} function will be called to interactively
+to identify frames in the plotted
+image stack. Selected frames will be labeled on the image and a count
 of the selected (unique) frames will be reported in a running tally on the 
 console. Selection is stopped by pressing any mouse button other than the
 primary button or by pressing the \code{ESC} key. The selected frames, in
 the order that they were selected, will be returned as a vector of integers
-if \code{value} is \code{"frames"} or as a new \code{Image} object of the
-selected frames if \code{value} is \code{"image"}.
+if \code{asImage = FALSE} or as a new \code{Image} object of the
+selected frames if \code{asImage = TRUE}.
 }
 \seealso{
 \code{\link{plotStack}}, which allows for automatically labeling the plotted

@@ -1,7 +1,7 @@
 #' Improved Circularity and Perimeter Calculation
 #' @rdname circularity
 #'
-#' @param x \code{Image} object mask
+#' @param x An \code{Image} object mask with a single object to be analyzed.
 #' 
 #' @details
 #' At the cost of increased computing time, these functions provide more precise
