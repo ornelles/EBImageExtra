@@ -1,3 +1,42 @@
+#' Draw a Frame/Border around an Image
+#'
+#' Draw a rectangular frame about the border of an image along
+#' the indicated sides
+#'
+#' @param img An \code{Image} object
+#' @param lwd 'line' width of the border in pixels; note that this is
+#'   \strong{not} the standard definition of \code{lwd}
+#' @param col border color of the rectangle 
+#' @param sides which side(s) are to include the border (1=bottom, 2=left,
+#'   3=top, 4=right)
+#' 
+#' @details
+#' A rectangular border of \code{lwd} pixels will drawn around the
+#' image along the sides identified in \code{sides}. The added
+#' border will be drawn toward the interior of the image. This
+#' differs from using \code{link{rect}} with \code{lwd} used in an atypical
+#' manner. Here it defines the width of the border in pixels. This also differs
+#' from the base functions by directly changing pixels in the image.
+#' 
+#' @examples
+#' 	lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
+#'	plot(frameROI(lighthouse), col = "black") # with defaults
+#'  plot(frameROI(lighthouse, lwd = 36, col = "yellow", sides = c(1,2)))
+#'
+#' @seealso
+#' \code{\link{getROI}} to get a region of interest from an image;
+#' \code{\link{putROI}} to place an ROI with scaling;
+#' \code{\link{drawROI}} to draw a frame \emph{within} an image;
+#' \code{\link{insertROI}} as a convenience function that
+#'   combines calls to \code{getROI}, \code{putROI}
+#'   and \code{drawROI} to place a framed inset in an image.
+#'
+#' @return Modified image with border
+#'
+#' @import EBImage
+#'
+#' @export
+#'
 frameROI <- function(img, lwd = 2, col = "white", sides = 1:4)
 {
 	if (!is(img, "Image"))
@@ -5,6 +44,10 @@ frameROI <- function(img, lwd = 2, col = "white", sides = 1:4)
 	if (is(col, "numeric"))
 		col <- palette()[col]
 	
+# Allow for NA or NULL values in 'lwd'
+	if (is(lwd, "NULL") || is.na(lwd))
+		lwd <- 0
+
 # Identify borders and be sure size is appropriate
 	dm <- dim(img)[1:2]
 	nx <- sum(c(2,4) %in% sides)
@@ -34,10 +77,8 @@ frameROI <- function(img, lwd = 2, col = "white", sides = 1:4)
 	m[Reduce(`|`, S[1:4 %in% sides])] <- FALSE
 
 # convert the logical mask to a de-facto binary image  
-	if (colorMode(img) == Color)
-		M <- abind(m, m, m, along = 3)
-	else
-		M <- m
+	if (colorMode(img) == Color) M <- abind(m, m, m, along = 3)
+	else M <- m
 
 # combine with solid colored image, replace appropriate pixesl in image
 	mask <- Image(col, dim = dim(img)[1:2], colormode = colorMode(img))

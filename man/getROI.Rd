@@ -4,23 +4,28 @@
 \alias{getROI}
 \title{Get Region of Interest}
 \usage{
-getROI(img, x, y, x2, y2, w, h, asCorner = FALSE,
+getROI(img, x, y, x2, y2, w, h, markup, asCorner = FALSE,
   which.corner = c("bottomleft", "topleft", "bottomright", "topright"),
-  pch = 3, col = "magenta", border = col, lwd = 2, markup = TRUE)
+  pch = 3, col = "magenta", border = col, lwd = 2)
 }
 \arguments{
 \item{img}{An \code{Image} object}
 
 \item{x, y}{\code{x,y} coordinates of one or both corners of
-rectangular selection \emph{or} the location of the center of the
-rectangular selection \emph{or} a list specifying
-the corners of the selection (see details)}
+rectangular selection \emph{or} the center of the
+rectangular selection \emph{or} a list of
+corners of the selection (see details in Selecting the ROI)}
 
 \item{x2, y2}{optional second pair of x and y coordinates when
 needed to specify the other corner of the rectangular selection}
 
-\item{w, h}{optional width and height of the rectangular selection;
-required if \code{x2,y2} are missing}
+\item{w, h}{optional width and height of the rectangular selection
+in pixels; required if \code{x2,y2} are missing}
+
+\item{markup}{\code{logical} value to redraw the image the selection
+outlined by \code{\link{drawROI}}; if \code{missing} or \code{NULL}
+\code{markup} will set to \code{TRUE} if the user interacts 
+with the image and \code{FALSE} if no interaction is required}
 
 \item{asCorner}{\code{logical} value to use the
 point \code{x,y} as the corner of the selection or as the center of
@@ -30,44 +35,42 @@ the selection}
 corner of the rectangle specified by \code{x,y};
 applies only if \code{asCorner = TRUE}}
 
-\item{pch}{plotting character used by \code{locator}, default of 3 (cross)
-when interacting with the image}
+\item{pch}{plotting character used by \code{link{locator}} to
+indicate mouse clicks, the default value of 3 shows a small cross}
 
-\item{col}{color for plotting character used by \code{locator}, default of
-\code{"magenta"}; use \code{NA} for no plotting character}
+\item{col}{color for plotting character used by \code{link{locator}};
+use \code{NA} for no plotting character}
 
 \item{border}{border color of rectangle if \code{markup = TRUE}; if not
 specified, the value for \code{col} is used}
 
 \item{lwd}{line width of rectangle if \code{markup = TRUE}}
-
-\item{markup}{\code{logical} value (default of \code{TRUE}) indicating
-that the image should be redrawn with the selection outline drawn}
 }
 \value{
-A list of two named objects with \code{"image"} as the extracted region of
-interest as an \code{Image} and \code{"roi"} as the \code{x,y} coordinates
-for the region of interest as a list.
+The region of interest as an \code{Image} with the
+added class of "\code{roi}" and the attribute "\code{loc}"
+holding the location of the region of interest.
 }
 \description{
 Get a rectangular region of interest from an image.
 }
-\details{
+\section{Selecting the ROI}{
 
-}
-\section{Selecting the region of interest}{
-
-This permits the interactive or programmatic definition of a rectangular
-region of interest in an image by either specifying
-coordinates that define the rectangle or by invoking \code{\link{locator}}
-to allow the user to select the region of interest. The region of interest
-will be trimmed to the dimensions allowed by the original image.
-Options allow specifying the rectangle either by
-the center or corner(s) as describe below. The first two options require
-no interaction with the user and only produce an image if
-\code{markup = TRUE}. Options 3 and 4 below require interaction with the
-user. In all cases, the selection coordinates are adjusted to conform to
-the dimensions of the image. 
+A rectangular region of interest (ROI) can be selected programmatically
+or interactively. The ROI is defined by the position of the lower left
+and upper right    coordinates of the rectangle in pixels   (actually
+either pair of corners on the diagonal is adequate.) The pair of points
+can be specified several means. The function will accept four values
+\code{x,y}, and \code{x2,y2} or a list of the two points. Without these
+arguments, the function     invokes \code{\link{locator}} to allow the
+user to define the ROI. The ROI will be trimmed if necessary to the
+dimensions allowed by the original image. Options allow specifying the
+rectangle either by the center or corner(s) as describe below. The first
+two options  require no interaction with the user and only produce an
+image if \code{markup = TRUE}. Options 3 and 4 below require interaction
+with the user and produce an image if \code{markup} is \code{TRUE} or
+was not provided. The returned object is an image with additional
+\code{class} and \code{attribute} as described in the section below.
 
 \enumerate{
   \item{\strong{List}.} If \code{x} is a \code{list} of length 2, it
@@ -85,7 +88,7 @@ the dimensions of the image.
     (\code{asCorner=FALSE})
     \emph{or} the corner of the selection (\code{asCorner=TRUE}). If
     \code{asCorner = TRUE}, the position of the corner is determined
-    by the argument \code{which.corner} which can be one of \code{"bottomleft", 
+    by the argument \code{which.corner} as one of \code{"bottomleft", 
     "topleft", "bottomright",} or \code{"topright"}.
   \item{\strong{No Points} (choose opposite corners).} If all of \code{x,y, x2,y2, w,h}
     are missing, \code{\link{locator}} will be called to let the user to
@@ -93,37 +96,42 @@ the dimensions of the image.
 }
 }
 
-\section{Return value}{
+\section{Class "roi" and "loc" attribute}{
 
-The returned value is a list of length 2 with the image (\code{"image"})
-and the region of interest (\code{"roi"}) as a list of two \code{x,y} points
-defining the region of interest.
-
-The returned \code{"roi"} component can be used to extract the equivalent
-region of interest from an identically sized image or frame
-with code such as:
+\code{EBImage} uses the \code{Image} class to store and process images.
+A region of interest is an \code{Image} object with the
+additional class of "\code{roi}" and an additional attribute. The new
+attribute "\code{loc}"
+holds the location of the region of interest as \code{roi =
+list(x = c(x, x2), y = c(y, y2))}.  The attribute \code{"loc"} can be
+used to extract the equivalent region of interest from a related image
+(\code{img2}) in the following manner. 
 \preformatted{
-   pp <- getROI(img)$roi
-   pp <- lapply(pp, function(v) seq.int(v[1], v[2]))
-   idx <- lapply(dim(img), seq.int)
-   idx[1:2] <- pp
-   cropped <- do.call("[", c(list(img), idx))
+ x <- getROI(img1)
+ pp <- attr(x, "loc") # or x@loc or slot(ins, "loc")
+ y <- getROI(img2, pp)
 }
 }
 
 \examples{
 # Example using fixed width and height to retrieve image
   lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
-# Get region of interest
-  ans <- getROI(lighthouse, 515, 275, w = 200, h = 300)
-  plot(ans$image)
- print(ans$roi)
-# Get region of interest as a pair of points, anchored by top left corner
-  ans <- getROI(lighthouse, 515, 275, w = 200, h = 300, asCorner = TRUE,
-     which.corner = "topleft")
-  print(ans$roi)
+
+# Get region of interest, anchored by center
+  ans1 <- getROI(lighthouse, 515, 315, w = 200, h = 150)
+  print(ans@loc) # one way to extract 'loc'
+
+# Get region of interest, anchored by top left corner
+  ans2 <- getROI(lighthouse, 515, 315, w = 200, h = 150, asCorner = TRUE)
+  print(attr(ans, "loc")) # better way of extracting 'loc'
+  plotStack(combine(ans1, ans2), nx = 1)
 
 }
 \seealso{
-addInset; other stuff
+\code{\link{putROI}} to place an ROI with scaling;
+\code{\link{drawROI}} to draw a frame \emph{within} an image;
+\code{\link{frameROI}} to draw a frame \emph{about} an image;
+\code{\link{insertROI}} as a convenience function that
+  combines calls to \code{getROI}, \code{putROI}
+  and \code{drawROI} to place a framed inset in an image.
 }

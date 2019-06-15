@@ -47,7 +47,7 @@
 labelStack <- function(x, labels = TRUE, nx, col = "white",
 		offset = c(0.05, 0.05), adj = c(0, 1), ...)
 {
-	if (class(x) != "Image") stop("'x' must be an Image object")
+	if(!is(x, "Image")) stop("'x' must be an Image object")
 	if (length(offset) == 1) offset <- rep(offset, 2)
 	if (length(adj) == 1) adj <- rep(adj, 2)
 	nf <- numberOfFrames(x, type = "render")

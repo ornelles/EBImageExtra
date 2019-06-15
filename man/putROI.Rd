@@ -8,17 +8,18 @@ putROI(roi, img, position, frac = NULL, mag = NULL,
   frac.default = 1/3, lwd = 2, col = "white", showImage = TRUE)
 }
 \arguments{
-\item{roi}{the smaller \code{Image} object to be placed in the larger
-\code{img} \emph{or} a path (as \code{character} vector) of
-  such an image}
+\item{roi}{the smaller \code{Image} object to be placed in
+\code{img}; this can be an \code{Image} object or a path
+(as a \code{character} vector) to such the image}
 
 \item{img}{the larger \code{Image} object to receive the roi}
 
-\item{position}{a character string or integer in 1 to 9 indicating
-the position of the inset; If \code{missing}, \code{\link{locator}}
-will be used to determine where to place the inset; see Details}
+\item{position}{a \code{character} string or \code{integer}
+in 1 to 9 indicating the position of the inset; If \code{missing},
+\code{\link{locator}} will be called to interact with the
+user to place the inset; see Details}
 
-\item{frac}{\code{numeric} value between 0 and 1 for the fractional
+\item{frac}{a \code{numeric} value between 0 and 1 for the fractional
 width occupied by the inset; the default values of \code{NULL} uses the 
 value in \code{frac.default}}
 
@@ -27,7 +28,7 @@ value in \code{frac.default}}
 
 \item{frac.default}{default fractional width for the inset (\code{1/3})}
 
-\item{lwd}{'line' width of the inset border in pixels; note that this is
+\item{lwd}{width of the inset border in pixels; note that this is
 \strong{not} the standard definition of \code{lwd}}
 
 \item{col}{color of the inset border}
@@ -37,7 +38,10 @@ image with inset; default (\code{TRUE})}
 }
 \value{
 An \code{Image} of the same dimensions as the second argument
-(\code{img}) with \code{roi} inserted after appropriate scaling.
+(\code{img}) with \code{roi} inserted after appropriate scaling and
+otional framing. 
+
+#' @import EBImage
 }
 \description{
 Place a scaled image into another image as an inset
@@ -62,14 +66,29 @@ will cause an error.
 If \code{showImage = TRUE}, the image with inset will be plotted. In all
 cases, the modified image will be invisibly returned.
 }
-\examples{
-# To be done...
-
-}
 \seealso{
 \code{\link{getROI}} to get a region of interest from an image;
-\code{\link{drawROI}} to draw a frame about an ROI;
+\code{\link{drawROI}} to draw a frame \emph{within} an image;
+\code{\link{frameROI}} to draw a frame \emph{about} an image;
 \code{\link{insertROI}} as a convenience function that
   combines calls to \code{getROI}, \code{putROI}
   and \code{drawROI} to place a framed inset in an image.
+
+#' @examples
+
+# Example using fixed width and height to retrieve image
+	lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
+
+# Get region of interest, anchored by center
+	ins <- getROI(lighthouse, 515, 280, w = 180, h = 280)
+	putROI(ins, lighthouse, "topright")
+
+# Display 9 of the possible positions
+  img <- resize(lighthouse, w = 256)
+	 ins2 <- resize(ins, w = 45)
+	 z <- lapply(1:9, function(i) putROI(ins2, img, i, lwd  = 4, show = FALSE))
+# z <- combine(z) # about 5-times slower than directly calling 'abind'
+	 z <- do.call(abind, c(z, list(along = 4)))
+	 plotStack(combine(z), nx = 3)
+	 labelStack(z, nx = 3, cex = 2)
 }

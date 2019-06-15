@@ -11,6 +11,10 @@
 #'   needed to specify the other corner of the rectangular selection 
 #' @param w,h optional width and height of the rectangular selection
 #'   in pixels; required if \code{x2,y2} are missing 
+#' @param markup \code{logical} value to redraw the image the selection
+#'   outlined by \code{\link{drawROI}}; if \code{missing} or \code{NULL}
+#'   \code{markup} will set to \code{TRUE} if the user interacts 
+#'   with the image and \code{FALSE} if no interaction is required
 #' @param asCorner \code{logical} value to use the
 #'   point \code{x,y} as the corner of the selection or as the center of
 #'   the selection
@@ -24,14 +28,11 @@
 #' @param border border color of rectangle if \code{markup = TRUE}; if not
 #'   specified, the value for \code{col} is used
 #' @param lwd line width of rectangle if \code{markup = TRUE}
-#' @param markup \code{logical} value to redraw the image the selection
-#'   outlined by \code{\link{drawROI}}; the default value of \code{NULL}
-#'   will set this to \code{TRUE} if the user interacts with the image
-#'   and \code{FALSE} if no interaction is required
 #' 
 #' @seealso
 #' \code{\link{putROI}} to place an ROI with scaling;
-#' \code{\link{drawROI}} to draw a frame about an ROI;
+#' \code{\link{drawROI}} to draw a frame \emph{within} an image;
+#' \code{\link{frameROI}} to draw a frame \emph{about} an image;
 #' \code{\link{insertROI}} as a convenience function that
 #'   combines calls to \code{getROI}, \code{putROI}
 #'   and \code{drawROI} to place a framed inset in an image.
@@ -99,22 +100,23 @@
 #' @examples
 #' # Example using fixed width and height to retrieve image
 #'   lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
-#' # Get region of interest
-#'   ans <- getROI(lighthouse, 515, 275, w = 200, h = 300)
-#'   plot(ans$image)
-#'   print(ans$roi)
-#' # Get region of interest as a pair of points, anchored by top left corner
-#'   ans <- getROI(lighthouse, 515, 275, w = 200, h = 300, asCorner = TRUE,
-#'      which.corner = "topleft")
-#'   print(ans$roi)
+#'
+#' # Get region of interest, anchored by center
+#'   ans1 <- getROI(lighthouse, 515, 315, w = 200, h = 150)
+#'   print(ans@loc) # one way to extract 'loc'
+#'
+#' # Get region of interest, anchored by top left corner
+#'   ans2 <- getROI(lighthouse, 515, 315, w = 200, h = 150, asCorner = TRUE)
+#'   print(attr(ans, "loc")) # better way of extracting 'loc'
+#'   plotStack(combine(ans1, ans2), nx = 1)
 #'
 #' @import EBImage
 #' 
 #' @export
 #' 
-getROI <- function(img, x, y, x2, y2, w, h, asCorner = FALSE,
+getROI <- function(img, x, y, x2, y2, w, h, markup, asCorner = FALSE,
   which.corner = c("bottomleft", "topleft", "bottomright", "topright"),
-  pch = 3, col = "magenta", border = col, lwd = 2, markup = NULL)
+  pch = 3, col = "magenta", border = col, lwd = 2)
 {
   if (!require("EBImage")) stop("This requires the EBImage package")
 
@@ -124,9 +126,10 @@ getROI <- function(img, x, y, x2, y2, w, h, asCorner = FALSE,
   which.corner <- sub("lower", "bottom", which.corner)
   which.corner = match.arg(which.corner)
 
-# list of flags for missing arguments
+# process missing arguments
   F <- c(missing(x), missing(y), missing(x2), missing(y2),
       missing(w), missing(h))
+	if (missing(markup)) markup <- NULL
 
 # process based on the arguments
   if (all(F[1:6])) { # nothing provided except image
@@ -161,8 +164,10 @@ getROI <- function(img, x, y, x2, y2, w, h, asCorner = FALSE,
       flush.console()
       p <- locator(1, type = "p", pch = pch, col = col)
     }
-    else # 'x' and 'y' provided as the one point
+    else { # 'x' and 'y' provided as the one point
+			markup <- if (is.null(markup)) FALSE else markup
       p <- list(x = x, y = y)
+		}
   # adjust the one point
     if (asCorner == TRUE) {
       if (which.corner == "bottomleft")
@@ -194,10 +199,10 @@ getROI <- function(img, x, y, x2, y2, w, h, asCorner = FALSE,
   }
 
 # return image with added class and attribute
-	loc <- pp # save original coordinates
-	pp <- lapply(pp, function(v) seq.int(v[1], v[2]))
-  idx <- lapply(dim(img), seq.int)
+	loc <- pp # original coordinates
+	pp <- lapply(pp, function(v) seq.int(v[1], v[2])) # expanded inset coordinates
+  idx <- lapply(dim(img), seq.int) # expanded img coordinates
   idx[1:2] <- pp
-  ans <- Roi(do.call("[", c(list(img), idx)), loc = loc)
-  return(ans)
+  ans <- do.call("[", c(list(img), idx)) # replace 1st two dimensions
+  return(Roi(ans, loc = loc))
 }

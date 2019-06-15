@@ -22,5 +22,10 @@ NULL
 #' @import EBImage
 #'
 Roi <- setClass("Roi",
-	slots = c(loc = list(x = "numeric", y = "numeric")),
+	slots = c(loc = "list"),
 	contains = "Image")
+
+setMethod("initialize", "Roi", function(.Object, ...) {
+	.Object <- callNextMethod()
+	.Object
+})

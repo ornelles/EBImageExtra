@@ -40,7 +40,7 @@
 #' 
 plotStack <- function(x, labels = FALSE, nx, ...)
 {
-	if (class(x) != "Image")
+	if(!is(x, "Image"))
 		stop("'x' must be an Image object")
 	nf <- numberOfFrames(x, type = "render")
 	if (missing(nx))

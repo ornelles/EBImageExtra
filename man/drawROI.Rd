@@ -2,7 +2,7 @@
 % Please edit documentation in R/drawROI.R
 \name{drawROI}
 \alias{drawROI}
-\title{Draw Region of Interest}
+\title{Draw a Rectangular Frame (ROI) within an Image}
 \usage{
 drawROI(img, x, y, x2, y2, w, h, lwd = 2, col = "white",
   asCorner = FALSE, which.corner = c("bottomleft", "topleft",
@@ -50,14 +50,18 @@ with the image}
 Modified image with region of interest outlined.
 }
 \description{
-Draw a region of interest into an image.
+Draw a rectangular frame (border) surrounding the region of
+interest in an image.
 }
 \details{
 A rectangular border of \code{lwd} pixels will drawn around the
 region of interest along the sides identified in \code{sides}. The added
-border will be drawn toward the interior of the region of interest.
+border will be drawn toward the interior of the region of interest. This
+differs from using \code{link{rect}} with \code{lwd} used in an atypical
+manner. Here it defines the width of the border in pixels. This also differs
+from the base functions by directly changing pixels in the image.
 
-This region of interest can be specified through arguments or interactively. 
+This region of interest can be specified with arguments or interactively. 
 Options allow specifying the rectangle either by
 the center or corner(s) as describe below. The first two options require
 no interaction with the user and will display the revised image
@@ -87,4 +91,12 @@ to the dimensions of the image, which can override values in \code{w,h}.
     are missing, \code{\link{locator}} will be called to let the user to
     select two points that define opposite corners of the rectangular selection.
 }
+}
+\seealso{
+\code{\link{getROI}} to get a region of interest from an image;
+\code{\link{putROI}} to place an ROI with scaling;
+\code{\link{frameROI}} to draw a frame \emph{about} an image;
+\code{\link{insertROI}} as a convenience function that
+  combines calls to \code{getROI}, \code{putROI}
+  and \code{drawROI} to place a framed inset in an image.
 }
