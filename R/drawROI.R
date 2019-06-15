@@ -1,5 +1,5 @@
 drawROI <- function(img, x, y, x2, y2, width = 2, col = "white",
-	sides = 1:4, pch = 3, col.pch = col)
+	sides = 1:4, pch = 3, col.pch = col, showImage = TRUE)
 {
 	if (!is(img, "Image"))
 		stop("'img' must be an Image object")
@@ -8,24 +8,24 @@ drawROI <- function(img, x, y, x2, y2, width = 2, col = "white",
 	dm <- dim(img)[1:2]
 	
 # vector of flags for missing arguments
-  M <- c(missing(x), missing(y), missing(x2), missing(y2))
+  F <- c(missing(x), missing(y), missing(x2), missing(y2))
 
 # place corners of roi from given arguments in 'p'
-  if (!any(M[1:4])) { # specified as x, y, x2, y2
+  if (!any(F[1:4])) { # specified as x, y, x2, y2
     pp <- list(x = sort(c(x, x2)), y = sort(c(y, y2)))
   }
-  else if (all(M[1:4])) { # nothing provided except image
+  else if (all(F[1:4])) { # nothing provided except image
     plot(img)
     pp <- locator(2, type = "p", pch = pch, col = col.pch)
     pp <- lapply(pp, sort)
   }
-  else if (!M[1] & all(M[2:4])) { # only 'x', must be list of corners
+  else if (!F[1] & all(F[2:4])) { # only 'x', must be list of corners
     if (is(x, "list") && length(x) == 2 && all(lengths(x) == 2))
       pp <- setNames(lapply(x, sort), c("x", "y"))
     else
       stop ("if only 'x' is provided, it must be a list of two points")
   }
-  else if (!any(M[1:2] & M[3:4])) { # 'x' and 'y' provided
+  else if (!any(F[1:2] & F[3:4])) { # 'x' and 'y' provided
 		if (length(x) == 2 && length(y) == 2)
 			pp <- list(x = x, y = y)
 		else
@@ -41,35 +41,38 @@ drawROI <- function(img, x, y, x2, y2, width = 2, col = "white",
   pp <- lapply(pp, sort)
 
 # identify borders and check new dimension
-	nx <- sum(c(2,4) %in% sides)
-	ny <- sum(c(1,3) %in% sides)
+	nx <- sum(c(2, 4) %in% sides)
+	ny <- sum(c(1, 3) %in% sides)
 	dm2 <- dm - c(nx, ny)*width
 	if (any(dm2 < 1))
 		stop("'width' is too large to use")
-##
-## in progress...
-##
-# create mask to accept annotation
-	mask <- Image("black", dim = dm, colormode = colorMode(img))
-	xc <- c(seq.int(pp$x[1], len = width), seq.int(pp$x[2] - width, len = width))
-	yc <- c(seq.int(pp$y[1] - width, len = width), seq.int(pp$y[2], len = width))
-	annot <- Image(
-	mask[
-	ans <- resize(img, w = dm2[1], h = dm2[2], output.dim = dm2)
-	xborder <- Image(col, c(dm2[1], width), colormode = colorMode(img))
-	yborder <- Image(col, c(width, dm[2]), colormode = colorMode(img))
 
-##
-## Use this logic above to paint pixels in rectangle...
-###
-	if (1 %in% sides)
-		ans <- abind(ans, xborder, along = 2)
-	if (3 %in% sides)
-		ans <- abind(xborder, ans, along = 2)
-	if (2 %in% sides)
-		ans <- abind(yborder, ans, along = 1)
-	if (4 %in% sides)
-		ans <- abind(ans, yborder, along = 1)
+# create two list of coordinates for border
+	pp1 <- lapply(pp, function(v) list(seq(v[1], len = width),
+		seq(v[2] - width + 1, len = width)))
+	pp2 <- lapply(pp, function(v) v[1]:v[2])
 
-	return(ans)
+# create logical masks for each side of the border
+	m <- Image(TRUE, dim(img)[1:2])
+	S1 <- col(m) %in% pp1$y[[2]] & row(m) %in% pp2$x
+	S3 <- col(m) %in% pp1$y[[1]] & row(m) %in% pp2$x
+	S2 <- row(m) %in% pp1$x[[1]] & col(m) %in% pp2$y
+	S4 <- row(m) %in% pp1$x[[2]] & col(m) %in% pp2$y
+	S <- list(S1, S2, S3, S4)
+	m[Reduce(`|`, S)] <- FALSE
+
+# remove the sides that are not requested
+	m[Reduce(`|`, S[!1:4 %in% sides])] <- TRUE
+
+	if (colorMode(img) == Color)
+		M <- abind(m, m, m, along = 3)
+	else
+		M <- m
+
+# combine with replacement color
+	mask <- Image(col, dim = dim(img)[1:2], colormode = 2)
+	ans <- img * M + mask * !M
+	if (showImage)
+		plot(ans)
+	invisible(ans)
 }
