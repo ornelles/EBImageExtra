@@ -4,45 +4,54 @@
 #' 
 #' @param img An \code{Image} object
 #' @param x,y \code{x,y} coordinates of one or both corners of
-#'   rectangular selection \emph{or} the location of the center of the
-#'   rectangular selection \emph{or} a list specifying
-#'   the corners of the selection (see details) 
+#'   rectangular selection \emph{or} the center of the
+#'   rectangular selection \emph{or} a list of
+#'   corners of the selection (see details in Selecting the ROI) 
 #' @param x2,y2 optional second pair of x and y coordinates when
 #'   needed to specify the other corner of the rectangular selection 
-#' @param w,h optional width and height of the rectangular selection;
-#'   required if \code{x2,y2} are missing 
+#' @param w,h optional width and height of the rectangular selection
+#'   in pixels; required if \code{x2,y2} are missing 
 #' @param asCorner \code{logical} value to use the
 #'   point \code{x,y} as the corner of the selection or as the center of
 #'   the selection
 #' @param which.corner identifies the
 #'   corner of the rectangle specified by \code{x,y};
 #'   applies only if \code{asCorner = TRUE}
-#' @param pch plotting character used by \code{locator}, default of 3 (cross)
-#'   when interacting with the image
-#' @param col color for plotting character used by \code{locator}, default of
-#'   \code{"magenta"}; use \code{NA} for no plotting character
+#' @param pch plotting character used by \code{link{locator}} to
+#'    indicate mouse clicks, the default value of 3 shows a small cross
+#' @param col color for plotting character used by \code{link{locator}};
+#'   use \code{NA} for no plotting character
 #' @param border border color of rectangle if \code{markup = TRUE}; if not
 #'   specified, the value for \code{col} is used
 #' @param lwd line width of rectangle if \code{markup = TRUE}
-#' @param markup \code{logical} value (default of \code{TRUE}) indicating
-#'   that the image should be redrawn with the selection outline drawn
+#' @param markup \code{logical} value to redraw the image the selection
+#'   outlined by \code{\link{drawROI}}; the default value of \code{NULL}
+#'   will set this to \code{TRUE} if the user interacts with the image
+#'   and \code{FALSE} if no interaction is required
 #' 
-#' @seealso addInset; other stuff
+#' @seealso
+#' \code{\link{putROI}} to place an ROI with scaling;
+#' \code{\link{drawROI}} to draw a frame about an ROI;
+#' \code{\link{insertROI}} as a convenience function that
+#'   combines calls to \code{getROI}, \code{putROI}
+#'   and \code{drawROI} to place a framed inset in an image.
 #' 
-#' @details
-#'
-#' @section Selecting the region of interest:
-#' This permits the interactive or programmatic definition of a rectangular
-#' region of interest in an image by either specifying
-#' coordinates that define the rectangle or by invoking \code{\link{locator}}
-#' to allow the user to select the region of interest. The region of interest
-#' will be trimmed to the dimensions allowed by the original image.
-#' Options allow specifying the rectangle either by
-#' the center or corner(s) as describe below. The first two options require
-#' no interaction with the user and only produce an image if
-#' \code{markup = TRUE}. Options 3 and 4 below require interaction with the
-#' user. In all cases, the selection coordinates are adjusted to conform to
-#' the dimensions of the image. 
+#' @section Selecting the ROI:
+#' A rectangular region of interest (ROI) can be selected programmatically
+#' or interactively. The ROI is defined by the position of the lower left
+#' and upper right    coordinates of the rectangle in pixels   (actually
+#' either pair of corners on the diagonal is adequate.) The pair of points
+#' can be specified several means. The function will accept four values
+#' \code{x,y}, and \code{x2,y2} or a list of the two points. Without these
+#' arguments, the function     invokes \code{\link{locator}} to allow the
+#' user to define the ROI. The ROI will be trimmed if necessary to the
+#' dimensions allowed by the original image. Options allow specifying the
+#' rectangle either by the center or corner(s) as describe below. The first
+#' two options  require no interaction with the user and only produce an
+#' image if \code{markup = TRUE}. Options 3 and 4 below require interaction
+#' with the user and produce an image if \code{markup} is \code{TRUE} or
+#' was not provided. The returned object is an image with additional
+#' \code{class} and \code{attribute} as described in the section below.
 #' 
 #' \enumerate{
 #'   \item{\strong{List}.} If \code{x} is a \code{list} of length 2, it
@@ -60,33 +69,32 @@
 #'     (\code{asCorner=FALSE})
 #'     \emph{or} the corner of the selection (\code{asCorner=TRUE}). If
 #'     \code{asCorner = TRUE}, the position of the corner is determined
-#'     by the argument \code{which.corner} which can be one of \code{"bottomleft", 
+#'     by the argument \code{which.corner} as one of \code{"bottomleft", 
 #'     "topleft", "bottomright",} or \code{"topright"}.
 #'   \item{\strong{No Points} (choose opposite corners).} If all of \code{x,y, x2,y2, w,h}
 #'     are missing, \code{\link{locator}} will be called to let the user to
 #'     select two points that define opposite corners of the rectangular selection.
 #' }
 #'
-#' @section Using the return value:
-#' The returned value is a list of length 2 with the image (\code{"image"})
-#' and the region of interest (\code{"roi"}) as a list of two \code{x,y} points
-#' defining the region of interest.
-#' 
-#' The returned \code{"roi"} component can be used to extract the equivalent
-#' region of interest from an identically sized image or frame
-#' with code such as:
+#' @section Class "roi" and "loc" attribute:
+#' \code{EBImage} uses the \code{Image} class to store and process images.
+#' A region of interest is an \code{Image} object with the
+#' additional class of "\code{roi}" and an additional attribute. The new
+#' attribute "\code{loc}"
+#' holds the location of the region of interest as \code{roi =
+#' list(x = c(x, x2), y = c(y, y2))}.  The attribute \code{"loc"} can be
+#' used to extract the equivalent region of interest from a related image
+#' (\code{img2}) in the following manner. 
 #' \preformatted{
-#'    pp <- getROI(img)$roi
-#'    pp <- lapply(pp, function(v) seq.int(v[1], v[2]))
-#'    idx <- lapply(dim(img), seq.int)
-#'    idx[1:2] <- pp
-#'    cropped <- do.call("[", c(list(img), idx))
+#'  x <- getROI(img1)
+#'  pp <- attr(x, "loc") # or x@loc or slot(ins, "loc")
+#'  y <- getROI(img2, pp)
 #' }
 #' 
 #' @return
-#' A list of two named objects with \code{"image"} as the extracted region of
-#' interest as an \code{Image} and \code{"roi"} as the \code{x,y} coordinates
-#' for the region of interest as a list.
+#' The region of interest as an \code{Image} with the
+#' added class of "\code{roi}" and the attribute "\code{loc}"
+#' holding the location of the region of interest.
 #' 
 #' @examples
 #' # Example using fixed width and height to retrieve image
@@ -94,7 +102,7 @@
 #' # Get region of interest
 #'   ans <- getROI(lighthouse, 515, 275, w = 200, h = 300)
 #'   plot(ans$image)
-#'	 print(ans$roi)
+#'   print(ans$roi)
 #' # Get region of interest as a pair of points, anchored by top left corner
 #'   ans <- getROI(lighthouse, 515, 275, w = 200, h = 300, asCorner = TRUE,
 #'      which.corner = "topleft")
@@ -106,7 +114,7 @@
 #' 
 getROI <- function(img, x, y, x2, y2, w, h, asCorner = FALSE,
   which.corner = c("bottomleft", "topleft", "bottomright", "topright"),
-  pch = 3, col = "magenta", border = col, lwd = 2, markup = TRUE)
+  pch = 3, col = "magenta", border = col, lwd = 2, markup = NULL)
 {
   if (!require("EBImage")) stop("This requires the EBImage package")
 
@@ -123,16 +131,19 @@ getROI <- function(img, x, y, x2, y2, w, h, asCorner = FALSE,
 # process based on the arguments
   if (all(F[1:6])) { # nothing provided except image
     plot(img)
-		msg <- "Select opposite corners of the region of interest"
-		cat(msg, "\n")
-		flush.console()
+    markup <- if (is.null(markup)) TRUE else markup
+    msg <- "Select opposite corners of the region of interest"
+    cat(msg, "\n")
+    flush.console()
     pp <- locator(2, type = "p", pch = pch, col = col)
     pp <- lapply(pp, sort)
   }
   else if (!any(F[1:4])) {# inset specified, done
+    markup <- if (is.null(markup)) FALSE else markup
     pp <- list(x = sort(c(x, x2)), y = sort(c(y, y2)))
   }
   else if (!F[1] & all(F[2:4])) { # only 'x', must be list of corners
+    markup <- if (is.null(markup)) FALSE else markup
     if (is(x, "list") && length(x) == 2 && all(lengths(x) == 2))
       pp <- setNames(lapply(x, sort), c("x", "y"))
     else
@@ -140,13 +151,14 @@ getROI <- function(img, x, y, x2, y2, w, h, asCorner = FALSE,
   }
   else if (!any(F[5:6])) { # 'w' and 'h' provided
     if (any(F[1:2])) { # need to get one point
+      markup <- if (is.null(markup)) TRUE else markup
       plot(img)
-			if (asCorner)
-				msg <- paste("Select the", which.corner, "corner of the region of interest")
-			else
-				msg <- paste("Select the center of the region of interest")
-			cat(msg, "\n")
-			flush.console()
+      if (asCorner)
+        msg <- paste("Select the", which.corner, "corner of the region of interest")
+      else
+        msg <- paste("Select the center of the region of interest")
+      cat(msg, "\n")
+      flush.console()
       p <- locator(1, type = "p", pch = pch, col = col)
     }
     else # 'x' and 'y' provided as the one point
@@ -175,16 +187,17 @@ getROI <- function(img, x, y, x2, y2, w, h, asCorner = FALSE,
   pp <- lapply(pp, sort)
 
 # highlight the inset in the image if requested
+  if (is.null(markup)) stop("oops...screwed up code somewhere...")
   if (markup == TRUE) {
     plot(img)
     rect(pp$x[1], pp$y[2], pp$x[2], pp$y[1], border = border, lwd = lwd)
   }
 
-# return adjusted corners of roi and image
-	ans <- list(pp)
+# return image with added class and attribute
+	loc <- pp # save original coordinates
 	pp <- lapply(pp, function(v) seq.int(v[1], v[2]))
-	idx <- lapply(dim(img), seq.int)
-	idx[1:2] <- pp
-	ans$image <- do.call("[", c(list(img), idx))
-  invisible(ans)
+  idx <- lapply(dim(img), seq.int)
+  idx[1:2] <- pp
+  ans <- Roi(do.call("[", c(list(img), idx)), loc = loc)
+  return(ans)
 }

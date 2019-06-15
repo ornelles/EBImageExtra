@@ -1,6 +1,7 @@
-#' Draw Region of Interest
+#' Draw a Border around a Region of Interest
 #' 
-#' Draw a region of interest into an image.
+#' Draw a rectangular frame (border) surrounding the region of
+#' interest in an image.
 #' 
 #' @param img An \code{Image} object
 #' @param x,y \code{x,y} coordinates of one or both corners of
@@ -30,9 +31,12 @@
 #' @details
 #' A rectangular border of \code{lwd} pixels will drawn around the
 #' region of interest along the sides identified in \code{sides}. The added
-#' border will be drawn toward the interior of the region of interest.
+#' border will be drawn toward the interior of the region of interest. This
+#' differs from using \code{link{rect}} with \code{lwd} used in an atypical
+#' manner. Here is defines the width of the border in pixels. This also differs
+#' from the base functions by directly changing pixels in the image.
 #' 
-#' This region of interest can be specified through arguments or interactively. 
+#' This region of interest can be specified with arguments or interactively. 
 #' Options allow specifying the rectangle either by
 #' the center or corner(s) as describe below. The first two options require
 #' no interaction with the user and will display the revised image
@@ -62,6 +66,14 @@
 #'     are missing, \code{\link{locator}} will be called to let the user to
 #'     select two points that define opposite corners of the rectangular selection.
 #' }
+#'
+#' @seealso
+#' \code{\link{getROI}} to get a region of interest from an image;
+#' \code{\link{putROI}} to place an ROI with scaling;
+#' \code{\link{insertROI}} as a convenience function that
+#'   combines calls to \code{getROI}, \code{putROI}
+#'   and \code{drawROI} to place a framed inset in an image; 
+#' \code{link{rect}} to use base graphics to for the same effect.
 #'
 #' @return Modified image with region of interest outlined.
 #'

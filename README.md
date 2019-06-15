@@ -21,8 +21,14 @@ This is a collection of functions to extend the `EBImage` package and provide he
 * scaleBar - Add horizontal scale bar to image
 * crop - Crop a grayscale or binary image to include non-zero pixels
 * boxtext - Add text with background box to a plot
-* getInset - Extract rectangular inset from image
-* putInset - Place inset into an image (TO-DO) 
+
+#### Region of interest management
+`EBImage` uses the S4 `Image` class to store and process images. A region of interest is an `Image` object with the additional class of "`roi`" and the additional slot named "`loc`" to store the original `x,y` and `x2,y2` location of the region of interest. The following code uses this convenience to pass both image and location in one object. 
+
+* getROI - Get a region of interest
+* putROI - Put a region of interest (with scaling) at one of nine locations
+* drawROI - Draw a frame about (the coordinates) for a region of interest 
+* insertROI - Combination of getROI, putROI and drawROI to select a region from an image, draw a frame about the selected region, place the selection as an inset with a frame
 
 ## License  
 GPL-3
