@@ -5,16 +5,16 @@
 #' @param img An \code{Image} object
 #' @param x,y \code{x,y} coordinates of one or both corners of
 #'   rectangular selection \emph{or} the location of the center of the
-#'   rectangular selection \emph{or} a list of length 2 specifying
+#'   rectangular selection \emph{or} a list specifying
 #'   the corners of the selection (see details) 
 #' @param x2,y2 optional second pair of x and y coordinates when
 #'   needed to specify the other corner of the rectangular selection 
 #' @param w,h optional width and height of the rectangular selection;
 #'   required if \code{x2,y2} are missing 
-#' @param asCorner \code{logical} value indicating whether to use the
-#'   location of the point \code{x,y} as the corner of the selection identified
-#'   in \code{which.corner} or as the center of the selection (default)
-#' @param which.corner a character vector of length 1 identifying the
+#' @param asCorner \code{logical} value to use the
+#'   point \code{x,y} as the corner of the selection or as the center of
+#'   the selection
+#' @param which.corner identifies the
 #'   corner of the rectangle specified by \code{x,y};
 #'   applies only if \code{asCorner = TRUE}
 #' @param pch plotting character used by \code{locator}, default of 3 (cross)
@@ -26,13 +26,12 @@
 #' @param lwd line width of rectangle if \code{markup = TRUE}
 #' @param markup \code{logical} value (default of \code{TRUE}) indicating
 #'   that the image should be redrawn with the selection outline drawn
-#' @param asImage \code{logical} value (default of \code{TRUE}) indicating
-#'   whether the function returns the region of interest as an \code{Image}
-#'   or a list containing the \code{x,y} coordinates of the region of interest
 #' 
 #' @seealso addInset; other stuff
 #' 
 #' @details
+#'
+#' @section Selecting the region of interest:
 #' This permits the interactive or programmatic definition of a rectangular
 #' region of interest in an image by either specifying
 #' coordinates that define the rectangle or by invoking \code{\link{locator}}
@@ -41,37 +40,43 @@
 #' Options allow specifying the rectangle either by
 #' the center or corner(s) as describe below. The first two options require
 #' no interaction with the user and only produce an image if
-#' \code{markup = TRUE}. The second two options require interaction with the
+#' \code{markup = TRUE}. Options 3 and 4 below require interaction with the
 #' user. In all cases, the selection coordinates are adjusted to conform to
 #' the dimensions of the image. 
 #' 
-#' \describe{
-#'   \item{List of Length 2}{If \code{x} is a \code{list} of length 2, it
+#' \enumerate{
+#'   \item{\strong{List}.} If \code{x} is a \code{list} of length 2, it
 #'     is assumed to hold opposite corners of the rectangular selection. This
 #'     is the typical result of a call to \code{locator(2)} after having
-#'     plotted the image.}
-#'   \item{Two Points}{If values are provided for each of \code{x,y} and
+#'     plotted the image.
+#'   \item{\strong{Two Points}.} If values are provided for each of \code{x,y} and
 #'     \code{x2,y2}, these are treated as opposite corners of
-#'     the rectangular selection.}
-#'   \item{One Point (with width and height)}{If only two values are provided for
-#'     \code{x,y} and \code{x2,y2}, they will be assigned to \code{x,y}. Values
-#'     for \code{w,h} must be provided as named arguments for the width and
-#'     height of the rectangular selection. The point \code{x,y} is
-#'     interpreted as \emph{either} the center (if \code{asCorner} is
-#'     \code{FALSE}) \emph{or} the corner of the selection if 
-#'     \code{asCorner} is \code{FALSE} (the default). If
+#'     the rectangular selection.
+#'   \item{\strong{One Point} (with width and height).} If only two values are
+#'     provided for \code{x,y} and \code{x2,y2}, they will be assigned to
+#'     \code{x,y}. In this case, values for \code{w,h} must be provided as
+#'     named arguments for the width and height of the rectangular selection.
+#'     The point \code{x,y} is interpreted as \emph{either} the center
+#'     (\code{asCorner=FALSE})
+#'     \emph{or} the corner of the selection (\code{asCorner=TRUE}). If
 #'     \code{asCorner = TRUE}, the position of the corner is determined
 #'     by the argument \code{which.corner} which can be one of \code{"bottomleft", 
-#'     "topleft", "bottomright",} or \code{"topright"}.}
-#'   \item{No Points (choose opposite corners)}{If all of \code{x,y, x2,y2, w,h}
+#'     "topleft", "bottomright",} or \code{"topright"}.
+#'   \item{\strong{No Points} (choose opposite corners).} If all of \code{x,y, x2,y2, w,h}
 #'     are missing, \code{\link{locator}} will be called to let the user to
-#'     select two points that define opposite corners of the rectangular selection.}
+#'     select two points that define opposite corners of the rectangular selection.
 #' }
 #'
-#' If \code{asImage = FALSE}, the returned value can be used as to extract the
-#' region of interest from the image or related images by code such as:
+#' @section Using the return value:
+#' The returned value is a list of length 2 with the image (\code{"image"})
+#' and the region of interest (\code{"roi"}) as a list of two \code{x,y} points
+#' defining the region of interest.
+#' 
+#' The returned \code{"roi"} component can be used to extract the equivalent
+#' region of interest from an identically sized image or frame
+#' with code such as:
 #' \preformatted{
-#'    pp <- getROI(img, asImage = FALSE)
+#'    pp <- getROI(img)$roi
 #'    pp <- lapply(pp, function(v) seq.int(v[1], v[2]))
 #'    idx <- lapply(dim(img), seq.int)
 #'    idx[1:2] <- pp
@@ -79,20 +84,21 @@
 #' }
 #' 
 #' @return
-#' Either an image an \code{Image} object corresponding to the region of
-#' interest in the image \emph{or} a list of length two containing the
-#' \code{x,y} coordinates of the region of interes.
+#' A list of two named objects with \code{"image"} as the extracted region of
+#' interest as an \code{Image} and \code{"roi"} as the \code{x,y} coordinates
+#' for the region of interest as a list.
 #' 
 #' @examples
 #' # Example using fixed width and height to retrieve image
 #'   lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
-#' # Get region of interest as an image
-#'   roi <- getROI(lighthouse, 515, 275, w = 200, h = 300)
-#'   plot(roi)
+#' # Get region of interest
+#'   ans <- getROI(lighthouse, 515, 275, w = 200, h = 300)
+#'   plot(ans$image)
+#'	 print(ans$roi)
 #' # Get region of interest as a pair of points, anchored by top left corner
-#'   corners <- getROI(lighthouse, 515, 275, w = 200, h = 300, asCorner = TRUE,
-#'      which.corner = "topleft", asImage = FALSE)
-#'   print(corners)
+#'   ans <- getROI(lighthouse, 515, 275, w = 200, h = 300, asCorner = TRUE,
+#'      which.corner = "topleft")
+#'   print(ans$roi)
 #'
 #' @import EBImage
 #' 
@@ -100,8 +106,7 @@
 #' 
 getROI <- function(img, x, y, x2, y2, w, h, asCorner = FALSE,
   which.corner = c("bottomleft", "topleft", "bottomright", "topright"),
-  pch = 3, col = "magenta", border = col, lwd = 2, markup = TRUE,
-  asImage = TRUE)
+  pch = 3, col = "magenta", border = col, lwd = 2, markup = TRUE)
 {
   if (!require("EBImage")) stop("This requires the EBImage package")
 
@@ -118,6 +123,9 @@ getROI <- function(img, x, y, x2, y2, w, h, asCorner = FALSE,
 # process based on the arguments
   if (all(F[1:6])) { # nothing provided except image
     plot(img)
+		msg <- "Select opposite corners of the region of interest"
+		cat(msg, "\n")
+		flush.console()
     pp <- locator(2, type = "p", pch = pch, col = col)
     pp <- lapply(pp, sort)
   }
@@ -133,6 +141,12 @@ getROI <- function(img, x, y, x2, y2, w, h, asCorner = FALSE,
   else if (!any(F[5:6])) { # 'w' and 'h' provided
     if (any(F[1:2])) { # need to get one point
       plot(img)
+			if (asCorner)
+				msg <- paste("Select the", which.corner, "corner of the region of interest")
+			else
+				msg <- paste("Select the center of the region of interest")
+			cat(msg, "\n")
+			flush.console()
       p <- locator(1, type = "p", pch = pch, col = col)
     }
     else # 'x' and 'y' provided as the one point
@@ -166,14 +180,11 @@ getROI <- function(img, x, y, x2, y2, w, h, asCorner = FALSE,
     rect(pp$x[1], pp$y[2], pp$x[2], pp$y[1], border = border, lwd = lwd)
   }
 
-# return image or adjusted corners of roi
-  if (asImage == TRUE) {
-    pp <- lapply(pp, function(v) seq.int(v[1], v[2]))
-    idx <- lapply(dim(img), seq.int)
-    idx[1:2] <- pp
-    ans <- do.call("[", c(list(img), idx))
-  }
-  else
-    ans <- pp
-  return(ans)
+# return adjusted corners of roi and image
+	ans <- list(pp)
+	pp <- lapply(pp, function(v) seq.int(v[1], v[2]))
+	idx <- lapply(dim(img), seq.int)
+	idx[1:2] <- pp
+	ans$image <- do.call("[", c(list(img), idx))
+  invisible(ans)
 }

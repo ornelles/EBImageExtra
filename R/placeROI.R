@@ -15,6 +15,9 @@
 #' @param mag optional magnification factor for inset; if \code{NULL}
 #'   (default), it will be determined by \code{frac}
 #' @param frac.default default fractional width for the inset (\code{1/3})
+#' @param lwd 'line' width of the inset border in pixels; note that this is
+#'   \strong{not} the standard definition of \code{lwd}
+#' @param col color of the inset border
 #' @param showImage \code{logical} value indicated whether to plot the 
 #'   image with inset; default (\code{TRUE})
 #' 
@@ -53,7 +56,7 @@
 #' @export
 #' 
 placeROI <- function(roi, img, position, frac = NULL, mag = NULL,
-	frac.default = 1/3, showImage = TRUE)
+	frac.default = 1/3, lwd = 2, col = "white", showImage = TRUE)
 {
 # Check arguments
 	if(!is(roi, "Image"))
@@ -138,6 +141,13 @@ placeROI <- function(roi, img, position, frac = NULL, mag = NULL,
 		}
 		position <- levels(choices)[i]
 	}
+
+# Add frame to roi based on position
+	sideChoices <- list(c(1,4), c(1,2,4), c(1,2), c(1,3,4), c(1,2,3,4), c(1,2,3),
+		c(3,4), c(2,3,4), c(2,3))
+	names(sideChoices) <- choices
+	sides <- 	sideChoices[[as.character(position)]]
+	roi <- frameROI(roi, lwd = lwd, col = col, sides = sides)
 
 # Calculate translation adjustment for given position
 	pad <- dm.img - dm.roi

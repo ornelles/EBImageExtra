@@ -1,4 +1,77 @@
-drawROI <- function(img, x, y, x2, y2, width = 2, col = "white",
+#' Draw Region of Interest
+#' 
+#' Draw a region of interest into an image.
+#' 
+#' @param img An \code{Image} object
+#' @param x,y \code{x,y} coordinates of one or both corners of
+#'   rectangular selection \emph{or} the location of the center of the
+#'   rectangular selection \emph{or} a list specifying
+#'   the corners of the selection (see details) 
+#' @param x2,y2 optional second pair of x and y coordinates when
+#'   needed to specify the other corner of the rectangular selection 
+#' @param w,h optional width and height of the rectangular selection;
+#'   required if \code{x2,y2} are missing 
+#' @param asCorner \code{logical} value to use the
+#'   point \code{x,y} as the corner of the selection or as the center of
+#'   the selection
+#' @param which.corner identifies the
+#'   corner of the rectangle specified by \code{x,y};
+#'   applies only if \code{asCorner = TRUE}
+#' @param lwd 'line' width of the border in pixels; note that this is
+#'   \strong{not} the standard definition of \code{lwd}
+#' @param col border color of the rectangle 
+#' @param sides which side(s) are to include the border (1=bottom, 2=left,
+#'   3=top, 4=right)
+#' @param pch plotting character used by \code{link{locator}} when interacting
+#'   with the image
+#' @param col.pch color for plotting character used by \code{link{locator}}
+#' @param showImage replot the image with border if \code{TRUE}
+#' 
+#' @details
+#' A rectangular border of \code{lwd} pixels will drawn around the
+#' region of interest along the sides identified in \code{sides}. The added
+#' border will be drawn toward the interior of the region of interest.
+#' 
+#' This region of interest can be specified through arguments or interactively. 
+#' Options allow specifying the rectangle either by
+#' the center or corner(s) as describe below. The first two options require
+#' no interaction with the user and will display the revised image
+#' only if \code{showImage = TRUE}. Options 3 and 4 below require interaction
+#' with the user. In all cases, the selected coordinates are adjusted to conform
+#' to the dimensions of the image, which can override values in \code{w,h}.  
+#' 
+#' \enumerate{
+#'   \item{\strong{List}.} If \code{x} is a \code{list} of length 2, it
+#'     is assumed to hold opposite corners of the rectangular selection. This
+#'     is the typical result of a call to \code{locator(2)} after having
+#'     plotted the image.
+#'   \item{\strong{Two Points}.} If values are provided for each of \code{x,y} and
+#'     \code{x2,y2}, these are treated as opposite corners of
+#'     the rectangular selection.
+#'   \item{\strong{One Point} (with width and height).} If only two values are
+#'     provided for \code{x,y} and \code{x2,y2}, they will be assigned to
+#'     \code{x,y}. In this case, values for \code{w,h} must be provided as
+#'     named arguments for the width and height of the rectangular selection.
+#'     The point \code{x,y} is interpreted as \emph{either} the center
+#'     (\code{asCorner=FALSE})
+#'     \emph{or} the corner of the selection (\code{asCorner=TRUE}). If
+#'     \code{asCorner = TRUE}, the position of the corner is determined
+#'     by the argument \code{which.corner} which can be one of \code{"bottomleft", 
+#'     "topleft", "bottomright",} or \code{"topright"}.
+#'   \item{\strong{No Points} (choose opposite corners).} If all of \code{x,y, x2,y2, w,h}
+#'     are missing, \code{\link{locator}} will be called to let the user to
+#'     select two points that define opposite corners of the rectangular selection.
+#' }
+#'
+#' @return Modified image with region of interest outlined.
+#'
+#' @import EBImage
+#'
+#' @export
+#'
+drawROI <- function(img, x, y, x2, y2, w, h, lwd = 2, col = "white",
+	asCorner = FALSE,
+	which.corner = c("bottomleft", "topleft", "bottomright", "topright"),
 	sides = 1:4, pch = 3, col.pch = col, showImage = TRUE)
 {
 	if (!is(img, "Image"))
@@ -8,14 +81,16 @@ drawROI <- function(img, x, y, x2, y2, width = 2, col = "white",
 	dm <- dim(img)[1:2]
 	
 # vector of flags for missing arguments
-  F <- c(missing(x), missing(y), missing(x2), missing(y2))
+  F <- c(missing(x),missing(y),missing(x2),missing(y2),missing(w),missing(h))
 
-# place corners of roi from given arguments in 'p'
+# need corners of roi from given arguments
   if (!any(F[1:4])) { # specified as x, y, x2, y2
     pp <- list(x = sort(c(x, x2)), y = sort(c(y, y2)))
   }
-  else if (all(F[1:4])) { # nothing provided except image
+  else if (all(F[1:6])) { # nothing provided except image
     plot(img)
+		cat("Select opposite corners to define the region of interest\n")
+		flush.console()
     pp <- locator(2, type = "p", pch = pch, col = col.pch)
     pp <- lapply(pp, sort)
   }
@@ -25,14 +100,41 @@ drawROI <- function(img, x, y, x2, y2, width = 2, col = "white",
     else
       stop ("if only 'x' is provided, it must be a list of two points")
   }
+  else if (!any(F[5:6])) { # 'w' and 'h' provided
+    if (any(F[1:2])) { # need to get one point
+      plot(img)
+			if (asCorner)
+				msg <- paste("Select the", which.corner, "corner of the region of interest")
+			else
+				msg <- paste("Select the center of the region of interest")
+			cat(msg, "\n")
+			flush.console()
+      p <- locator(1, type = "p", pch = pch, col = col)
+    }
+    else # 'x' and 'y' provided as the one point
+      p <- list(x = x, y = y)
+  # adjust the one point
+    if (asCorner == TRUE) {
+      if (which.corner == "bottomleft")
+        pp <- list(x = c(p$x, p$x + w), y = c(p$y, p$y - h))
+      else if (which.corner == "topleft")
+        pp <- list(x = c(p$x, p$x + w), y = c(p$y, p$y + h))
+      else if (which.corner == "bottomright")
+        pp <- list(x = c(p$x - w, p$x), y = c(p$y, p$y - h))
+      else # which.corner == "topright"
+        pp <- list(x = c(p$x - w, p$x), y = c(p$y, p$y + h))
+    }
+    else # asCorner == FALSE
+      pp <- list(x = p$x + c(-1, 1)*w/2, y = p$y + c(-1, 1)*h/2)
+  }
   else if (!any(F[1:2] & F[3:4])) { # 'x' and 'y' provided
 		if (length(x) == 2 && length(y) == 2)
 			pp <- list(x = x, y = y)
 		else
 			stop ("'x' and 'y' must be length 2 numeric vectors")
 	}
-	else
-		stop("unable to use this combination of arguments")
+  else # 'w' and 'h' NOT provided
+    stop("need 'w,h' values if only one pair of 'x,y' values is provided")
 
 # adjust roi coordinates to the limits of the image
   pp$x <- pmax(1, pmin(pp$x, dm[1]))
@@ -43,34 +145,34 @@ drawROI <- function(img, x, y, x2, y2, width = 2, col = "white",
 # identify borders and check new dimension
 	nx <- sum(c(2, 4) %in% sides)
 	ny <- sum(c(1, 3) %in% sides)
-	dm2 <- dm - c(nx, ny)*width
+	dm2 <- dm - c(nx, ny)*lwd
 	if (any(dm2 < 1))
-		stop("'width' is too large to use")
+		stop("'lwd' is too large to use")
 
-# create two list of coordinates for border
-	pp1 <- lapply(pp, function(v) list(seq(v[1], len = width),
-		seq(v[2] - width + 1, len = width)))
+# create two list of border coordinates
+	pp1 <- lapply(pp, function(v) list(seq(v[1], len = lwd),
+		seq(v[2] - lwd + 1, len = lwd)))
 	pp2 <- lapply(pp, function(v) v[1]:v[2])
 
-# create logical masks for each side of the border
+# create a logical mask that define each side of the border
 	m <- Image(TRUE, dim(img)[1:2])
 	S1 <- col(m) %in% pp1$y[[2]] & row(m) %in% pp2$x
 	S3 <- col(m) %in% pp1$y[[1]] & row(m) %in% pp2$x
 	S2 <- row(m) %in% pp1$x[[1]] & col(m) %in% pp2$y
 	S4 <- row(m) %in% pp1$x[[2]] & col(m) %in% pp2$y
 	S <- list(S1, S2, S3, S4)
-	m[Reduce(`|`, S)] <- FALSE
 
-# remove the sides that are not requested
-	m[Reduce(`|`, S[!1:4 %in% sides])] <- TRUE
+# paint border areas as FALSE (0) in the logical mask
+	m[Reduce(`|`, S[1:4 %in% sides])] <- FALSE
 
+# convert the logical mask to a de-facto binary image  
 	if (colorMode(img) == Color)
 		M <- abind(m, m, m, along = 3)
 	else
 		M <- m
 
-# combine with replacement color
-	mask <- Image(col, dim = dim(img)[1:2], colormode = 2)
+# combine with solid colored image, replace appropriate pixesl in image
+	mask <- Image(col, dim = dim(img)[1:2], colormode = colorMode(img))
 	ans <- img * M + mask * !M
 	if (showImage)
 		plot(ans)

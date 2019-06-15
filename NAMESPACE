@@ -3,6 +3,7 @@
 export(boxtext)
 export(circularity)
 export(crop)
+export(drawROI)
 export(getInset)
 export(getROI)
 export(labelStack)

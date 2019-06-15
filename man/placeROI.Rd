@@ -5,7 +5,7 @@
 \title{Place Image (ROI) into Another Image}
 \usage{
 placeROI(roi, img, position, frac = NULL, mag = NULL,
-  frac.default = 1/3, showImage = TRUE)
+  frac.default = 1/3, lwd = 2, col = "white", showImage = TRUE)
 }
 \arguments{
 \item{roi}{the smaller \code{Image} object to be placed in
@@ -26,6 +26,11 @@ value in \code{frac.default}}
 (default), it will be determined by \code{frac}}
 
 \item{frac.default}{default fractional width for the inset (\code{1/3})}
+
+\item{lwd}{'line' width of the inset border in pixels; note that this is
+\strong{not} the standard definition of \code{lwd}}
+
+\item{col}{color of the inset border}
 
 \item{showImage}{\code{logical} value indicated whether to plot the 
 image with inset; default (\code{TRUE})}
