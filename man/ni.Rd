@@ -10,9 +10,10 @@ ni(x, ir = c(0, 2^-4), separate = TRUE, ft = c(0, 1))
 \arguments{
 \item{x}{An \code{Image} object or array or a list of \code{Image} objects}
 
-\item{ir}{A numeric vector or a list of vectors to set the input
-intensity range. This value is passed to \code{\link[EBImage]{normalize}}
-as the \code{inputRange} parameter}
+\item{ir}{A numeric vector or a list of vectors or a single numeric
+value indicating the bit depth
+to set the input intensity range. This value is passed to
+\code{\link[EBImage]{normalize}} as the \code{inputRange} parameter}
 
 \item{separate}{If \code{TRUE} or if \code{ir} is \code{NULL}, each frame
 will be normalized independently}
@@ -33,4 +34,10 @@ See \code{\link[EBImage]{normalize}} for details. The default here is to use
 an \code{inputRange} of \code{c(0,2^-4)}, which is appropriate for
 12-bit images. This function provides an easier-to-type replacement for 
 \code{\link{normalize}} while extending it to accept lists of images.
+
+If \code{ir} is a \code{numeric} value of length 1 that is greater than
+1 and less than or equal to 16, it is interpreted as the
+bit depth of the image and the value for \code{ir} is given by 
+\code{c(0, 2^-(16-ir)}. This allows the use of values such as \code{11.5}
+to increase the brightness of a 12-bit image.
 }
