@@ -12,6 +12,7 @@ This is a collection of functions to extend the `EBImage` package and provide he
 * plotStack - plot an image stack with optional labels
 * locatorStack - interact with a plotted image stack to select frames
 * labelStack - label frames of a plotted image stack
+* tStack - "transpose" an image stack by reordering the images
 
 #### Filters  
 * sobel - the [Sobel filter](https://en.wikipedia.org/wiki/Sobel_operator) for edge detection

@@ -1,4 +1,4 @@
-#' @include ROI-methods.R
+#' @include Roi-methods.R
 NULL
 #' Roi-constructor
 #'
@@ -14,8 +14,9 @@ NULL
 #' seemed to require that the parent (\code{EBImage}) library be loaded
 #' before it can recognize this directive...
 #'
-#' @param \code{object} \code{Image} object
-#' @param loc \code{list} of two components, \code{x,y}
+#' @param object A \code{Image} object
+#' @slot loc A length-two \code{list} of length-two numeric
+#'   vectors for the points defining the region of interest
 #'
 #' @return \code{Image} object with added "Roi" class and "loc" slot
 #'

@@ -9,8 +9,8 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Collate: 
-    'ROI-methods.R'
-    'ROI-class.R'
+    'Roi-methods.R'
+    'Roi-class.R'
     'boxtext.R'
     'circularity.R'
     'crop.R'
@@ -27,4 +27,5 @@ Collate:
     'scaleBar.R'
     'sobel.R'
     'stackObjects2.R'
+    'tStack.R'
     'usm.R'

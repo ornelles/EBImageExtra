@@ -37,9 +37,10 @@ labels will be generated and added with \code{\link{labelStack}} where
 \code{labels} as necessary.
 }
 \examples{
-x <- readImage(system.file("images", "sample-color.png", package="EBImage"))
-x <- EBImage::untile(x, c(4, 3), lwd = 0)
-plotStack(x, labels = paste("Frame", 1:12))
+  readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
+## separate image into 12 images
+  x <- EBImage::untile(x, c(4, 3), lwd = 0)
+  plotStack(x, labels = paste("Frame", 1:12))
 
 }
 \seealso{
