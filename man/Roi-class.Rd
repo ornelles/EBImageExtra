@@ -14,7 +14,7 @@
 \code{Image} object with added "Roi" class and "loc" slot
 }
 \description{
-This class extends \code{Image} object from \code{EBImage} 
+This class extends the \code{Image} object from \code{EBImage} 
 to include a class named "Roi" and a slot named "loc" to hold the
 original location of the region of interest. This slot can be
 reached by the accessor function \code{loc} or simply by
