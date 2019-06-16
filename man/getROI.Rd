@@ -100,10 +100,11 @@ was not provided. The returned object is an image with additional
 
 \code{EBImage} uses the \code{Image} class to store and process images.
 A region of interest is an \code{Image} object with the
-additional class of "\code{roi}" and an additional attribute. The new
+additional class of "\code{roi}" and an additional attribute using
+the \code{slot} property of \code{S4} objects. The new \code{slot} or
 attribute "\code{loc}"
 holds the location of the region of interest as \code{roi =
-list(x = c(x, x2), y = c(y, y2))}.  The attribute \code{"loc"} can be
+list(x = c(x,x2), y = c(y,y2))}.  The attribute \code{"loc"} can be
 used to extract the equivalent region of interest from a related image
 (\code{img2}) in the following manner. 
 \preformatted{
@@ -116,14 +117,15 @@ used to extract the equivalent region of interest from a related image
 \examples{
 # Example using fixed width and height to retrieve image
   lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
+  plot(lighthouse)
 
 # Get region of interest, anchored by center
   ans1 <- getROI(lighthouse, 515, 315, w = 200, h = 150)
-  print(ans@loc) # one way to extract 'loc'
+  print(ans1@loc) # one way to extract 'loc'
 
 # Get region of interest, anchored by top left corner
   ans2 <- getROI(lighthouse, 515, 315, w = 200, h = 150, asCorner = TRUE)
-  print(attr(ans, "loc")) # better way of extracting 'loc'
+  print(attr(ans2, "loc")) # better way of extracting 'loc'
   plotStack(combine(ans1, ans2), nx = 1)
 
 }

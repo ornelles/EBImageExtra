@@ -15,7 +15,8 @@ drawROI(img, x, y, x2, y2, w, h, lwd = 2, col = "white",
 \item{x, y}{\code{x,y} coordinates of one or both corners of
 rectangular selection \emph{or} the location of the center of the
 rectangular selection \emph{or} a list specifying
-the corners of the selection (see details)}
+the corners of the selection \emph{or} an \code{Roi} object
+with a \code{slot} named "\code{loc}" (see details)}
 
 \item{x2, y2}{optional second pair of x and y coordinates when
 needed to specify the other corner of the rectangular selection}
@@ -55,24 +56,30 @@ interest in an image.
 }
 \details{
 A rectangular border of \code{lwd} pixels will drawn around the
-region of interest along the sides identified in \code{sides}. The added
+region of interest with borders specified by \code{sides}. The added
 border will be drawn toward the interior of the region of interest. This
-differs from using \code{link{rect}} with \code{lwd} used in an atypical
-manner. Here it defines the width of the border in pixels. This also differs
-from the base functions by directly changing pixels in the image.
+preserves the dimensions of the marked-up image. This function
+differs from \code{\link{rect}} by using \code{lwd} in an atypical
+manner. Here \code{lwd} refers to the width of the border in pixels.
+This also differs from the base functions by directly changing pixels
+in the image, in contrast to change the plot device. 
 
 This region of interest can be specified with arguments or interactively. 
 Options allow specifying the rectangle either by
-the center or corner(s) as describe below. The first two options require
+the center or corner(s) as describe below. Options 1, 2 and 3 below require
 no interaction with the user and will display the revised image
-only if \code{showImage = TRUE}. Options 3 and 4 below require interaction
+only if \code{showImage = TRUE}. Options 4 and 5 below require interaction
 with the user. In all cases, the selected coordinates are adjusted to conform
 to the dimensions of the image, which can override values in \code{w,h}.  
 
 \enumerate{
+  \item{\strong{Object with \code{loc} slot}.} If \code{x} is an object
+    of class \code{Roi}, the coordinates in the \code{loc} slot
+    will be extracted and used.
   \item{\strong{List}.} If \code{x} is a \code{list} of length 2, it
     is assumed to hold opposite corners of the rectangular selection. This
-    could be the \code{loc} slot from a \code{Roi} object.
+    could be the \code{loc} slot from a \code{Roi} object or the return
+    value of \code{locator(2)}.
   \item{\strong{Two Points}.} If values are provided for each of \code{x,y} and
     \code{x2,y2}, these are treated as opposite corners of
     the rectangular selection.
@@ -90,6 +97,16 @@ to the dimensions of the image, which can override values in \code{w,h}.
     are missing, \code{\link{locator}} will be called to let the user to
     select two points that define opposite corners of the rectangular selection.
 }
+}
+\examples{
+
+# Example of adding arbitrary "roi" highlights to one image
+  img <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
+  xc <- sample(50:dim(img)[1] - 50, 6)
+  yc <- sample(50:dim(img)[2] - 50, 6)
+  for (i in 1:6) img <- drawROI(img, xc[i], yc[i], w = 90, h = sample(60:120, 1), showImage = FALSE)
+  plot(img)
+
 }
 \seealso{
 \code{\link{getROI}} to get a region of interest from an image;

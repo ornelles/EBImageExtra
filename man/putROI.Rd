@@ -9,10 +9,11 @@ putROI(roi, img, position, frac = NULL, mag = NULL,
 }
 \arguments{
 \item{roi}{the smaller \code{Image} object to be placed in
-\code{img}; this can be an \code{Image} object or a path
-(as a \code{character} vector) to such the image}
+\code{img}}
 
-\item{img}{the larger \code{Image} object to receive the roi}
+\item{img}{the larger \code{Image} object to receive the roi;
+this can be an \code{Image} object or a path
+(as a \code{character} vector) to such the image}
 
 \item{position}{a \code{character} string or \code{integer}
 in 1 to 9 indicating the position of the inset; If \code{missing},
@@ -39,12 +40,10 @@ image with inset; default (\code{TRUE})}
 \value{
 An \code{Image} of the same dimensions as the second argument
 (\code{img}) with \code{roi} inserted after appropriate scaling and
-otional framing. 
-
-#' @import EBImage
+otional framing.
 }
 \description{
-Place a scaled image into another image as an inset
+Place a scaled image into another image as an optionally framed inset
 }
 \details{
 The image to be placed as an inset (\code{roi}) will be scaled 
@@ -66,6 +65,24 @@ will cause an error.
 If \code{showImage = TRUE}, the image with inset will be plotted. In all
 cases, the modified image will be invisibly returned.
 }
+\examples{
+
+# Example using fixed width and height to retrieve image
+  lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
+
+# Get region of interest, anchored by center
+  ins <- getROI(lighthouse, 515, 280, w = 180, h = 280)
+  putROI(ins, lighthouse, "topright")
+
+# Display 9 of the possible positions
+  img <- resize(lighthouse, w = 256)
+  ins2 <- resize(ins, w = 45)
+  z <- lapply(1:9, function(i) putROI(ins2, img, i, lwd  = 4, show = FALSE))
+# z <- combine(z) # about 5-times slower than directly calling 'abind'
+  z <- do.call(abind, c(z, list(along = 4)))
+  plotStack(combine(z), nx = 3, labels = TRUE, cex = 3)
+
+}
 \seealso{
 \code{\link{getROI}} to get a region of interest from an image;
 \code{\link{drawROI}} to draw a frame \emph{within} an image;
@@ -73,22 +90,4 @@ cases, the modified image will be invisibly returned.
 \code{\link{insertROI}} as a convenience function that
   combines calls to \code{getROI}, \code{putROI}
   and \code{drawROI} to place a framed inset in an image.
-
-#' @examples
-
-# Example using fixed width and height to retrieve image
-	lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
-
-# Get region of interest, anchored by center
-	ins <- getROI(lighthouse, 515, 280, w = 180, h = 280)
-	putROI(ins, lighthouse, "topright")
-
-# Display 9 of the possible positions
-  img <- resize(lighthouse, w = 256)
-	 ins2 <- resize(ins, w = 45)
-	 z <- lapply(1:9, function(i) putROI(ins2, img, i, lwd  = 4, show = FALSE))
-# z <- combine(z) # about 5-times slower than directly calling 'abind'
-	 z <- do.call(abind, c(z, list(along = 4)))
-	 plotStack(combine(z), nx = 3, labels = TRUE, cex = 3)
-	 labelStack(z, nx = 3, cex = 2)
 }

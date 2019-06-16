@@ -28,13 +28,14 @@ the indicated sides
 A rectangular border of \code{lwd} pixels will drawn around the
 image along the sides identified in \code{sides}. The added
 border will be drawn toward the interior of the image. This
-differs from using \code{link{rect}} with \code{lwd} used in an atypical
+differs from \code{\link{rect}} by using \code{lwd} used in an atypical
 manner. Here it defines the width of the border in pixels. This also differs
-from the base functions by directly changing pixels in the image.
+from the base functions by directly changing pixels in the image instead
+of plotting to the graphics device.
 }
 \examples{
-	lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
-plot(frameROI(lighthouse), col = "black") # with defaults
+ lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
+ plot(frameROI(lighthouse)) # with defaults (not obvious)
  plot(frameROI(lighthouse, lwd = 36, col = "yellow", sides = c(1,2)))
 
 }
