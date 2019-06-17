@@ -9,10 +9,10 @@ This is a collection of functions to extend the `EBImage` package and provide he
 
 #### Image stacks  
 * stackObjects2 - place detected objects *with* bounding box in an image stack
+* tStack - "transpose" an image stack by reordering the images
 * plotStack - plot an image stack with optional labels
 * locatorStack - interact with a plotted image stack to select frames
 * labelStack - label frames of a plotted image stack
-* tStack - "transpose" an image stack by reordering the images
 
 #### Filters  
 * sobel - the [Sobel filter](https://en.wikipedia.org/wiki/Sobel_operator) for edge detection
@@ -28,9 +28,8 @@ This is a collection of functions to extend the `EBImage` package and provide he
 
 * getROI - get a region of interest
 * putROI - put a region of interest (with scaling) at one of nine locations in an image
-* drawROI - draw a frame *within* an image, typically highlighting the region of interest 
-* frameROI - draw a frame *around* an image
-* insertROI - a convenience function that makes repeated use of getROI, putROI and drawROI to select a region from an image, draw a frame about the selected region, place the selection as an inset and draw a frame about the inset
+* drawROI - draw a frame *within* or *around* an image to highlight the region of interest 
+* insertROI - a convenience function that makes repeated use of getROI, putROI and drawROI to select a region from an image, draw a frame about the selected region, place the selection as an inset, and draw a frame about the inset
 
 ## License  
 GPL-3
