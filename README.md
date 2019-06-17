@@ -30,6 +30,7 @@ This is a collection of functions to extend the `EBImage` package and provide he
 * putROI - put a region of interest (with scaling) at one of nine locations in an image
 * drawROI - draw a frame *within* or *around* an image to highlight the region of interest 
 * getAndPutROI - a convenience function that makes repeated use of getROI, putROI and drawROI to select a region from an image, draw a frame about the selected region, place the selection as an inset, and draw a frame about the inset
+* as.Roi - convert `Image` object to `Roi` object or reset the `loc` slot of an `Roi` object
 
 ## License  
 GPL-3
