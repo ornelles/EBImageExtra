@@ -4,8 +4,8 @@
 \alias{putROI}
 \title{Put an Image (ROI) into Another Image}
 \usage{
-putROI(roi, img, position, frac = NULL, mag = NULL,
-  frac.default = 1/3, lwd = 2, col = "white", show = TRUE)
+putROI(roi, img, position, show, frac = NULL, mag = NULL,
+  frac.default = 1/3, lwd = 2, col = "white")
 }
 \arguments{
 \item{roi}{the smaller \code{Image} object to be placed in
@@ -20,6 +20,9 @@ in 1 to 9 indicating the position of the inset; If \code{missing},
 \code{\link{locator}} will be called to interact with the
 user to place the inset; see Details}
 
+\item{show}{\code{logical} value indicated whether to show the 
+image with inset}
+
 \item{frac}{a \code{numeric} value between 0 and 1 for the fractional
 width occupied by the inset; the default values of \code{NULL} uses the 
 value in \code{frac.default}}
@@ -33,9 +36,6 @@ value in \code{frac.default}}
 \strong{not} the standard definition of \code{lwd}}
 
 \item{col}{color of the inset border}
-
-\item{show}{\code{logical} value indicated whether to plot the 
-image with inset; default (\code{TRUE})}
 }
 \value{
 An \code{Image} of the same dimensions as the second argument
@@ -62,7 +62,8 @@ specified with \code{mag}, typically a number greater than 1. Values that
 create an inset greater than the dimensions of the \code{img} argument 
 will cause an error. 
 
-If \code{show = TRUE}, the image with inset will be plotted. In all
+If \code{show = TRUE} of if \code{show} is missing and \code{locator} 
+was used to place the inset, the image with inset will be plotted. In all
 cases, the modified image will be invisibly returned.
 }
 \examples{
@@ -71,12 +72,12 @@ cases, the modified image will be invisibly returned.
 
 # Get region of interest of fixed width and height, specified by center
   ins <- getROI(lighthouse, 515, 280, w = 180, h = 280)
-  putROI(ins, lighthouse, "topright")
+  putROI(ins, lighthouse, "topright", show = TRUE)
 
 # Display the 9 possible positions
   img <- resize(lighthouse, w = 256)
   ins2 <- resize(ins, w = 45)
-  z <- lapply(1:9, function(i) putROI(ins2, img, i, lwd  = 4, show = FALSE))
+  z <- lapply(1:9, function(i) putROI(ins2, img, i, lwd  = 4))
 # z <- combine(z) # about 5-times slower than directly calling 'abind'
   z <- do.call(abind, c(z, list(along = 4)))
   plotStack(combine(z), nx = 3, labels = TRUE, cex = 2)

@@ -11,6 +11,8 @@
 #'   in 1 to 9 indicating the position of the inset; If \code{missing},
 #'   \code{\link{locator}} will be called to interact with the
 #'   user to place the inset; see Details
+#' @param show \code{logical} value indicated whether to show the 
+#'   image with inset
 #' @param frac a \code{numeric} value between 0 and 1 for the fractional
 #'   width occupied by the inset; the default values of \code{NULL} uses the 
 #'   value in \code{frac.default}
@@ -20,8 +22,6 @@
 #' @param lwd width of the inset border in pixels; note that this is
 #'   \strong{not} the standard definition of \code{lwd}
 #' @param col color of the inset border
-#' @param show \code{logical} value indicated whether to plot the 
-#'   image with inset; default (\code{TRUE})
 #' 
 #' @details
 #' The image to be placed as an inset (\code{roi}) will be scaled 
@@ -40,7 +40,8 @@
 #' create an inset greater than the dimensions of the \code{img} argument 
 #' will cause an error. 
 #' 
-#' If \code{show = TRUE}, the image with inset will be plotted. In all
+#' If \code{show = TRUE} of if \code{show} is missing and \code{locator} 
+#' was used to place the inset, the image with inset will be plotted. In all
 #' cases, the modified image will be invisibly returned. 
 #' 
 #' @seealso
@@ -56,12 +57,12 @@
 #' 
 #' # Get region of interest of fixed width and height, specified by center
 #'   ins <- getROI(lighthouse, 515, 280, w = 180, h = 280)
-#'   putROI(ins, lighthouse, "topright")
+#'   putROI(ins, lighthouse, "topright", show = TRUE)
 #' 
 #' # Display the 9 possible positions
 #'   img <- resize(lighthouse, w = 256)
 #'   ins2 <- resize(ins, w = 45)
-#'   z <- lapply(1:9, function(i) putROI(ins2, img, i, lwd  = 4, show = FALSE))
+#'   z <- lapply(1:9, function(i) putROI(ins2, img, i, lwd  = 4))
 #' # z <- combine(z) # about 5-times slower than directly calling 'abind'
 #'   z <- do.call(abind, c(z, list(along = 4)))
 #'   plotStack(combine(z), nx = 3, labels = TRUE, cex = 2)
@@ -75,8 +76,8 @@
 #' 
 #' @export
 #' 
-putROI <- function(roi, img, position, frac = NULL, mag = NULL,
-  frac.default = 1/3, lwd = 2, col = "white", show = TRUE)
+putROI <- function(roi, img, position, show, frac = NULL, mag = NULL,
+  frac.default = 1/3, lwd = 2, col = "white")
 {
 # Check arguments
   if(!is(roi, "Image"))
@@ -138,17 +139,20 @@ putROI <- function(roi, img, position, frac = NULL, mag = NULL,
 
 # Determine position for inset from 'position' and 'choices'
   if (!missing(position)) {
-      if (is(position, "character")) {
-        position <- sub("upper", "top", position)
-        position <- sub("lower", "bottom", position)
-        position <- match.arg(position, choices)
-      }
-      else if (is.numeric(position) && position > 0 && position <= length(choices))
-        position <- levels(choices)[position]
-      else
-        stop("'position' must be a character or integer in 1 through 9")
+		if (missing(show)) show <- FALSE
+		if (is(position, "character")) {
+			position <- sub("upper", "top", position)
+			position <- sub("lower", "bottom", position)
+			position <- match.arg(position, choices)
+		}
+		else if (is.numeric(position) && position > 0 && position <= length(choices))
+			position <- levels(choices)[position]
+		else
+			stop("'position' must be a character or integer in 1 through 9")
   }
-  else {
+  else { # need to get position from user
+		if (missing(show)) show <- TRUE
+		plot(img)
     nx <- 3 # three "zones" across and down
     vx <- seq(0, dm.img[1] + 1, length = nx + 1)
     vy <- seq(0, dm.img[2] + 1, length = nx + 1)
