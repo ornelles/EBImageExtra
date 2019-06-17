@@ -6,7 +6,8 @@
 #' @param x,y \code{x,y} coordinates of one or both corners of
 #'   rectangular selection \emph{or} the center of the
 #'   rectangular selection \emph{or} a list of
-#'   corners of the selection (see details in Selecting the ROI) 
+#'   corners of the selection (see details in \strong{Selecting
+#'   the ROI} below) 
 #' @param x2,y2 optional second pair of x and y coordinates when
 #'   needed to specify the other corner of the rectangular selection 
 #' @param w,h optional width and height of the rectangular selection
@@ -32,7 +33,6 @@
 #' @seealso
 #' \code{\link{putROI}} to place an ROI with scaling;
 #' \code{\link{drawROI}} to draw a frame \emph{within} an image;
-#' \code{\link{frameROI}} to draw a frame \emph{about} an image;
 #' \code{\link{insertROI}} as a convenience function that
 #'   combines calls to \code{getROI}, \code{putROI}
 #'   and \code{drawROI} to place a framed inset in an image.
@@ -40,19 +40,19 @@
 #' @section Selecting the ROI:
 #' A rectangular region of interest (ROI) can be selected programmatically
 #' or interactively. The ROI is defined by the position of the lower left
-#' and upper right    coordinates of the rectangle in pixels   (actually
+#' and upper right coordinates of the rectangle in pixels (actually
 #' either pair of corners on the diagonal is adequate.) The pair of points
-#' can be specified several means. The function will accept four values
+#' can be specified by several means. The function will accept four values
 #' \code{x,y}, and \code{x2,y2} or a list of the two points. Without these
-#' arguments, the function     invokes \code{\link{locator}} to allow the
-#' user to define the ROI. The ROI will be trimmed if necessary to the
-#' dimensions allowed by the original image. Options allow specifying the
-#' rectangle either by the center or corner(s) as describe below. The first
-#' two options  require no interaction with the user and only produce an
+#' arguments, the function invokes \code{\link{locator}} to allow the
+#' user to define the ROI. The ROI will be trimmed to the
+#' dimensions allowed by the original image. The rectangle can be specified
+#' either by the center or corner(s) as describe below. The first
+#' two options require no interaction with the user and only produce an
 #' image if \code{markup = TRUE}. Options 3 and 4 below require interaction
-#' with the user and produce an image if \code{markup} is \code{TRUE} or
-#' was not provided. The returned object is an image with additional
-#' \code{class} and \code{attribute} as described in the section below.
+#' with the user and produce an image if \code{markup} is missing or if
+#' \code{markup = TRUE}. The returned object is an \code{Image} with
+#' an additional \code{class} and \code{slot} as described in the below.
 #' 
 #' \enumerate{
 #'   \item{\strong{List}.} If \code{x} is a \code{list} of length 2, it
@@ -77,40 +77,39 @@
 #'     select two points that define opposite corners of the rectangular selection.
 #' }
 #'
-#' @section Class "roi" and "loc" attribute:
+#' @section Class "Roi" and "loc" slot:
 #' \code{EBImage} uses the \code{Image} class to store and process images.
 #' A region of interest is an \code{Image} object with the
-#' additional class of "\code{roi}" and an additional attribute using
+#' additional class named "\code{Roi}" and an additional attribute using
 #' the \code{slot} property of \code{S4} objects. The new \code{slot} or
-#' attribute "\code{loc}"
-#' holds the location of the region of interest as \code{roi =
+#' attribute named "\code{loc}"
+#' holds the location of the region of interest as \code{loc =
 #' list(x = c(x,x2), y = c(y,y2))}.  The attribute \code{"loc"} can be
 #' used to extract the equivalent region of interest from a related image
 #' (\code{img2}) in the following manner. 
 #' \preformatted{
 #'  x <- getROI(img1)
-#'  pp <- attr(x, "loc") # or x@loc or slot(ins, "loc")
+#'  pp <- attr(x, "loc") ## or pp <- x@loc
 #'  y <- getROI(img2, pp)
 #' }
 #' 
 #' @return
 #' The region of interest as an \code{Image} with the
-#' added class of "\code{roi}" and the attribute "\code{loc}"
+#' added class of "\code{Roi}" and the slot "\code{loc}"
 #' holding the location of the region of interest.
 #' 
 #' @examples
-#' # Example using fixed width and height to retrieve image
-#'   lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
-#'   plot(lighthouse)
+#' # Image from EBImage package
+#'   birds <- readImage(system.file("images", "sample-color.png", package="EBImage"))
+#' 
+#' # Example specifying one point for center with fixed width and height
+#'   roi1 <- getROI(birds, 160, 255, w = 200, h = 240)
+#'   print(roi1@loc) # one way extract 'loc'
+#'   roi2 <- getROI(birds, 480, 200, w = 200, h = 240)
+#'   print(attr(roi2, "loc")) # a more accepted way to extract 'loc'
 #'
-#' # Get region of interest, anchored by center
-#'   ans1 <- getROI(lighthouse, 515, 315, w = 200, h = 150)
-#'   print(ans1@loc) # one way to extract 'loc'
-#'
-#' # Get region of interest, anchored by top left corner
-#'   ans2 <- getROI(lighthouse, 515, 315, w = 200, h = 150, asCorner = TRUE)
-#'   print(attr(ans2, "loc")) # better way of extracting 'loc'
-#'   plotStack(combine(ans1, ans2), nx = 1)
+#' # Show insets as a combined image
+#'   plotStack(combine(roi1, roi2))
 #'
 #' @import EBImage
 #' 
