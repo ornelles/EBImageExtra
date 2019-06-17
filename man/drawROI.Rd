@@ -4,10 +4,9 @@
 \alias{drawROI}
 \title{Draw a Rectangular Frame within an Image}
 \usage{
-drawROI(img, x, y, x2, y2, w, h, lwd = 2, col = "white",
+drawROI(img, x, y, x2, y2, w, h, showImage, lwd = 2, col = "white",
   asCorner = FALSE, which.corner = c("bottomleft", "topleft",
-  "bottomright", "topright"), sides = 1:4, pch = 3, col.pch = col,
-  showImage = TRUE)
+  "topright", "bottomright"), sides = 1:4, pch = 3, col.pch = col)
 }
 \arguments{
 \item{img}{An \code{Image} object}
@@ -16,13 +15,15 @@ drawROI(img, x, y, x2, y2, w, h, lwd = 2, col = "white",
 rectangular selection \emph{or} the location of the center of the
 rectangular selection \emph{or} a list specifying
 the corners of the selection \emph{or} an \code{Roi} object
-with a \code{slot} named "\code{loc}" (see details)}
+with a \code{slot} named "\code{loc}" (See Details)}
 
 \item{x2, y2}{optional second pair of x and y coordinates when
 needed to specify the other corner of the rectangular selection}
 
 \item{w, h}{optional width and height of the rectangular selection;
 required if \code{x2,y2} are missing}
+
+\item{showImage}{replot the image with border if \code{TRUE}}
 
 \item{lwd}{'line' width of the border in pixels; note that this is
 \strong{not} the standard definition of \code{lwd}}
@@ -40,12 +41,10 @@ applies only if \code{asCorner = TRUE}}
 \item{sides}{which side(s) are to include the border (1=bottom, 2=left,
 3=top, 4=right)}
 
-\item{pch}{plotting character used by \code{link{locator}} when interacting
+\item{pch}{plotting character used by \code{\link{locator}} when interacting
 with the image}
 
-\item{col.pch}{color for plotting character used by \code{link{locator}}}
-
-\item{showImage}{replot the image with border if \code{TRUE}}
+\item{col.pch}{color for plotting character used by \code{\link{locator}}}
 }
 \value{
 Modified image with region of interest outlined.
@@ -70,12 +69,15 @@ the center or corner(s) as describe below. Options 1, 2 and 3 below require
 no interaction with the user and will display the revised image
 only if \code{showImage = TRUE}. Options 4 and 5 below require interaction
 with the user. In all cases, the selected coordinates are adjusted to conform
-to the dimensions of the image, which can override values in \code{w,h}.  
+to the dimensions of the image, which can override values in \code{w} or 
+\code{h}.
 
 \enumerate{
   \item{\strong{Object with \code{loc} slot}.} If \code{x} is an object
     of class \code{Roi}, the coordinates in the \code{loc} slot
-    will be extracted and used.
+    will be extracted and used. To add a border around the entire image,
+    use the \code{\link{as.Roi}} function in as call such as
+    \code{drawROI(img, as.Roi(img))}.
   \item{\strong{List}.} If \code{x} is a \code{list} of length 2, it
     is assumed to hold opposite corners of the rectangular selection. This
     could be the \code{loc} slot from a \code{Roi} object or the return
@@ -92,7 +94,7 @@ to the dimensions of the image, which can override values in \code{w,h}.
     \emph{or} the corner of the selection (\code{asCorner=TRUE}). If
     \code{asCorner = TRUE}, the position of the corner is determined
     by the argument \code{which.corner} which can be one of \code{"bottomleft", 
-    "topleft", "bottomright",} or \code{"topright"}.
+    "topleft", "topright",} or \code{"bottomright"}.
   \item{\strong{No Points} (choose opposite corners).} If all of \code{x,y, x2,y2, w,h}
     are missing, \code{\link{locator}} will be called to let the user to
     select two points that define opposite corners of the rectangular selection.
@@ -104,14 +106,16 @@ to the dimensions of the image, which can override values in \code{w,h}.
   img <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
   xc <- sample(50:dim(img)[1] - 50, 6)
   yc <- sample(50:dim(img)[2] - 50, 6)
-  for (i in 1:6) img <- drawROI(img, xc[i], yc[i], w = 90, h = sample(60:120, 1), showImage = FALSE)
+  for (i in 1:6) img <- drawROI(img, xc[i], yc[i], w = 90, h = sample(60:120, 1))
   plot(img)
+
+# Example of adding a frame to the image itself
+  drawROI(img, as.Roi(img), col = "red", lwd = 12, showImage = TRUE) 
 
 }
 \seealso{
 \code{\link{getROI}} to get a region of interest from an image;
 \code{\link{putROI}} to place an ROI with scaling;
-\code{\link{frameROI}} to draw a frame \emph{about} an image;
 \code{\link{insertROI}} as a convenience function that
   combines calls to \code{getROI}, \code{putROI}
   and \code{drawROI} to place a framed inset in an image.
