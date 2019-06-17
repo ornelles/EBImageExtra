@@ -4,7 +4,7 @@
 \alias{drawROI}
 \title{Draw a Rectangular Frame within an Image}
 \usage{
-drawROI(img, x, y, x2, y2, w, h, showImage, lwd = 2, col = "white",
+drawROI(img, x, y, x2, y2, w, h, show, lwd = 2, col = "white",
   asCorner = FALSE, which.corner = c("bottomleft", "topleft",
   "topright", "bottomright"), sides = 1:4, pch = 3, col.pch = col)
 }
@@ -23,7 +23,7 @@ needed to specify the other corner of the rectangular selection}
 \item{w, h}{optional width and height of the rectangular selection;
 required if \code{x2,y2} are missing}
 
-\item{showImage}{replot the image after adding the border if \code{TRUE}}
+\item{show}{replot the image after adding the border if \code{TRUE}}
 
 \item{lwd}{line width of the border in pixels; note that this is
 \strong{not} the standard definition of \code{lwd}}
@@ -66,7 +66,7 @@ This region of interest can be specified with arguments or interactively.
 Options allow specifying the rectangle either by
 the center or corner(s) as describe below. Options 1 through 5 below require
 no interaction with the user and will display the revised image
-only if \code{showImage = TRUE}. Option 6 below requires interaction
+only if \code{show = TRUE}. Option 6 below requires interaction
 with the user. In all cases, the selected coordinates are adjusted to conform
 to the dimensions of the image, which can override values in \code{w} or 
 \code{h}.
@@ -112,7 +112,7 @@ to the dimensions of the image, which can override values in \code{w} or
   plot(img)
 
 # Example of adding a frame to the image itself
-  drawROI(img, as.Roi(img), col = "red", lwd = 12, showImage = TRUE) 
+  drawROI(img, as.Roi(img), col = "red", lwd = 12, show = TRUE) 
 
 }
 \seealso{

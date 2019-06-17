@@ -20,7 +20,7 @@
 #' @param lwd width of the inset border in pixels; note that this is
 #'   \strong{not} the standard definition of \code{lwd}
 #' @param col color of the inset border
-#' @param showImage \code{logical} value indicated whether to plot the 
+#' @param show \code{logical} value indicated whether to plot the 
 #'   image with inset; default (\code{TRUE})
 #' 
 #' @details
@@ -40,7 +40,7 @@
 #' create an inset greater than the dimensions of the \code{img} argument 
 #' will cause an error. 
 #' 
-#' If \code{showImage = TRUE}, the image with inset will be plotted. In all
+#' If \code{show = TRUE}, the image with inset will be plotted. In all
 #' cases, the modified image will be invisibly returned. 
 #' 
 #' @seealso
@@ -51,10 +51,10 @@
 #'   and \code{drawROI} to place a framed inset in an image.
 #' 
 #' @examples
-#' # Example using fixed width and height to retrieve image
+#' # Sample color image
 #'   lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
 #' 
-#' # Get region of interest, anchored by center
+#' # Get region of interest of fixed width and height, specified by center
 #'   ins <- getROI(lighthouse, 515, 280, w = 180, h = 280)
 #'   putROI(ins, lighthouse, "topright")
 #' 
@@ -76,7 +76,7 @@
 #' @export
 #' 
 putROI <- function(roi, img, position, frac = NULL, mag = NULL,
-  frac.default = 1/3, lwd = 2, col = "white", showImage = TRUE)
+  frac.default = 1/3, lwd = 2, col = "white", show = TRUE)
 {
 # Check arguments
   if(!is(roi, "Image"))
@@ -184,7 +184,7 @@ putROI <- function(roi, img, position, frac = NULL, mag = NULL,
   mask <- translate(mask, offset * pad, output.dim = dm.img, bg.col = "white")
   roi <- translate(roi, offset * pad, output.dim = dm.img, bg.col = "black")
   ans <- mask * img + roi
-  if (showImage == TRUE)
+  if (show == TRUE)
     plot(ans)
   invisible(ans)
 }

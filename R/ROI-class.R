@@ -1,4 +1,4 @@
-#' @include Roi-methods.R
+#' @include ROI-methods.R
 NULL
 #' Roi-constructor
 #'

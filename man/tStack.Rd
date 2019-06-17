@@ -38,13 +38,12 @@ and then Cy5. "Transposing" this image orders related fields together.
   nuc <- x[,,c(1,3)]
   cel <- x[,,c(2,4)]
   img <- rgbImage(red = cel, green = 0.1 * cel + 0.2 * nuc, blue = 0.4 * nuc)
-  stk <- combine(rgbImage(green = 0.2 * nuc, blue = 0.4 * nuc),
-    rgbImage(red = cel, green = 0.1 * cel), img)
+  stk <- combine(toRGB(0.5*nuc), toRGB(cel), img)
 
 # Original order
   plotStack(stk, label = TRUE, nx = 3)
 
 # "Transposed" order
-  plotStack(tStack(stk, n = 3), label = TRUE, nx = 3)
+  plotStack(tStack(stk, n = 3), label = c("DNA", "Cy5", "Merged"), nx = 3)
 
 }

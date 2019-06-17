@@ -5,7 +5,7 @@
 \title{Put an Image (ROI) into Another Image}
 \usage{
 putROI(roi, img, position, frac = NULL, mag = NULL,
-  frac.default = 1/3, lwd = 2, col = "white", showImage = TRUE)
+  frac.default = 1/3, lwd = 2, col = "white", show = TRUE)
 }
 \arguments{
 \item{roi}{the smaller \code{Image} object to be placed in
@@ -34,7 +34,7 @@ value in \code{frac.default}}
 
 \item{col}{color of the inset border}
 
-\item{showImage}{\code{logical} value indicated whether to plot the 
+\item{show}{\code{logical} value indicated whether to plot the 
 image with inset; default (\code{TRUE})}
 }
 \value{
@@ -62,14 +62,14 @@ specified with \code{mag}, typically a number greater than 1. Values that
 create an inset greater than the dimensions of the \code{img} argument 
 will cause an error. 
 
-If \code{showImage = TRUE}, the image with inset will be plotted. In all
+If \code{show = TRUE}, the image with inset will be plotted. In all
 cases, the modified image will be invisibly returned.
 }
 \examples{
-# Example using fixed width and height to retrieve image
+# Sample color image
   lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
 
-# Get region of interest, anchored by center
+# Get region of interest of fixed width and height, specified by center
   ins <- getROI(lighthouse, 515, 280, w = 180, h = 280)
   putROI(ins, lighthouse, "topright")
 

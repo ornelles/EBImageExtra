@@ -13,7 +13,7 @@
 #'   needed to specify the other corner of the rectangular selection 
 #' @param w,h optional width and height of the rectangular selection;
 #'   required if \code{x2,y2} are missing 
-#' @param showImage replot the image after adding the border if \code{TRUE}
+#' @param show replot the image after adding the border if \code{TRUE}
 #' @param asCorner \code{logical} value to use the point \code{x,y} 
 #'   as the corner of the selection instead of the center of
 #'   the selection
@@ -42,7 +42,7 @@
 #' Options allow specifying the rectangle either by
 #' the center or corner(s) as describe below. Options 1 through 5 below require
 #' no interaction with the user and will display the revised image
-#' only if \code{showImage = TRUE}. Option 6 below requires interaction
+#' only if \code{show = TRUE}. Option 6 below requires interaction
 #' with the user. In all cases, the selected coordinates are adjusted to conform
 #' to the dimensions of the image, which can override values in \code{w} or 
 #' \code{h}.
@@ -95,7 +95,7 @@
 #'   plot(img)
 #'
 #' # Example of adding a frame to the image itself
-#'   drawROI(img, as.Roi(img), col = "red", lwd = 12, showImage = TRUE) 
+#'   drawROI(img, as.Roi(img), col = "red", lwd = 12, show = TRUE) 
 #' 
 #' @return Modified image with region of interest outlined.
 #'
@@ -103,7 +103,7 @@
 #'
 #' @export
 #'
-drawROI <- function(img, x, y, x2, y2, w, h, showImage,
+drawROI <- function(img, x, y, x2, y2, w, h, show,
 	lwd = 2, col = "white", asCorner = FALSE,
   which.corner = c("bottomleft", "topleft", "topright", "bottomright"),
   sides = 1:4, pch = 3, col.pch = col)
@@ -119,27 +119,29 @@ drawROI <- function(img, x, y, x2, y2, w, h, showImage,
 
 # parse 'x' and remaining arguments to find corners of roi 
 	if (!F[1] && "loc" %in% slotNames(x)) { # 'x' is an Roi object
-		if (missing(showImage)) showImage <- FALSE
+		if (missing(show)) show <- FALSE
 		pp <- attr(x, "loc")
 	}
 	else if (!any(F[1:4])) { # all x, y, x2, y2 are specified
-		if (missing(showImage)) showImage <- FALSE
+		if (missing(show)) show <- FALSE
 		pp <- list(x = sort(c(x, x2)), y = sort(c(y, y2)))
   }
   else if (all(F[1:6])) { # no arguments other than the image
-		if (missing(showImage)) showImage <- FALSE
+		if (missing(show)) show <- FALSE
     pp <- list(x = c(1, dm[1]), y = c(1, dm[2]))
   }
   else if (!F[1] & all(F[2:4])) { # only 'x', must be list of corners
-		if (missing(showImage)) showImage <- FALSE
+		if (missing(show)) show <- FALSE
     if (is(x, "list") && length(x) == 2 && all(lengths(x) == 2))
       pp <- setNames(lapply(x, sort), c("x", "y"))
     else
       stop ("if only 'x' is provided, it must be a list of two points")
   }
   else if (!any(F[5:6])) { # 'w' and 'h' provided
+  	w <- ceiling(w - 1)
+  	h <- ceiling(h - 1)
     if (any(F[1:2])) { # no 'x' and 'y', get one point
-			if (missing(showImage)) showImage <- TRUE
+			if (missing(show)) show <- TRUE
       plot(img)
       if (asCorner)
         msg <- paste("Select the", which.corner, "corner of the region of interest")
@@ -150,7 +152,7 @@ drawROI <- function(img, x, y, x2, y2, w, h, showImage,
       p <- locator(1, type = "p", pch = pch, col = col)
     }
     else {# 'x' and 'y' provided as the one point
-			if (missing(showImage)) showImage <- FALSE
+			if (missing(show)) show <- FALSE
       p <- list(x = x, y = y)
 		}
   # adjust the one point that goes with 'w' and 'h'
@@ -165,10 +167,10 @@ drawROI <- function(img, x, y, x2, y2, w, h, showImage,
         pp <- list(x = c(p$x - w, p$x), y = c(p$y, p$y + h))
     }
     else # asCorner == FALSE
-      pp <- list(x = p$x + c(-1, 1)*w/2, y = p$y + c(-1, 1)*h/2)
+      pp <- list(x = floor(p$x + c(-1, 1)*w/2), y = floor(p$y + c(-1, 1)*h/2))
   }
   else if (!any(F[1:2])) { # values for 'x' and 'y' without 'w' and 'h'
-		if (missing(showImage)) showImage <- FALSE
+		if (missing(show)) show <- FALSE
     if (length(x) == 2 && length(y) == 2)
       pp <- list(x = x, y = y)
     else
@@ -215,6 +217,6 @@ drawROI <- function(img, x, y, x2, y2, w, h, showImage,
 # combine with solid colored image, replace appropriate pixesl in image
   mask <- Image(col, dim = dim(img)[1:2], colormode = colorMode(img))
   ans <- img * M + mask * !M
-  if (showImage) plot(ans)
+  if (show) plot(ans)
   invisible(ans)
 }

@@ -4,7 +4,7 @@
 \alias{getROI}
 \title{Get Region of Interest}
 \usage{
-getROI(img, x, y, x2, y2, w, h, markup, asCorner = FALSE,
+getROI(img, x, y, x2, y2, w, h, show, asCorner = FALSE,
   which.corner = c("bottomleft", "topleft", "bottomright", "topright"),
   pch = 3, col = "magenta", border = col, lwd = 2)
 }
@@ -23,9 +23,9 @@ needed to specify the other corner of the rectangular selection}
 \item{w, h}{optional width and height of the rectangular selection
 in pixels; required if \code{x2,y2} are missing}
 
-\item{markup}{\code{logical} value to redraw the image the selection
+\item{show}{\code{logical} value to redraw the image the selection
 outlined by \code{\link{drawROI}}; if \code{missing} or \code{NULL}
-\code{markup} will set to \code{TRUE} if the user interacts 
+\code{show} will set to \code{TRUE} if the user interacts 
 with the image and \code{FALSE} if no interaction is required}
 
 \item{asCorner}{\code{logical} value to use the
@@ -42,10 +42,10 @@ indicate mouse clicks, the default value of 3 shows a small cross}
 \item{col}{color for plotting character used by \code{link{locator}};
 use \code{NA} for no plotting character}
 
-\item{border}{border color of rectangle if \code{markup = TRUE}; if not
+\item{border}{border color of rectangle if \code{show = TRUE}; if not
 specified, the value for \code{col} is used}
 
-\item{lwd}{line width of rectangle if \code{markup = TRUE}}
+\item{lwd}{line width of rectangle if \code{show = TRUE}}
 }
 \value{
 The region of interest as an \code{Image} with the
@@ -69,9 +69,9 @@ user to define the ROI. The ROI will be trimmed to the
 dimensions allowed by the original image. The rectangle can be specified
 either by the center or corner(s) as describe below. The first
 three options require no interaction with the user and only produce an
-image if \code{markup = TRUE}. Options 4 and 5 below require interaction
-with the user and produce an image if \code{markup} is missing or if
-\code{markup = TRUE}. The returned object is an \code{Image} with
+image if \code{show = TRUE}. Options 4 and 5 below require interaction
+with the user and produce an image if \code{show} is missing or if
+\code{show = TRUE}. The returned object is an \code{Image} with
 an additional \code{class} and \code{slot} as described in the below.
 
 \enumerate{

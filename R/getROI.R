@@ -12,9 +12,9 @@
 #'   needed to specify the other corner of the rectangular selection 
 #' @param w,h optional width and height of the rectangular selection
 #'   in pixels; required if \code{x2,y2} are missing 
-#' @param markup \code{logical} value to redraw the image the selection
+#' @param show \code{logical} value to redraw the image the selection
 #'   outlined by \code{\link{drawROI}}; if \code{missing} or \code{NULL}
-#'   \code{markup} will set to \code{TRUE} if the user interacts 
+#'   \code{show} will set to \code{TRUE} if the user interacts 
 #'   with the image and \code{FALSE} if no interaction is required
 #' @param asCorner \code{logical} value to use the
 #'   point \code{x,y} as the corner of the selection or as the center of
@@ -26,9 +26,9 @@
 #'    indicate mouse clicks, the default value of 3 shows a small cross
 #' @param col color for plotting character used by \code{link{locator}};
 #'   use \code{NA} for no plotting character
-#' @param border border color of rectangle if \code{markup = TRUE}; if not
+#' @param border border color of rectangle if \code{show = TRUE}; if not
 #'   specified, the value for \code{col} is used
-#' @param lwd line width of rectangle if \code{markup = TRUE}
+#' @param lwd line width of rectangle if \code{show = TRUE}
 #' 
 #' @seealso
 #' \code{\link{putROI}} to place an ROI with scaling;
@@ -50,9 +50,9 @@
 #' dimensions allowed by the original image. The rectangle can be specified
 #' either by the center or corner(s) as describe below. The first
 #' three options require no interaction with the user and only produce an
-#' image if \code{markup = TRUE}. Options 4 and 5 below require interaction
-#' with the user and produce an image if \code{markup} is missing or if
-#' \code{markup = TRUE}. The returned object is an \code{Image} with
+#' image if \code{show = TRUE}. Options 4 and 5 below require interaction
+#' with the user and produce an image if \code{show} is missing or if
+#' \code{show = TRUE}. The returned object is an \code{Image} with
 #' an additional \code{class} and \code{slot} as described in the below.
 #' 
 #' \enumerate{
@@ -122,7 +122,7 @@
 #' 
 #' @export
 #' 
-getROI <- function(img, x, y, x2, y2, w, h, markup, asCorner = FALSE,
+getROI <- function(img, x, y, x2, y2, w, h, show, asCorner = FALSE,
   which.corner = c("bottomleft", "topleft", "bottomright", "topright"),
   pch = 3, col = "magenta", border = col, lwd = 2)
 {
@@ -137,12 +137,12 @@ getROI <- function(img, x, y, x2, y2, w, h, markup, asCorner = FALSE,
 # process missing arguments
   F <- c(missing(x), missing(y), missing(x2), missing(y2),
       missing(w), missing(h))
-	if (missing(markup)) markup <- NULL
+	if (missing(show)) show <- NULL
 
 # process based on the arguments
   if (all(F[1:6])) { # nothing provided except image
     plot(img)
-    markup <- if (is.null(markup)) TRUE else markup
+    show <- if (is.null(show)) TRUE else show
     msg <- "Select opposite corners of the region of interest"
     cat(msg, "\n")
     flush.console()
@@ -150,19 +150,21 @@ getROI <- function(img, x, y, x2, y2, w, h, markup, asCorner = FALSE,
     pp <- lapply(pp, sort)
   }
   else if (!any(F[1:4])) {# inset specified, done
-    markup <- if (is.null(markup)) FALSE else markup
+    show <- if (is.null(show)) FALSE else show
     pp <- list(x = sort(c(x, x2)), y = sort(c(y, y2)))
   }
   else if (!F[1] & all(F[2:4])) { # only 'x', must be list of corners
-    markup <- if (is.null(markup)) FALSE else markup
+    show <- if (is.null(show)) FALSE else show
     if (is(x, "list") && length(x) == 2 && all(lengths(x) == 2))
       pp <- setNames(lapply(x, sort), c("x", "y"))
     else
       stop ("if only 'x' is provided, it must be a list of two points")
   }
   else if (!any(F[5:6])) { # 'w' and 'h' provided
+  	w <- ceiling(w - 1)
+  	h <- ceiling(h - 1)
     if (any(F[1:2])) { # need to get one point
-      markup <- if (is.null(markup)) TRUE else markup
+      show <- if (is.null(show)) TRUE else show
       plot(img)
       if (asCorner)
         msg <- paste("Select the", which.corner, "corner of the region of interest")
@@ -173,7 +175,7 @@ getROI <- function(img, x, y, x2, y2, w, h, markup, asCorner = FALSE,
       p <- locator(1, type = "p", pch = pch, col = col)
     }
     else { # 'x' and 'y' provided as the one point
-			markup <- if (is.null(markup)) FALSE else markup
+			show <- if (is.null(show)) FALSE else show
       p <- list(x = x, y = y)
 		}
   # adjust the one point
@@ -188,7 +190,7 @@ getROI <- function(img, x, y, x2, y2, w, h, markup, asCorner = FALSE,
         pp <- list(x = c(p$x - w, p$x), y = c(p$y, p$y + h))
     }
     else # asCorner == FALSE
-      pp <- list(x = p$x + c(-1, 1)*w/2, y = p$y + c(-1, 1)*h/2)
+      pp <- list(x = floor(p$x + c(-1, 1)*w/2), y = floor(p$y + c(-1, 1)*h/2))
   }
   else # 'w' and 'h' NOT provided
     stop("need 'w,h' values if only one pair of 'x,y' values is provided")
@@ -200,8 +202,8 @@ getROI <- function(img, x, y, x2, y2, w, h, markup, asCorner = FALSE,
   pp <- lapply(pp, sort)
 
 # highlight the inset in the image if requested
-  if (is.null(markup)) stop("oops...screwed up code somewhere...")
-  if (markup == TRUE) {
+  if (is.null(show)) stop("oops...screwed up code somewhere...")
+  if (show == TRUE) {
     plot(img)
     rect(pp$x[1], pp$y[2], pp$x[2], pp$y[1], border = border, lwd = lwd)
   }
