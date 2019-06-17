@@ -3,7 +3,7 @@
 #' Place a scaled image into another image as an optionally framed inset
 #' 
 #' @param roi the smaller \code{Image} object to be placed in
-#'   \code{img}
+#'   larger second \code{Image} object "\code{img}"
 #' @param img the larger \code{Image} object to receive the roi;
 #'   this can be an \code{Image} object or a path
 #'   (as a \code{character} vector) to such the image
@@ -46,13 +46,11 @@
 #' @seealso
 #' \code{\link{getROI}} to get a region of interest from an image;
 #' \code{\link{drawROI}} to draw a frame \emph{within} an image;
-#' \code{\link{frameROI}} to draw a frame \emph{about} an image;
 #' \code{\link{insertROI}} as a convenience function that
 #'   combines calls to \code{getROI}, \code{putROI}
 #'   and \code{drawROI} to place a framed inset in an image.
 #' 
 #' @examples
-#' 
 #' # Example using fixed width and height to retrieve image
 #'   lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
 #' 
@@ -60,7 +58,7 @@
 #'   ins <- getROI(lighthouse, 515, 280, w = 180, h = 280)
 #'   putROI(ins, lighthouse, "topright")
 #' 
-#' # Display 9 of the possible positions
+#' # Display the 9 possible positions
 #'   img <- resize(lighthouse, w = 256)
 #'   ins2 <- resize(ins, w = 45)
 #'   z <- lapply(1:9, function(i) putROI(ins2, img, i, lwd  = 4, show = FALSE))
@@ -133,9 +131,10 @@ putROI <- function(roi, img, position, frac = NULL, mag = NULL,
       mag <- mag
   }
 
-# Resize inset by mag and recalculate dm.roi
+# Resize inset by mag, recalculate dm.roi and reset loc slot
   roi <- resize(roi, w = mag * dm.roi[1])
-  dm.roi <- dim(roi)[1:2]
+  dm.roi <- base::dim(roi)[1:2]
+	roi@loc <- list(x = c(1, dm.roi[1]), y = c(1, dm.roi[2]))
 
 # Determine position for inset from 'position' and 'choices'
   if (!missing(position)) {
@@ -171,7 +170,7 @@ putROI <- function(roi, img, position, frac = NULL, mag = NULL,
     c(3,4), c(2,3,4), c(2,3))
   names(sideChoices) <- choices
   sides <-  sideChoices[[as.character(position)]]
-  roi <- frameROI(roi, lwd = lwd, col = col, sides = sides)
+  roi <- drawROI(roi, roi, lwd = lwd, col = col, sides = sides)
 
 # Calculate translation adjustment for given position
   pad <- dm.img - dm.roi
