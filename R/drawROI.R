@@ -1,7 +1,7 @@
 #' Draw a Rectangular Frame within an Image
 #' 
 #' Draw a rectangular frame surrounding the region of
-#' interest in an image.
+#' interest in an image or the entire image.
 #' 
 #' @param img An \code{Image} object
 #' @param x,y \code{x,y} coordinates of one or both corners of
@@ -13,14 +13,13 @@
 #'   needed to specify the other corner of the rectangular selection 
 #' @param w,h optional width and height of the rectangular selection;
 #'   required if \code{x2,y2} are missing 
-#' @param showImage replot the image with border if \code{TRUE}
-#' @param asCorner \code{logical} value to use the
-#'   point \code{x,y} as the corner of the selection or as the center of
+#' @param showImage replot the image after adding the border if \code{TRUE}
+#' @param asCorner \code{logical} value to use the point \code{x,y} 
+#'   as the corner of the selection instead of the center of
 #'   the selection
-#' @param which.corner identifies the
-#'   corner of the rectangle specified by \code{x,y};
-#'   applies only if \code{asCorner = TRUE}
-#' @param lwd 'line' width of the border in pixels; note that this is
+#' @param which.corner identifies the corner of the rectangle specified
+#'    by \code{x,y}; applies only if \code{asCorner = TRUE}
+#' @param lwd line width of the border in pixels; note that this is
 #'   \strong{not} the standard definition of \code{lwd}
 #' @param col border color of the rectangle 
 #' @param sides which side(s) are to include the border (1=bottom, 2=left,
@@ -31,49 +30,52 @@
 #' 
 #' @details
 #' A rectangular border of \code{lwd} pixels will drawn around the
-#' region of interest with borders specified by \code{sides}. The added
-#' border will be drawn toward the interior of the region of interest. This
-#' preserves the dimensions of the marked-up image. This function
+#' region of interest along the sides specified by \code{sides}. The added
+#' border will be drawn toward the interior of the region of interest to
+#' preserve the dimensions of the modified image. This function
 #' differs from \code{\link{rect}} by using \code{lwd} in an atypical
-#' manner. Here \code{lwd} refers to the width of the border in pixels.
+#' manner--here \code{lwd} refers to the width of the border in pixels.
 #' This also differs from the base functions by directly changing pixels
-#' in the image, in contrast to change the plot device. 
+#' in the image, in contrast to changing the image on the plot device. 
 #' 
 #' This region of interest can be specified with arguments or interactively. 
 #' Options allow specifying the rectangle either by
-#' the center or corner(s) as describe below. Options 1, 2 and 3 below require
+#' the center or corner(s) as describe below. Options 1 through 5 below require
 #' no interaction with the user and will display the revised image
-#' only if \code{showImage = TRUE}. Options 4 and 5 below require interaction
+#' only if \code{showImage = TRUE}. Option 6 below requires interaction
 #' with the user. In all cases, the selected coordinates are adjusted to conform
 #' to the dimensions of the image, which can override values in \code{w} or 
 #' \code{h}.
 #' 
 #' \enumerate{
+#'   \item{\strong{Two Points}.} If values are provided for each of \code{x,y}
+#'     and \code{x2,y2}, these are treated as opposite corners of
+#'     the rectangular selection.
 #'   \item{\strong{Object with \code{loc} slot}.} If \code{x} is an object
 #'     of class \code{Roi}, the coordinates in the \code{loc} slot
-#'     will be extracted and used. To add a border around the entire image,
-#'     use the \code{\link{as.Roi}} function in as call such as
-#'     \code{drawROI(img, as.Roi(img))}.
+#'     will be extracted and applied to the \code{img} argument.
 #'   \item{\strong{List}.} If \code{x} is a \code{list} of length 2, it
-#'     is assumed to hold opposite corners of the rectangular selection. This
-#'     could be the \code{loc} slot from a \code{Roi} object or the return
-#'     value of \code{locator(2)}.
-#'   \item{\strong{Two Points}.} If values are provided for each of \code{x,y} and
-#'     \code{x2,y2}, these are treated as opposite corners of
-#'     the rectangular selection.
-#'   \item{\strong{One Point} (with width and height).} If only two values are
-#'     provided for \code{x,y} and \code{x2,y2}, they will be assigned to
-#'     \code{x,y}. In this case, values for \code{w,h} must be provided as
-#'     named arguments for the width and height of the rectangular selection.
+#'     must hold opposite corners of the rectangular selection. This
+#'     could be the \code{loc} slot from a \code{Roi} object or the result
+#'     of a call to \code{locator(2)}.
+#'   \item{\strong{No Points} (use entire image).} If all of
+#'     \code{x,y, x2,y2, w,h} are missing, a border will be generated for
+#'     the entire image.
+#'   \item{\strong{One Point} (with width and height).} A single value
+#'     can be provided for each of \code{x,y} with named values for
+#'     for \code{w,h} as the width and height of the rectangular selection.
 #'     The point \code{x,y} is interpreted as \emph{either} the center
-#'     (\code{asCorner=FALSE})
-#'     \emph{or} the corner of the selection (\code{asCorner=TRUE}). If
-#'     \code{asCorner = TRUE}, the position of the corner is determined
-#'     by the argument \code{which.corner} which can be one of \code{"bottomleft", 
-#'     "topleft", "topright",} or \code{"bottomright"}.
-#'   \item{\strong{No Points} (choose opposite corners).} If all of \code{x,y, x2,y2, w,h}
-#'     are missing, \code{\link{locator}} will be called to let the user to
-#'     select two points that define opposite corners of the rectangular selection.
+#'     (\code{asCorner = FALSE}) \emph{or} the corner of the selection
+#'     (\code{asCorner = TRUE}). If \code{asCorner = TRUE}, the position of the
+#'     corner is determined by the argument \code{which.corner} which can be 
+#'     one of \code{"bottomleft", "topleft", "topright",} or \code{"bottomright"}.
+#'   \item{\strong{Only \code{width} and \code{height}}.} 
+#'     If only \code{(w,h)} are provided
+#'     as named arguments, \code{\link{locator}} will be used to interact
+#'     with the user to identify the point needed to define the rectangular
+#'     selection. The selected point is interpreted as \emph{either} the center
+#'     (\code{asCorner = FALSE}) \emph{or} the corner of the selection
+#'     (\code{asCorner = TRUE}) as described above.
 #' }
 #'
 #' @seealso
@@ -110,27 +112,23 @@ drawROI <- function(img, x, y, x2, y2, w, h, showImage,
     stop("'img' must be an Image object")
   if (is(col, "numeric"))
     col <- palette()[col]
-  dm <- dim(img)[1:2]
+  dm <- base::dim(img)[1:2]
   
 # vector of flags for missing arguments
   F <- c(missing(x),missing(y),missing(x2),missing(y2),missing(w),missing(h))
 
-# need corners of roi from given arguments
-	if (!F[1] && "loc" %in% slotNames(x)) { # given Roi object
+# parse 'x' and remaining arguments to find corners of roi 
+	if (!F[1] && "loc" %in% slotNames(x)) { # 'x' is an Roi object
 		if (missing(showImage)) showImage <- FALSE
 		pp <- attr(x, "loc")
 	}
-	else if (!any(F[1:4])) { # specified as x, y, x2, y2
+	else if (!any(F[1:4])) { # all x, y, x2, y2 are specified
 		if (missing(showImage)) showImage <- FALSE
 		pp <- list(x = sort(c(x, x2)), y = sort(c(y, y2)))
   }
-  else if (all(F[1:6])) { # nothing provided except image
-		if (missing(showImage)) showImage <- TRUE
-    plot(img)
-    cat("Select opposite corners to define the region of interest\n")
-    flush.console()
-    pp <- locator(2, type = "p", pch = pch, col = col.pch)
-    pp <- lapply(pp, sort)
+  else if (all(F[1:6])) { # no arguments other than the image
+		if (missing(showImage)) showImage <- FALSE
+    pp <- list(x = c(1, dm[1]), y = c(1, dm[2]))
   }
   else if (!F[1] & all(F[2:4])) { # only 'x', must be list of corners
 		if (missing(showImage)) showImage <- FALSE
@@ -140,7 +138,7 @@ drawROI <- function(img, x, y, x2, y2, w, h, showImage,
       stop ("if only 'x' is provided, it must be a list of two points")
   }
   else if (!any(F[5:6])) { # 'w' and 'h' provided
-    if (any(F[1:2])) { # need to get one point
+    if (any(F[1:2])) { # no 'x' and 'y', get one point
 			if (missing(showImage)) showImage <- TRUE
       plot(img)
       if (asCorner)
@@ -155,7 +153,7 @@ drawROI <- function(img, x, y, x2, y2, w, h, showImage,
 			if (missing(showImage)) showImage <- FALSE
       p <- list(x = x, y = y)
 		}
-  # adjust the one point
+  # adjust the one point that goes with 'w' and 'h'
     if (asCorner == TRUE) {
       if (which.corner == "bottomleft")
         pp <- list(x = c(p$x, p$x + w), y = c(p$y, p$y - h))
@@ -169,7 +167,7 @@ drawROI <- function(img, x, y, x2, y2, w, h, showImage,
     else # asCorner == FALSE
       pp <- list(x = p$x + c(-1, 1)*w/2, y = p$y + c(-1, 1)*h/2)
   }
-  else if (!any(F[1:2])) { # only 'x' and 'y' provided
+  else if (!any(F[1:2])) { # values for 'x' and 'y' without 'w' and 'h'
 		if (missing(showImage)) showImage <- FALSE
     if (length(x) == 2 && length(y) == 2)
       pp <- list(x = x, y = y)

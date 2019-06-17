@@ -64,7 +64,7 @@
 #'   z <- lapply(1:9, function(i) putROI(ins2, img, i, lwd  = 4, show = FALSE))
 #' # z <- combine(z) # about 5-times slower than directly calling 'abind'
 #'   z <- do.call(abind, c(z, list(along = 4)))
-#'   plotStack(combine(z), nx = 3, labels = TRUE, cex = 3)
+#'   plotStack(combine(z), nx = 3, labels = TRUE, cex = 2)
 #'
 #' @return
 #' An \code{Image} of the same dimensions as the second argument
@@ -170,7 +170,7 @@ putROI <- function(roi, img, position, frac = NULL, mag = NULL,
     c(3,4), c(2,3,4), c(2,3))
   names(sideChoices) <- choices
   sides <-  sideChoices[[as.character(position)]]
-  roi <- drawROI(roi, roi, lwd = lwd, col = col, sides = sides)
+  roi <- drawROI(roi, lwd = lwd, col = col, sides = sides)
 
 # Calculate translation adjustment for given position
   pad <- dm.img - dm.roi

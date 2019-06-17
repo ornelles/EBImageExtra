@@ -23,20 +23,19 @@ needed to specify the other corner of the rectangular selection}
 \item{w, h}{optional width and height of the rectangular selection;
 required if \code{x2,y2} are missing}
 
-\item{showImage}{replot the image with border if \code{TRUE}}
+\item{showImage}{replot the image after adding the border if \code{TRUE}}
 
-\item{lwd}{'line' width of the border in pixels; note that this is
+\item{lwd}{line width of the border in pixels; note that this is
 \strong{not} the standard definition of \code{lwd}}
 
 \item{col}{border color of the rectangle}
 
-\item{asCorner}{\code{logical} value to use the
-point \code{x,y} as the corner of the selection or as the center of
+\item{asCorner}{\code{logical} value to use the point \code{x,y} 
+as the corner of the selection instead of the center of
 the selection}
 
-\item{which.corner}{identifies the
-corner of the rectangle specified by \code{x,y};
-applies only if \code{asCorner = TRUE}}
+\item{which.corner}{identifies the corner of the rectangle specified
+by \code{x,y}; applies only if \code{asCorner = TRUE}}
 
 \item{sides}{which side(s) are to include the border (1=bottom, 2=left,
 3=top, 4=right)}
@@ -51,53 +50,56 @@ Modified image with region of interest outlined.
 }
 \description{
 Draw a rectangular frame surrounding the region of
-interest in an image.
+interest in an image or the entire image.
 }
 \details{
 A rectangular border of \code{lwd} pixels will drawn around the
-region of interest with borders specified by \code{sides}. The added
-border will be drawn toward the interior of the region of interest. This
-preserves the dimensions of the marked-up image. This function
+region of interest along the sides specified by \code{sides}. The added
+border will be drawn toward the interior of the region of interest to
+preserve the dimensions of the modified image. This function
 differs from \code{\link{rect}} by using \code{lwd} in an atypical
-manner. Here \code{lwd} refers to the width of the border in pixels.
+manner--here \code{lwd} refers to the width of the border in pixels.
 This also differs from the base functions by directly changing pixels
-in the image, in contrast to change the plot device. 
+in the image, in contrast to changing the image on the plot device. 
 
 This region of interest can be specified with arguments or interactively. 
 Options allow specifying the rectangle either by
-the center or corner(s) as describe below. Options 1, 2 and 3 below require
+the center or corner(s) as describe below. Options 1 through 5 below require
 no interaction with the user and will display the revised image
-only if \code{showImage = TRUE}. Options 4 and 5 below require interaction
+only if \code{showImage = TRUE}. Option 6 below requires interaction
 with the user. In all cases, the selected coordinates are adjusted to conform
 to the dimensions of the image, which can override values in \code{w} or 
 \code{h}.
 
 \enumerate{
+  \item{\strong{Two Points}.} If values are provided for each of \code{x,y}
+    and \code{x2,y2}, these are treated as opposite corners of
+    the rectangular selection.
   \item{\strong{Object with \code{loc} slot}.} If \code{x} is an object
     of class \code{Roi}, the coordinates in the \code{loc} slot
-    will be extracted and used. To add a border around the entire image,
-    use the \code{\link{as.Roi}} function in as call such as
-    \code{drawROI(img, as.Roi(img))}.
+    will be extracted and applied to the \code{img} argument.
   \item{\strong{List}.} If \code{x} is a \code{list} of length 2, it
-    is assumed to hold opposite corners of the rectangular selection. This
-    could be the \code{loc} slot from a \code{Roi} object or the return
-    value of \code{locator(2)}.
-  \item{\strong{Two Points}.} If values are provided for each of \code{x,y} and
-    \code{x2,y2}, these are treated as opposite corners of
-    the rectangular selection.
-  \item{\strong{One Point} (with width and height).} If only two values are
-    provided for \code{x,y} and \code{x2,y2}, they will be assigned to
-    \code{x,y}. In this case, values for \code{w,h} must be provided as
-    named arguments for the width and height of the rectangular selection.
+    must hold opposite corners of the rectangular selection. This
+    could be the \code{loc} slot from a \code{Roi} object or the result
+    of a call to \code{locator(2)}.
+  \item{\strong{No Points} (use entire image).} If all of
+    \code{x,y, x2,y2, w,h} are missing, a border will be generated for
+    the entire image.
+  \item{\strong{One Point} (with width and height).} A single value
+    can be provided for each of \code{x,y} with named values for
+    for \code{w,h} as the width and height of the rectangular selection.
     The point \code{x,y} is interpreted as \emph{either} the center
-    (\code{asCorner=FALSE})
-    \emph{or} the corner of the selection (\code{asCorner=TRUE}). If
-    \code{asCorner = TRUE}, the position of the corner is determined
-    by the argument \code{which.corner} which can be one of \code{"bottomleft", 
-    "topleft", "topright",} or \code{"bottomright"}.
-  \item{\strong{No Points} (choose opposite corners).} If all of \code{x,y, x2,y2, w,h}
-    are missing, \code{\link{locator}} will be called to let the user to
-    select two points that define opposite corners of the rectangular selection.
+    (\code{asCorner = FALSE}) \emph{or} the corner of the selection
+    (\code{asCorner = TRUE}). If \code{asCorner = TRUE}, the position of the
+    corner is determined by the argument \code{which.corner} which can be 
+    one of \code{"bottomleft", "topleft", "topright",} or \code{"bottomright"}.
+  \item{\strong{Only \code{width} and \code{height}}.} 
+    If only \code{(w,h)} are provided
+    as named arguments, \code{\link{locator}} will be used to interact
+    with the user to identify the point needed to define the rectangular
+    selection. The selected point is interpreted as \emph{either} the center
+    (\code{asCorner = FALSE}) \emph{or} the corner of the selection
+    (\code{asCorner = TRUE}) as described above.
 }
 }
 \examples{

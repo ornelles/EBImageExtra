@@ -32,9 +32,9 @@ as a numeric vector of found frames (see Details)}
 \item{...}{Additional values passed to \code{\link{text}} for labeling}
 }
 \value{
-\strong{Either} a numeric vector of the selected frames \strong{or} an
-\code{Image} object of the selected frames in the order that they
-were selected.
+A numeric vector of the selected frames if \code{asImage = FALSE} or
+an \code{Image} object of the selected frames in the order that they
+were selected if \code{asImage = TRUE}.
 }
 \description{
 Identify and select frames in a plotted image stack.

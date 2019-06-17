@@ -38,6 +38,7 @@
 #'   and \code{drawROI} to place a framed inset in an image.
 #' 
 #' @section Selecting the ROI:
+#'
 #' A rectangular region of interest (ROI) can be selected programmatically
 #' or interactively. The ROI is defined by the position of the lower left
 #' and upper right coordinates of the rectangle in pixels (actually
@@ -48,8 +49,8 @@
 #' user to define the ROI. The ROI will be trimmed to the
 #' dimensions allowed by the original image. The rectangle can be specified
 #' either by the center or corner(s) as describe below. The first
-#' two options require no interaction with the user and only produce an
-#' image if \code{markup = TRUE}. Options 3 and 4 below require interaction
+#' three options require no interaction with the user and only produce an
+#' image if \code{markup = TRUE}. Options 4 and 5 below require interaction
 #' with the user and produce an image if \code{markup} is missing or if
 #' \code{markup = TRUE}. The returned object is an \code{Image} with
 #' an additional \code{class} and \code{slot} as described in the below.
@@ -62,22 +63,28 @@
 #'   \item{\strong{Two Points}.} If values are provided for each of \code{x,y} and
 #'     \code{x2,y2}, these are treated as opposite corners of
 #'     the rectangular selection.
-#'   \item{\strong{One Point} (with width and height).} If only two values are
-#'     provided for \code{x,y} and \code{x2,y2}, they will be assigned to
-#'     \code{x,y}. In this case, values for \code{w,h} must be provided as
-#'     named arguments for the width and height of the rectangular selection.
+#'   \item{\strong{One Point} (with width and height).} A single value
+#'     can be provided for each of \code{x,y} with named values for
+#'     for \code{w,h} as the width and height of the rectangular selection.
 #'     The point \code{x,y} is interpreted as \emph{either} the center
-#'     (\code{asCorner=FALSE})
-#'     \emph{or} the corner of the selection (\code{asCorner=TRUE}). If
-#'     \code{asCorner = TRUE}, the position of the corner is determined
-#'     by the argument \code{which.corner} as one of \code{"bottomleft", 
-#'     "topleft", "bottomright",} or \code{"topright"}.
+#'     (\code{asCorner = FALSE}) \emph{or} the corner of the selection
+#'     (\code{asCorner = TRUE}). If \code{asCorner = TRUE}, the position of the
+#'     corner is determined by the argument \code{which.corner} which can be 
+#'     one of \code{"bottomleft", "topleft", "topright",} or \code{"bottomright"}.
+#'   \item{\strong{Only \code{width} and \code{height}}.} 
+#'     If only \code{(w,h)} are provided
+#'     as named arguments, \code{\link{locator}} will be used to interact
+#'     with the user to identify the point needed to define the rectangular
+#'     selection. The selected point is interpreted as \emph{either} the center
+#'     (\code{asCorner = FALSE}) \emph{or} the corner of the selection
+#'     (\code{asCorner = TRUE}) as described above.
 #'   \item{\strong{No Points} (choose opposite corners).} If all of \code{x,y, x2,y2, w,h}
 #'     are missing, \code{\link{locator}} will be called to let the user to
 #'     select two points that define opposite corners of the rectangular selection.
 #' }
 #'
 #' @section Class "Roi" and "loc" slot:
+#'
 #' \code{EBImage} uses the \code{Image} class to store and process images.
 #' A region of interest is an \code{Image} object with the
 #' additional class named "\code{Roi}" and an additional attribute using
@@ -106,7 +113,7 @@
 #'   roi1 <- getROI(birds, 160, 255, w = 200, h = 240)
 #'   print(roi1@loc) # one way extract 'loc'
 #'   roi2 <- getROI(birds, 480, 200, w = 200, h = 240)
-#'   print(attr(roi2, "loc")) # a more accepted way to extract 'loc'
+#'   print(attr(roi2, "loc")) # an alternative way to extract 'loc'
 #'
 #' # Show insets as a combined image
 #'   plotStack(combine(roi1, roi2))
