@@ -1,0 +1,17 @@
+DAPI 455 #00c4ff
+Hoechst 480 #00d5ff
+FITC 519 #31ff00
+AF488 519 #31ff00
+AF546 572 #e7ff00
+AF568 603 #ffb400
+AF647 668 #ff000
+Cy2 506 #00ff46
+Cy3 570 #e1ff00
+Cy5 670  #ff000
+EtBr 620 #ff7700
+PI	617 #ff8200
+EGFP 507 #00ff38
+tdTomato 581 #fffc00
+mCherry 610 #ff9b00
+mPlum 649 #ff0000
+Calcein 517 #28ff00
