@@ -1,7 +1,9 @@
 ### Description  
 This is a collection of functions to extend the `EBImage` package and provide helper functions for processing micrographs. These functions require the `EBImage` package and are typically used with the `virusTiter` package, which requires the `lattice` and `latticeExtra` packages.
 
-### Grouped by Functionality
+---  
+### Functional Groups
+
 #### Extensions to EBImage` 
 * circularity - more precise calculation of the circularity of an image object
 * perimeter - more precise calculation of the perimeter of an image object
@@ -22,15 +24,23 @@ This is a collection of functions to extend the `EBImage` package and provide he
 * scaleBar - add horizontal scale bar to image
 * crop - crop a grayscale or binary image to include non-zero pixels
 * boxtext - add text with background box to a plot
+* inset - add a framed inset to an image by repeated use of getROI, putROI and drawROI to select a region from an image, draw a frame about the selected region, place the selection as an inset, and draw a frame about the inset
 
+At the moment, `inset` can be emulated by something like the following:
+```
+library(magrittr)
+plot(img)
+ins <- getROI(img)
+ans <- putROI(img, ins, "topright", lwd = 4) %>% drawROI(ins, lwd = 2)
+plot(ans)
+```
 #### Region of interest management
 `EBImage` uses the `S4` `Image` class to store and process images. A region of interest is an `Image` object with the additional class named `Roi` and a slot named `loc` to store the original `x,y` and `x2,y2` location of the rectangular region of interest. This class of objects allows the image and original location to be passed in one object. 
 
 * getROI - get a region of interest
 * putROI - put a region of interest (with scaling) at one of nine locations in an image
-* drawROI - draw a frame *within* or *around* an image to highlight the region of interest 
-* getAndPutROI - a convenience function that makes repeated use of getROI, putROI and drawROI to select a region from an image, draw a frame about the selected region, place the selection as an inset, and draw a frame about the inset
-* as.Roi - convert `Image` object to `Roi` object or reset the `loc` slot of an `Roi` object
-
+* drawROI - draw a frame *around* or *within* an image to highlight the region of interest 
+* as.Roi - convert `Image` object to `Roi` object or reset the `loc` slot of an `Roi` object to the image dimensions
+---
 ## License  
 GPL-3
