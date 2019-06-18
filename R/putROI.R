@@ -2,11 +2,11 @@
 #' 
 #' Place a scaled image into another image as an optionally framed inset
 #' 
-#' @param roi the smaller \code{Image} object to be placed in
-#'   larger second \code{Image} object "\code{img}"
 #' @param img the larger \code{Image} object to receive the roi;
 #'   this can be an \code{Image} object or a path
 #'   (as a \code{character} vector) to such the image
+#' @param roi the smaller \code{Image} object to be placed in the
+#'   \code{Image} object "\code{img}"
 #' @param position a \code{character} string or \code{integer}
 #'   in 1 to 9 indicating the position of the inset; If \code{missing},
 #'   \code{\link{locator}} will be called to interact with the
@@ -76,7 +76,7 @@
 #' 
 #' @export
 #' 
-putROI <- function(roi, img, position, show, frac = NULL, mag = NULL,
+putROI <- function(img, roi, position, show, frac = NULL, mag = NULL,
   frac.default = 1/3, lwd = 2, col = "white")
 {
 # Check arguments

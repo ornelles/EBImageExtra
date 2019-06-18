@@ -4,16 +4,16 @@
 \alias{putROI}
 \title{Put an Image (ROI) into Another Image}
 \usage{
-putROI(roi, img, position, show, frac = NULL, mag = NULL,
+putROI(img, roi, position, show, frac = NULL, mag = NULL,
   frac.default = 1/3, lwd = 2, col = "white")
 }
 \arguments{
-\item{roi}{the smaller \code{Image} object to be placed in
-larger second \code{Image} object "\code{img}"}
-
 \item{img}{the larger \code{Image} object to receive the roi;
 this can be an \code{Image} object or a path
 (as a \code{character} vector) to such the image}
+
+\item{roi}{the smaller \code{Image} object to be placed in the
+\code{Image} object "\code{img}"}
 
 \item{position}{a \code{character} string or \code{integer}
 in 1 to 9 indicating the position of the inset; If \code{missing},
