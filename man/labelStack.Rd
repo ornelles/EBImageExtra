@@ -30,7 +30,8 @@ function for details.}
 \item{...}{Additional values passed to \code{\link{text}} for labeling}
 }
 \value{
-This function is called to label a plotted image. No value is returned.
+The image \code{x} is invisibly returned to permit passing the argument through
+a pipe. This function primarily called to label a plotted image.
 }
 \description{
 Add labels to a plotted image stack

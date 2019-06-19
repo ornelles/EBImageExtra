@@ -31,7 +31,8 @@
 #' selecting frames from the stack.
 #' 
 #' @return
-#' This function is called to label a plotted image. No value is returned.
+#' The image \code{x} is invisibly returned to permit passing the argument through
+#' a pipe. This function primarily called to label a plotted image.
 #' 
 #' @examples
 #' x <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
@@ -67,4 +68,5 @@ labelStack <- function(x, labels = TRUE, nx, col = "white",
 	xx <- dm[1]*(ix + offset[1])
 	yy <- dm[2]*(iy + offset[2])
 	text(xx, yy, labels, adj = adj[1:2], col = col, ...)
+	invisible(x)
 }
