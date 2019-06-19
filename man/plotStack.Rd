@@ -21,8 +21,9 @@ If missing, a square tile of images will be assumed}
 \item{...}{Additional parameters passed to \code{\link{plot.Image}}}
 }
 \value{
-No value is returned. This function is called to plot an entire \code{Image}
-object.
+The image \code{x} is invisibly returned to permit passing the argument
+through a pipe. This function primarily called to plot an entire
+\code{Image} object.
 }
 \description{
 This is a wrapper to plot all frames of an image as a raster object with the

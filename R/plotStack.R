@@ -27,8 +27,9 @@
 #' 
 #' 
 #' @return
-#' No value is returned. This function is called to plot an entire \code{Image}
-#' object.
+#' The image \code{x} is invisibly returned to permit passing the argument
+#' through a pipe. This function primarily called to plot an entire
+#' \code{Image} object.
 #' 
 #' @examples
 #' # Sample color image
@@ -59,4 +60,5 @@ plotStack <- function(x, labels = FALSE, nx, cex = 1, ...)
 		labelStack(x, labels = labels, nx = nx, cex = cex)
 	else if (!is(labels, "logical"))
 		labelStack(x, labels = as.character(labels), nx = nx, cex = cex)
+	invisible(x)
 }
