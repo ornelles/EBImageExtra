@@ -8,14 +8,16 @@
 #' @param nx The number of frames in the x-direction of the image stack.
 #'   If missing, a square tile of images will be assumed
 #' @param col Color of the label to be added
+#' @param asImage \code{logical} value (default of \code{FALSE}) indicating
+#'   whether the function returns the selection as \code{Image}(s) or
+#'   as a numeric vector of found frames (see Details)
 #' @param offset A numeric vector of length 2 specifying the relative position
 #'   of the label in each frame
 #' @param adj One or two values in [0, 1] which specify the \code{x} (and
 #'   optionally \code{y}) adjustment of the labels. See the function
-#' \code{\link{text}} for further details
-#' @param asImage \code{logical} value (default of \code{FALSE}) indicating
-#'   whether the function returns the selection as a new \code{Image} or
-#'   as a numeric vector of found frames (see Details)
+#'   \code{\link{text}} for further details
+#' @param combine \code{logical} value (default of \code{TRUE}) to return
+#' the selected frames combined as a single image rather than a list
 #' @param ... Additional values passed to \code{\link{text}} for labeling
 #' 
 #' @seealso
@@ -31,20 +33,21 @@
 #' console. Selection is stopped by pressing any mouse button other than the
 #' primary button or by pressing the \code{ESC} key. The selected frames, in
 #' the order that they were selected, will be returned as a vector of integers
-#' if \code{asImage = FALSE} or as a new \code{Image} object of the
-#' selected frames if \code{asImage = TRUE}.
+#' if \code{asImage = FALSE}. If \code{asImage = TRUE}, the selected images
+#' will be returned as a list of separate frames if \code{combine = FALSE}
+#' or as a single image if \code{combine = TRUE}.
 #' 
 #' @return
 #' A numeric vector of the selected frames if \code{asImage = FALSE} or
-#' an \code{Image} object of the selected frames in the order that they
-#' were selected if \code{asImage = TRUE}.
+#' either a list of selected \code{Images} frames or combined \code{Image}
+#' frames in the order that they were selected.
 #' 
 #' @import EBImage
 #' 
 #' @export
 #'
-locatorStack <- function(x, labels, nx, col = "red",
-		offset = c(0.05, 0.05), adj = c(0, 1), asImage = FALSE, ...)
+locatorStack <- function(x, labels, nx, col = "red", asImage = FALSE,
+		offset = c(0.05, 0.05), adj = c(0, 1), combine = TRUE, ...)
 {
 	if(!is(x, "Image")) stop("'x' must be an Image object")
 	if (length(offset) == 1) offset <- rep(offset, 2)
@@ -79,6 +82,8 @@ locatorStack <- function(x, labels, nx, col = "red",
 	cat("\n")
 	if (asImage == FALSE)
 		return(found)
-	else
+	else if (combine == TRUE)
 		return(combine(getFrames(x, found, type = "render")))
+	else
+		return(getFrames(x, found, type = "render"))
 }

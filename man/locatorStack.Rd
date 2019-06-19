@@ -4,8 +4,8 @@
 \alias{locatorStack}
 \title{Select Frames from a Plotted Image Stack}
 \usage{
-locatorStack(x, labels, nx, col = "red", offset = c(0.05, 0.05),
-  adj = c(0, 1), asImage = FALSE, ...)
+locatorStack(x, labels, nx, col = "red", asImage = FALSE,
+  offset = c(0.05, 0.05), adj = c(0, 1), combine = TRUE, ...)
 }
 \arguments{
 \item{x}{An \code{Image} object or \code{array} of such objects}
@@ -18,23 +18,26 @@ If missing, a square tile of images will be assumed}
 
 \item{col}{Color of the label to be added}
 
+\item{asImage}{\code{logical} value (default of \code{FALSE}) indicating
+whether the function returns the selection as \code{Image}(s) or
+as a numeric vector of found frames (see Details)}
+
 \item{offset}{A numeric vector of length 2 specifying the relative position
 of the label in each frame}
 
 \item{adj}{One or two values in [0, 1] which specify the \code{x} (and
-  optionally \code{y}) adjustment of the labels. See the function
+optionally \code{y}) adjustment of the labels. See the function
 \code{\link{text}} for further details}
 
-\item{asImage}{\code{logical} value (default of \code{FALSE}) indicating
-whether the function returns the selection as a new \code{Image} or
-as a numeric vector of found frames (see Details)}
+\item{combine}{\code{logical} value (default of \code{TRUE}) to return
+the selected frames combined as a single image rather than a list}
 
 \item{...}{Additional values passed to \code{\link{text}} for labeling}
 }
 \value{
 A numeric vector of the selected frames if \code{asImage = FALSE} or
-an \code{Image} object of the selected frames in the order that they
-were selected if \code{asImage = TRUE}.
+either a list of selected \code{Images} frames or combined \code{Image}
+frames in the order that they were selected.
 }
 \description{
 Identify and select frames in a plotted image stack.
@@ -47,8 +50,9 @@ of the selected (unique) frames will be reported in a running tally on the
 console. Selection is stopped by pressing any mouse button other than the
 primary button or by pressing the \code{ESC} key. The selected frames, in
 the order that they were selected, will be returned as a vector of integers
-if \code{asImage = FALSE} or as a new \code{Image} object of the
-selected frames if \code{asImage = TRUE}.
+if \code{asImage = FALSE}. If \code{asImage = TRUE}, the selected images
+will be returned as a list of separate frames if \code{combine = FALSE}
+or as a single image if \code{combine = TRUE}.
 }
 \seealso{
 \code{\link{plotStack}}, which allows for automatically labeling the plotted
