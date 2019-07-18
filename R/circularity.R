@@ -30,7 +30,7 @@ perimeter <- function(x)
 	S4 <- function(x) rbind(x[-1,], rep(0,ncol(x)) )
 # determine edges
 	e <- x & !(S1(x) & S2(x) & S3(x) & S4(x))
-# add horixontal and vertical segments
+# add horizontal and vertical segments
 	segs1 <- sum(e & S1(e)) + sum(e & S2(e)) + sum(e & S3(e)) + sum(e & S4(e))
 # add diagonal segments
 	segs2 <- sqrt(2)*(sum(e & S1(S3(e))) + sum(e & S1(S4(e))) +
