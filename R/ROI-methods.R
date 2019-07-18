@@ -43,7 +43,8 @@ as.Roi.Image = function(img, resize = FALSE)
 {
 # already an Roi
   if (class(img) == "Roi" && resize == FALSE) {
-		stop("use 'resize = TRUE' to resize the 'loc' slot on an Roi object")
+		warning("already an Roi: use 'resize = TRUE' to resize the 'loc' slot")
+		img
 	}
   else if (class(img) == "Roi" && resize == TRUE) {
 		dm <- base::dim(img)
