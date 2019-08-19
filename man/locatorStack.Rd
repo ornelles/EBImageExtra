@@ -11,7 +11,8 @@ locatorStack(x, labels, nx, col = "red", asImage = FALSE,
 \item{x}{An \code{Image} object or \code{array} of such objects}
 
 \item{labels}{Optional labels to be added to each selected frame. If
-missing, the number of each frame will serve as the label}
+missing, the number of each frame will serve as the label otherwise
+the argument will be adjusted with \code{as.graphicsAnnot}}
 
 \item{nx}{The number of frames in the x-direction of the image stack.
 If missing, a square tile of images will be assumed}
@@ -46,7 +47,7 @@ Identify and select frames in a plotted image stack.
 The \code{\link{locator}} function will be called to interactively
 to identify frames in the plotted
 image stack. Selected frames will be labeled on the image and a count
-of the selected (unique) frames will be reported in a running tally on the 
+of the unique selected frames will be reported in a running tally on the 
 console. Selection is stopped by pressing any mouse button other than the
 primary button or by pressing the \code{ESC} key. The selected frames, in
 the order that they were selected, will be returned as a vector of integers

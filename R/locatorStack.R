@@ -4,7 +4,8 @@
 #' 
 #' @param x An \code{Image} object or \code{array} of such objects
 #' @param labels Optional labels to be added to each selected frame. If
-#'   missing, the number of each frame will serve as the label
+#'   missing, the number of each frame will serve as the label otherwise
+#'   the argument will be adjusted with \code{as.graphicsAnnot}
 #' @param nx The number of frames in the x-direction of the image stack.
 #'   If missing, a square tile of images will be assumed
 #' @param col Color of the label to be added
@@ -29,7 +30,7 @@
 #' The \code{\link{locator}} function will be called to interactively
 #' to identify frames in the plotted
 #' image stack. Selected frames will be labeled on the image and a count
-#' of the selected (unique) frames will be reported in a running tally on the 
+#' of the unique selected frames will be reported in a running tally on the 
 #' console. Selection is stopped by pressing any mouse button other than the
 #' primary button or by pressing the \code{ESC} key. The selected frames, in
 #' the order that they were selected, will be returned as a vector of integers
@@ -59,7 +60,10 @@ locatorStack <- function(x, labels, nx, col = "red", asImage = FALSE,
 	dm <- dim(x)
 	xx <- dm[1]*((ss - 1)%%nx + offset[1])
 	yy <- dm[2]*((ss - 1)%/%nx + offset[2])
-	if (missing(labels)) labels <- as.character(ss)
+	if (missing(labels))
+		labels <- as.character(ss)
+	else
+		labels <- as.graphicsAnnot(labels)
 
 # intervals for binning mouse clicks
 	vx <- seq(0, dm[1]*nx + 1, length = nx + 1)
