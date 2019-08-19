@@ -16,6 +16,7 @@ Collate:
     'crop.R'
     'drawROI.R'
     'getROI.R'
+    'interleave.R'
     'labelStack.R'
     'locatorStack.R'
     'ni.R'
@@ -24,5 +25,4 @@ Collate:
     'scaleBar.R'
     'sobel.R'
     'stackObjects2.R'
-    'tStack.R'
     'usm.R'
