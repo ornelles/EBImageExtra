@@ -87,11 +87,11 @@
 #'
 #' @examples
 #' 
-#' # Example of adding arbitrary "roi" highlights to one image
+#' # Example of adding arbitrary 90 pixel x 90 pixel "roi" highlights to one image
 #'   img <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
-#'   xc <- sample(50:dim(img)[1] - 50, 6)
-#'   yc <- sample(50:dim(img)[2] - 50, 6)
-#'   for (i in 1:6) img <- drawROI(img, xc[i], yc[i], w = 90, h = sample(60:120, 1))
+#'   xc <- sample(100:(dim(img)[1] - 100), 8)
+#'   yc <- sample(100:(dim(img)[2] - 100), 8)
+#'   for (i in 1:8) img <- drawROI(img, xc[i], yc[i], w = 90, h = 90)
 #'   plot(img)
 #'
 #' # Example of adding a frame to the image itself
@@ -214,7 +214,7 @@ drawROI <- function(img, x, y, x2, y2, w, h, show,
   else
     M <- m
 
-# combine with solid colored image, replace appropriate pixesl in image
+# combine with solid colored image, replace appropriate pixels in image
   mask <- Image(col, dim = dim(img)[1:2], colormode = colorMode(img))
   ans <- img * M + mask * !M
   if (show) plot(ans)

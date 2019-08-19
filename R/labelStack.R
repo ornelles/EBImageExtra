@@ -5,7 +5,7 @@
 #' @param x A recently plotted \code{Image} object or \code{array} of such
 #'   objects
 #' @param labels Either a \code{logical} value (default of \code{TRUE})
-#'   to number each frame or labels to be applied to each frame
+#'   to number each frame \emph{or} a vector of labels to be applied to each frame
 #' @param nx The number of frames in the x-direction of the image stack.
 #'   If missing, a square tile of images will be assumed
 #' @param col Color of the label to be added
@@ -35,8 +35,8 @@
 #' a pipe. This function primarily called to label a plotted image.
 #' 
 #' @examples
-#' x <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
-#' x <- EBImage::untile(x, c(4, 3), lwd = 0)
+#' lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
+#' x <- EBImage::untile(lighthouse, c(4, 3), lwd = 0)
 #' idx <- sample(1:12)
 #' plotStack(x[,,,idx], label = TRUE)
 #' labelStack(x, labels = paste("Original:", idx), offset = 0.5, adj = 0.5, col = "yellow")
