@@ -24,7 +24,7 @@ This is a collection of functions to extend the `EBImage` package and provide he
 * scaleBar - add horizontal scale bar to image
 * crop - crop a grayscale or binary image to include non-zero pixels
 * boxtext - add text with background box to a plot
-* inset - add a framed inset to an image by repeated use of getROI, putROI and drawROI to select a region from an image, draw a frame about the selected region, place the selection as an inset, and draw a frame about the inset
+* inset - *function to be added...maybe* add a framed inset to an image by repeated use of getROI, putROI and drawROI to select a region from an image, draw a frame about the selected region, place the selection as an inset, and draw a frame about the inset
 
 At the moment, `inset` can be emulated by something like the following:
 ```
