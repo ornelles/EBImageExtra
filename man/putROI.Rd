@@ -62,7 +62,7 @@ specified with \code{mag}, typically a number greater than 1. Values that
 create an inset greater than the dimensions of the \code{img} argument 
 will cause an error. 
 
-If \code{show = TRUE} of if \code{show} is missing and \code{locator} 
+If \code{show = TRUE} or if \code{show} is missing and \code{locator} 
 was used to place the inset, the image with inset will be plotted. In all
 cases, the modified image will be invisibly returned.
 }
@@ -72,15 +72,17 @@ cases, the modified image will be invisibly returned.
 
 # Get region of interest of fixed width and height, specified by center
   ins <- getROI(lighthouse, 515, 280, w = 180, h = 280)
-  putROI(ins, lighthouse, "topright", show = TRUE)
+  putROI(lighthouse, ins, "topright", show = TRUE)
 
 # Display the 9 possible positions
   img <- resize(lighthouse, w = 256)
   ins2 <- resize(ins, w = 45)
-  z <- lapply(1:9, function(i) putROI(ins2, img, i, lwd  = 4))
+  z <- lapply(1:9, function(i) putROI(imge, ins2, i, lwd  = 4))
 # z <- combine(z) # about 5-times slower than directly calling 'abind'
   z <- do.call(abind, c(z, list(along = 4)))
-  plotStack(combine(z), nx = 3, labels = TRUE, cex = 2)
+  plot(z, all = TRUE)
+  labelStack(z, all = TRUE)
+  plotStack(combine(z), nx = 3, labels = TRUE, cex = 1.5)
 
 }
 \seealso{
