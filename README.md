@@ -8,6 +8,7 @@ This is a collection of functions to extend the `EBImage` package and provide he
 * `circularity` - more precisely calculate the circularity of an image object
 * `perimeter` - more precisely calculate the perimeter of an image object
 * `ni` - a vectorized wrapper to the `normalize()` function with defaults for 12-bit images
+* `bresenham` - Bresenham's integer line "plotting" algorithm
 
 #### Image stacks  
 * `stackObjects2` - place detected objects *with* bounding box in an image stack
@@ -18,7 +19,7 @@ This is a collection of functions to extend the `EBImage` package and provide he
 
 #### Filters  
 * `sobel` - the [Sobel filter](https://en.wikipedia.org/wiki/Sobel_operator) for edge detection
-* usm - the [Unsharp mask filter](https://en.wikipedia.org/wiki/Unsharp_masking) to sharpen images by increasing local contrast
+* `usm` - the [Unsharp mask filter](https://en.wikipedia.org/wiki/Unsharp_masking) to sharpen images by increasing local contrast
 
 #### Micrograph utilities  
 * `scaleBar` - add horizontal scale bar to image

@@ -12,6 +12,7 @@ Collate:
     'ROI-methods.R'
     'ROI-class.R'
     'boxtext.R'
+    'bresenham.R'
     'circularity.R'
     'crop.R'
     'drawROI.R'

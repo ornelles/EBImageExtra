@@ -2,6 +2,7 @@
 
 export(as.Roi)
 export(boxtext)
+export(bresenham)
 export(circularity)
 export(crop)
 export(drawROI)
