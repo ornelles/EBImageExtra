@@ -22,6 +22,7 @@ Collate:
     'locatorStack.R'
     'ni.R'
     'plotStack.R'
+    'pnpoly.R'
     'putROI.R'
     'scaleBar.R'
     'sobel.R'
