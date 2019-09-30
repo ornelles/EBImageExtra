@@ -51,13 +51,11 @@
 interleave <- function(x, n) {
 	if (missing(n))
 		stop("provide the number of distinct images for interleaving")
-  dm <- dim(x)
-  if (colorMode(x) == 0 && length(dm) == 2) # nothing to do
-    ans <- x
-  else if (colorMode(x) == 2 && length(dm) == 3) # nothing to do
-    ans <- x
+	nf <- numberOfFrames(x, type = "render")
+	if (nf == 1)
+		ans <- x
   else {
-    nf <- numberOfFrames(x, type = "render")
+		dm <- dim(x)
     nx <- nf%/%n
     N <- seq.int(n * nx)
     if (max(N) != nf) warning("the last ", nf - max(N), " frame(s) were dropped")
