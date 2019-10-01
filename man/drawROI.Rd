@@ -105,7 +105,7 @@ to the dimensions of the image, which can override values in \code{w} or
 \examples{
 
 # Example of adding arbitrary 90 pixel x 90 pixel "roi" highlights to one image
-  img <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
+  img <- readImage(system.file("extdata", "lighthouse.jpg", package="EBImageExtra"))
   xc <- sample(100:(dim(img)[1] - 100), 8)
   yc <- sample(100:(dim(img)[2] - 100), 8)
   for (i in 1:8) img <- drawROI(img, xc[i], yc[i], w = 90, h = 90)

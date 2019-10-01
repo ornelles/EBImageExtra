@@ -32,7 +32,7 @@
 #'
 #' @examples
 #' # Example of DAPI + Fluorescent + Merged pairs
-#'   x <- readImage(system.file("inst", "extdata", "cells.tif", package="EBImageExtra"))
+#'   x <- readImage(system.file("extdata", "cells.tif", package="EBImageExtra"))
 #'   nuc <- x[,,c(1,3)]
 #'   cel <- x[,,c(2,4)]
 #'   img <- rgbImage(red = 0.1 * cel, green = cel + 0.2 * nuc, blue = 0.4 * nuc)

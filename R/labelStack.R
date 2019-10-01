@@ -35,7 +35,7 @@
 #' a pipe. This function primarily called to label a plotted image.
 #' 
 #' @examples
-#' lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
+#' lighthouse <- readImage(system.file("extdata", "lighthouse.jpg", package="EBImageExtra"))
 #' x <- EBImage::untile(lighthouse, c(4, 3), lwd = 0)
 #' idx <- sample(1:12)
 #' plotStack(x[,,,idx], label = TRUE)

@@ -33,7 +33,7 @@
 #' 
 #' @examples
 #' # Sample color image
-#'   img <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
+#'   img <- readImage(system.file("extdata", "lighthouse.jpg", package="EBImageExtra"))
 #'
 #' # separate into 12 smaller images (frames)
 #'   x <- EBImage::untile(img, c(4, 3), lwd = 0)

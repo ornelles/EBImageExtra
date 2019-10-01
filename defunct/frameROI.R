@@ -20,7 +20,7 @@
 #' of plotting to the graphics device. 
 #' 
 #' @examples
-#'  lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
+#'  lighthouse <- readImage(system.file("extdata", "lighthouse.jpg", package="EBImageExtra"))
 #'  plot(frameROI(lighthouse)) # with defaults (not obvious)
 #'  plot(frameROI(lighthouse, lwd = 36, col = "yellow", sides = c(1,2)))
 #'

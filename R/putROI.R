@@ -53,7 +53,7 @@
 #' 
 #' @examples
 #' # Sample color image
-#'   lighthouse <- readImage(system.file("inst", "extdata", "lighthouse.jpg", package="EBImageExtra"))
+#'   lighthouse <- readImage(system.file("extdata", "lighthouse.jpg", package="EBImageExtra"))
 #' 
 #' # Get region of interest of fixed width and height, specified by center
 #'   ins <- getROI(lighthouse, 515, 280, w = 180, h = 280)
