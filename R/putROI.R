@@ -62,17 +62,19 @@
 #' # Display the 9 possible positions
 #'   img <- resize(lighthouse, w = 256)
 #'   ins2 <- resize(ins, w = 45)
-#'   z <- lapply(1:9, function(i) putROI(imge, ins2, i, lwd  = 4))
+#'   z <- lapply(1:9, function(i) putROI(img, ins2, i, lwd  = 4))
 #' # z <- combine(z) # about 5-times slower than directly calling 'abind'
 #'   z <- do.call(abind, c(z, list(along = 4)))
 #'   plot(z, all = TRUE)
-#'   labelStack(z, all = TRUE)
+#'   labelStack(z, cex = 1.5)
+#'
+#' # Or in one line
 #'   plotStack(combine(z), nx = 3, labels = TRUE, cex = 1.5)
 #'
 #' @return
 #' An \code{Image} of the same dimensions as the second argument
 #' (\code{img}) with \code{roi} inserted after appropriate scaling and
-#' otional framing. 
+#' optional framing. 
 #' 
 #' @import EBImage
 #' 
