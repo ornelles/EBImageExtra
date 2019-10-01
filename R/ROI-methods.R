@@ -60,4 +60,8 @@ as.Roi.Image = function(img, resize = FALSE)
 	}
 }
 
-as.Roi.default = function(img) Roi(img)
+as.Roi.default = function(img) as.Roi(img)
+
+#' @rdname as.Roi
+#' @export
+as.ROI <- as.Roi

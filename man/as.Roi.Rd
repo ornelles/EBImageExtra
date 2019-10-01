@@ -2,9 +2,12 @@
 % Please edit documentation in R/ROI-methods.R
 \name{as.Roi}
 \alias{as.Roi}
+\alias{as.ROI}
 \title{Accessory functions for class "Roi"}
 \usage{
 as.Roi(img, ...)
+
+as.ROI(img, ...)
 }
 \arguments{
 \item{img}{object of class \code{Image}}
