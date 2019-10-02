@@ -39,7 +39,7 @@
 #'
 as.Roi <- function(img, ...) UseMethod("as.Roi")
 NULL
-as.Roi.Image = function(img, resize = FALSE)
+as.Roi.Image <- function(img, resize = FALSE)
 {
 # already an Roi
   if (class(img) == "Roi" && resize == FALSE) {
@@ -60,7 +60,7 @@ as.Roi.Image = function(img, resize = FALSE)
 	}
 }
 
-as.Roi.default = function(img) as.Roi(img)
+as.Roi.default <- function(img) as.Roi(img)
 
 #' @rdname as.Roi
 #' @export
