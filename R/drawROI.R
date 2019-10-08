@@ -79,11 +79,8 @@
 #' }
 #'
 #' @seealso
-#' \code{\link{getROI}} to get a region of interest from an image;
-#' \code{\link{putROI}} to place an ROI with scaling;
-#' \code{\link{insertROI}} as a convenience function that
-#'   combines calls to \code{getROI}, \code{putROI}
-#'   and \code{drawROI} to place a framed inset in an image.
+#' \code{\link{getROI}} to get a region of interest from an image and
+#' \code{\link{putROI}} to place an ROI with scaling.
 #'
 #' @examples
 #' 

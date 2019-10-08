@@ -59,9 +59,8 @@ Get a rectangular region of interest from an image.
 
 
 A rectangular region of interest (ROI) can be selected programmatically
-or interactively. The ROI is defined by the position of the lower left
-and upper right coordinates of the rectangle in pixels (actually
-either pair of corners on the diagonal is adequate.) The pair of points
+or interactively. The ROI is defined by a pair of points (in pixels)
+that define a diagonal of the region of interest. The pair of points
 can be specified by several means. The function will accept four values
 \code{x,y}, and \code{x2,y2} or a list of the two points. Without these
 arguments, the function invokes \code{\link{locator}} to allow the
@@ -137,9 +136,6 @@ used to extract the equivalent region of interest from a related image
 
 }
 \seealso{
-\code{\link{putROI}} to place an ROI with scaling;
-\code{\link{drawROI}} to draw a frame \emph{within} an image;
-\code{\link{insertROI}} as a convenience function that
-  combines calls to \code{getROI}, \code{putROI}
-  and \code{drawROI} to place a framed inset in an image.
+\code{\link{putROI}} to place an ROI with scaling and
+\code{\link{drawROI}} to draw a frame \emph{within} an image.
 }
