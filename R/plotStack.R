@@ -9,7 +9,8 @@
 #'   \code{labels} will be used to label for each frame 
 #' @param nx The number of frames in the x-direction of the image stack.
 #'   If missing, a square tile of images will be assumed
-#' @param cex The character expansion for \code{labels}
+#' @param cex Optional character expansion for \code{labels}
+#' @param col Optional color for \code{labels}, default of "white"
 #' @param ... Additional parameters passed to \code{\link{plot.Image}} 
 #' 
 #' @details
@@ -43,7 +44,7 @@
 #' 
 #' @export
 #' 
-plotStack <- function(x, labels = FALSE, nx, cex = 1, ...)
+plotStack <- function(x, labels = FALSE, nx, cex = 1, col = "white", ...)
 {
 	if(!is(x, "Image"))
 		stop("'x' must be an Image object")
@@ -52,13 +53,11 @@ plotStack <- function(x, labels = FALSE, nx, cex = 1, ...)
 		nx <- ceiling(sqrt(nf))
 	plot(x, all = TRUE, nx = nx, ...)
 
-	if (is.null(labels))
-		labelStack(x, labels = NULL, nx = nx, cex = cex)
-	else if (is(labels, "logical") && labels == TRUE)
-		labelStack(x, labels = NULL, nx = nx, cex = cex)
+	if (identical(labels, NULL) | identical(labels, TRUE))
+		labelStack(x, labels = NULL, nx = nx, cex = cex, col = col)
 	else if (is(labels, "expression") | is(labels, "character"))
-		labelStack(x, labels = labels, nx = nx, cex = cex)
+		labelStack(x, labels = labels, nx = nx, cex = cex, col = col)
 	else if (!is(labels, "logical"))
-		labelStack(x, labels = as.character(labels), nx = nx, cex = cex)
+		labelStack(x, labels = as.character(labels), nx = nx, cex = cex, col = col)
 	invisible(x)
 }
