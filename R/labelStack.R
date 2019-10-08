@@ -54,11 +54,9 @@ labelStack <- function(x, labels = TRUE, nx, col = "white",
 	nf <- numberOfFrames(x, type = "render")
 	if (missing(nx)) nx <- ceiling(sqrt(nf))
 	ss <- seq_len(nf)
-	if (is.null(labels))
+	if (identical(labels, NULL) | identical(labels, TRUE))
 		labels <- as.character(ss)
-	else if (is(labels, "logical") && labels == TRUE)
-		labels <- as.character(ss)
-	else if (is(labels, "logical") && labels == FALSE)
+	else if (identical(labels, FALSE))
 		labels <- ""
 	else
 		labels <- as.graphicsAnnot(labels)
