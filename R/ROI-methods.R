@@ -37,16 +37,20 @@
 #'
 #' @export
 #'
-as.Roi <- function(img, ...) UseMethod("as.Roi")
+as.Roi <- function(img, ...) {
+	UseMethod("as.Roi")
+}
 NULL
-as.Roi.Image <- function(img, resize = FALSE)
+#' @export
+#' 
+as.Roi.Image <- function(img, resize = FALSE, ...)
 {
 # already an Roi
-  if (class(img) == "Roi" && resize == FALSE) {
+  if (is(img, "Roi") && resize == FALSE) {
 		warning("already an Roi: use 'resize = TRUE' to resize the 'loc' slot")
 		img
 	}
-  else if (class(img) == "Roi" && resize == TRUE) {
+  else if (is(img, "Roi") && resize == TRUE) {
 		dm <- base::dim(img)
 		img@loc <- list(x = c(1, dm[1]), y = c(1, dm[2]))
 		img
@@ -60,7 +64,7 @@ as.Roi.Image <- function(img, resize = FALSE)
 	}
 }
 
-as.Roi.default <- function(img) as.Roi(img)
+as.Roi.default <- function(img, ...) as.Roi(img, ...)
 
 #' @rdname as.Roi
 #' @export
