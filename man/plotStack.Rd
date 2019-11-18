@@ -4,7 +4,7 @@
 \alias{plotStack}
 \title{Plot Image Stack with Optional Labels}
 \usage{
-plotStack(x, labels = FALSE, nx, cex = 1, ...)
+plotStack(x, labels = FALSE, nx, cex = 1, col = "white", ...)
 }
 \arguments{
 \item{x}{An \code{Image} object or \code{array} of such objects}
@@ -16,7 +16,9 @@ plotStack(x, labels = FALSE, nx, cex = 1, ...)
 \item{nx}{The number of frames in the x-direction of the image stack.
 If missing, a square tile of images will be assumed}
 
-\item{cex}{The character expansion for \code{labels}}
+\item{cex}{Optional character expansion for \code{labels}}
+
+\item{col}{Optional color for \code{labels}, default of "white"}
 
 \item{...}{Additional parameters passed to \code{\link{plot.Image}}}
 }
