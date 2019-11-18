@@ -5,7 +5,8 @@
 \title{Add Scale Bar to Image}
 \usage{
 scaleBar(x, y = NULL, width, distance, label = NULL, col = "white",
-  col.text, cex = 3/4, adj = c(0.5, -0.5), col.line, lwd = 1, ...)
+  col.text, cex = 3/4, adj = c(0.5, -0.5), col.line, lwd = 1,
+  lend = 1, ...)
 }
 \arguments{
 \item{x, y}{Central coordinates of the scale bar in pixels}
@@ -21,15 +22,15 @@ an \code{expression}. If \code{NULL}, a label will be generated from
 \item{col, col.text, cex, adj, ...}{Parameters passed to the \code{\link{text}}
 function to draw the label}
 
-\item{col.line, lwd}{Parameters passed to \code{\link{lines}} function to draw
-the horizontal line}
+\item{col.line, lwd, lend}{Parameters passed to \code{\link{lines}} function
+to draw the horizontal line}
 }
 \value{
 This function is called for side effects. No value is returned.
 }
 \description{
-Place a horizontal scale bar \code{width} pixels wide corresponding to a
-physical distance \code{distance} with an optional \code{label}.
+Place a single horizontal scale bar \code{width} pixels wide corresponding
+to a physical distance \code{distance} with an optional \code{label}.
 }
 \details{
 This is a utility to place a labeled scale bar on a raster image. 
@@ -48,7 +49,9 @@ the following:
 > scaleBar(locator(), 100, 12)
 }
 
-Note that if \code{locator()} is used, \strong{only the last point selected}
-will be used to place the scale bar. If \code{col.text} and \code{col.line}
-are missing, these will be assigned the color specified in \code{col}.
+Note that this is \strong{not a vectorized function.} Only the last
+value(s) \code{x,y} will be used to place the scale bar. This allows multiple
+clicks to \code{locator()} with the last one being used. If \code{col.text}
+and \code{col.line} are missing, these will be assigned the color specified
+in \code{col}.
 }

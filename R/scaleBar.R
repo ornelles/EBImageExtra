@@ -1,7 +1,7 @@
 #' Add Scale Bar to Image
 #' 
-#' Place a horizontal scale bar \code{width} pixels wide corresponding to a
-#' physical distance \code{distance} with an optional \code{label}.
+#' Place a single horizontal scale bar \code{width} pixels wide corresponding
+#' to a physical distance \code{distance} with an optional \code{label}.
 #' 
 #' @param x,y Central coordinates of the scale bar in pixels
 #' @param width Width of scale bar in pixels
@@ -11,8 +11,8 @@
 #'   \code{distance}. Use \code{""} or \code{NA} to use no label
 #' @param col,col.text,cex,adj,... Parameters passed to the \code{\link{text}}
 #'   function to draw the label
-#' @param col.line,lwd Parameters passed to \code{\link{lines}} function to draw
-#'   the horizontal line
+#' @param col.line,lwd,lend Parameters passed to \code{\link{lines}} function
+#'   to draw the horizontal line
 #' 
 #' @details
 #' This is a utility to place a labeled scale bar on a raster image. 
@@ -31,9 +31,11 @@
 #' > scaleBar(locator(), 100, 12)
 #' }
 #' 
-#' Note that if \code{locator()} is used, \strong{only the last point selected}
-#' will be used to place the scale bar. If \code{col.text} and \code{col.line}
-#' are missing, these will be assigned the color specified in \code{col}. 
+#' Note that this is \strong{not a vectorized function.} Only the last
+#' value(s) \code{x,y} will be used to place the scale bar. This allows multiple
+#' clicks to \code{locator()} with the last one being used. If \code{col.text}
+#' and \code{col.line} are missing, these will be assigned the color specified
+#' in \code{col}. 
 #'
 #' @return
 #' This function is called for side effects. No value is returned.
@@ -41,8 +43,8 @@
 #' @export
 #' 
 scaleBar <- function(x, y = NULL, width, distance, label = NULL,
-	col = "white", col.text, cex = 3/4, adj = c(0.5, -0.5), col.line, lwd = 1,
-	...)
+	col = "white", col.text, cex = 3/4, adj = c(0.5, -0.5), col.line,
+	lwd = 1, lend = 1, ...)
 {
 	if (missing(distance) && is.list(x)) {
 		distance <- width; width <- y; y <- NULL
