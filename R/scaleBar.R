@@ -61,7 +61,7 @@ scaleBar <- function(x, y = NULL, width, distance, label = NULL,
 	if (is.null(label)) lab <- bquote(.(distance)~~mu*m)
 	else if (is.na(label) || label == "") lab <- ""
 	else lab <- label
-	lines(xx, yy, lwd = lwd, col = col.line)
+	lines(xx, yy, lwd = lwd, lend = lend, col = col.line)
 	if (lab != "")
 		text(x, y, labels = lab, adj = adj, col = col.text, cex = cex, ...)
 }
