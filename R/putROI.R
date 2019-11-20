@@ -60,13 +60,8 @@
 #'   img <- resize(lighthouse, w = 256)
 #'   ins2 <- resize(ins, w = 45)
 #'   z <- lapply(1:9, function(i) putROI(img, ins2, i, lwd  = 4))
-#' # z <- combine(z) # about 5-times slower than directly calling 'abind'
-#'   z <- do.call(abind, c(z, list(along = 4)))
-#'   plot(z, all = TRUE)
-#'   labelStack(z, cex = 1.5)
-#'
-#' # Or in one line
-#'   plotStack(combine(z), nx = 3, labels = TRUE, cex = 1.5)
+#'   z <- abind(z, along = 4) # 5-times faster than calling 'combine'
+#'   plotStack(z, labels = TRUE, cex = 1.5)
 #'
 #' @return
 #' An \code{Image} of the same dimensions as the second argument
