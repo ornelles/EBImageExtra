@@ -4,38 +4,43 @@
 #' to a physical distance \code{distance} with an optional \code{label}.
 #' 
 #' @param x,y Central coordinates of the scale bar in pixels
-#' @param width Width of scale bar in pixels
-#' @param distance Corresponding distance to the scale bar in microns
+#' @param width Width of the scale bar in pixels
+#' @param distance Distance represented by the scale bar in microns
 #' @param label A suitable label that can be coerced to \code{character} or
 #'   an \code{expression}. If \code{NULL}, a label will be generated from
-#'   \code{distance}. Use \code{""} or \code{NA} to use no label
-#' @param col,col.text,cex,adj,... Parameters passed to the \code{\link{text}}
-#'   function to draw the label
-#' @param col.line,lwd,lend Parameters passed to \code{\link{lines}} function
-#'   to draw the horizontal line
+#'   the \code{distance} argument. To exclude any label, set this argument to
+#'   \code{""} or to \code{NA}
+#' @param col Default color (white) for \code{col.text} and \code{col.line}
+#' @param col.text,cex,adj,... Parameters passed to the \code{\link{text}}
+#'   function used to add the label
+#' @param col.line,lwd,lend Parameters passed to the \code{\link{lines}}
+#'   function used to draw the horizontal scale bar
 #' 
 #' @details
 #' This is a utility to place a labeled scale bar on a raster image. 
 #' A default label in microns will
-#' be added if \code{label} is \code{NULL}. The label is centered above the
-#' position in \code{x,y} according to the values in \code{adj}. The default
-#' value of \code{c(0.5,-0.5)} centers the label and places it 0.5 character
-#' widths above the \code{x,y} position. 
+#' be added if \code{label} is \code{NULL}. The label is centered at the
+#' position specified by \code{x,y} according to the values in \code{adj}.
+#' The default value for \code{adj} of \code{c(0.5,-0.5)} centers the label
+#' and places it 0.5 character widths above \code{x,y}.
+#'  
 #' The \code{x,y} coordinates can be passed in a plotting structure
 #' appropriate for \code{\link{xy.coords}}. This function attempts to parse
-#' \code{distance} and \code{width} from the remaining positions if they are not
-#' named and \code{x} is a list with \code{x} and \code{y} components. This 
-#' allows one to interactively place a scale bar with a function call such as
-#' the following:
+#' \code{distance} and \code{width} from the remaining arguments if they are
+#' not named and if \code{x} is a list with components named "x" and "y". This 
+#' allows one to interactively place a scale bar with a function
+#' call such as in the following example. In this example, \code{ppm} stands
+#' for "pixels per micrometer" and is the scale factor appropriate for the
+#' given micrograph.
+#' This call will place a labeled 25 micron scale bar on the image.  
 #' \preformatted{
-#' > scaleBar(locator(), 100, 12)
+#' > scaleBar(locator(), 25*ppm, 25)
 #' }
 #' 
-#' Note that this is \strong{not a vectorized function.} Only the last
-#' value(s) \code{x,y} will be used to place the scale bar. This allows multiple
-#' clicks to \code{locator()} with the last one being used. If \code{col.text}
-#' and \code{col.line} are missing, these will be assigned the color specified
-#' in \code{col}. 
+#' Note that this is \strong{not} a vectorized function. Only the last
+#' value of \code{(x, y)} will be used to place the scale bar. This allows
+#' multiple clicks to \code{locator()} to get the position just right
+#' with only the last click being used.
 #'
 #' @return
 #' This function is called for side effects. No value is returned.
