@@ -1,6 +1,6 @@
 Package: EBImageExtra
 Title: Helper Functions for EBImage
-Version: 0.0.0.1
+Version: 0.0.0.2
 Authors@R: person("David", "Ornelles", email = "ornelles@wakehealth.edu", role = c("aut", "cre"))
 Description: Helper functions extending the functionality of EBImage.
 Depends: R (>= 3.2.1), lattice, EBImage
@@ -15,6 +15,7 @@ Collate:
     'bresenham.R'
     'circularity.R'
     'crop.R'
+    'dp.R'
     'drawROI.R'
     'getROI.R'
     'interleave.R'
