@@ -35,6 +35,7 @@ This is a collection of functions to extend the `EBImage` package and provide he
 * `crop` - crop a grayscale or binary image to exclude zero pixels at the edges
 * `boxtext` - add text with a shaded background box to a plot
 * `inset` - *function to be added...maybe* add a framed inset to an image by repeated use of getROI, putROI and drawROI to select a region from an image, draw a frame about the selected region, place the selection as an inset, and draw a frame about the inset
+* `dp` - wrapper to call `dev.print` for the current device window where the global logical variable `SaveImage` can be used to determine whether a file will be saved or not
 
 At the moment, `inset` can be emulated by something like the following:
 ```
