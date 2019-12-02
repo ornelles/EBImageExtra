@@ -3,12 +3,18 @@
 #' This is a wrapper to plot the current device to a file.
 #' 
 #' @param path file path to save the device window. If missing, 
-#'   \code{\link{file.choose}} will be called to select the file#' @param save \code{logical} value to save image. If missing, the global 
-#'   environment will be searched for a \code{logical} value named 'SaveImage'#' @param width device width in units specified by \code{units}. If missing
-#'   the width of the current device will be used#' @param dev suitable printing device, defaults to \code{\link{png}} but 
+#'   \code{\link{file.choose}} will be called to select the file
+#' @param save \code{logical} value to save image. If missing, the global 
+#'   environment will be searched for a \code{logical} value named 'SaveImage'
+#' @param width device width in units specified by \code{units}. If missing
+#'   the width of the current device will be used
+#' @param dev suitable printing device, defaults to \code{\link{png}} but 
 #'   can be one of \code{\link{bmp}}, \code{\link{jpeg}}, or \code{\link{tiff}}. 
-#'   If not specified, the device will be determined by the path extension#' @param res resolution in pixels per \code{units}, default of 300#' @param units the units in which \code{width} is given. Defaults to "in" 
-#'   (inches) rather than the normal default of \code{px} (pixels)#' @param ... additional paramters passed to \code{\link{dev.print}}
+#'   If not specified, the device will be determined by the path extension
+#' @param res resolution in pixels per \code{units}, default of 300
+#' @param units the units in which \code{width} is given. Defaults to "in" 
+#'   (inches) rather than the normal default of \code{px} (pixels)
+#' @param ... additional paramters passed to \code{\link{dev.print}}
 #' 
 #' @details
 #' 
@@ -25,10 +31,12 @@
 #' 
 dp <- function(path, save = SaveImage, width, dev, res = 300, units = "in", ...)
 {
-	if (missing(save))
+	if (missing(save)) {
 		if (exists("SaveImage", mode = "logical")) save <- SaveImage
 		else stop ("no value for 'save' was found")
-	save <- as.logical(SaveImage)
+	}
+	else
+		save <- as.logical(save)
 	if (dev.cur() == 1 || save == FALSE) return() # nothing to save
 	if (missing(width)) width <- dev.size()[1]
 	if (missing(path)) path <- file.choose(T)
