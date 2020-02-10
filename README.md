@@ -9,7 +9,7 @@ This is a collection of functions to extend the `EBImage` package and provide he
 * `perimeter` - more precisely calculate the perimeter of an image object
 * `ni` - a vectorized wrapper to the `normalize()` function with defaults for 12-bit images
 * `bresenham` - Bresenham's integer line "plotting" algorithm
-* `pnpoly` - determine if points are within a polygon (algorithm of W. Randolph Franklin)(
+* `pnpoly` - determine if points are within a polygon (algorithm of W. Randolph Franklin)
 
 #### Image stacks  
 * `stackObjects2` - place detected objects *with* the bounding box in an image stack
@@ -34,16 +34,16 @@ This is a collection of functions to extend the `EBImage` package and provide he
 * `scaleBar` - add horizontal scale bar to image
 * `crop` - crop a grayscale or binary image to exclude zero pixels at the edges
 * `boxtext` - add text with a shaded background box to a plot
-* `inset` - *function to be added...maybe* add a framed inset to an image by repeated use of getROI, putROI and drawROI to select a region from an image, draw a frame about the selected region, place the selection as an inset, and draw a frame about the inset
 * `dp` - wrapper to call `dev.print` for the current device window where the global logical variable `SaveImage` can be used to determine whether a file will be saved or not
+* `inset` - *function to be added...maybe* add a framed inset to an image by sequential use of getROI, drawROI, and putROI to select a region from an image, draw a frame about the selected region and then place the selection as a framed inset
 
 At the moment, `inset` can be emulated by something like the following:
 ```
-library(magrittr)
-plot(img)
-ins <- getROI(img)
-ans <- putROI(img, ins, "topright", lwd = 4) %>% drawROI(ins, lwd = 2)
-plot(ans)
+  plot(img) # assuming 'img' holds an Image object
+  ins <- getROI(img)
+  ans <- drawROI(img, ins, lwd = 2)
+  ans <- putROI(ans, ins, "topright", lwd = 4)
+  plot(ans)
 ```
 ---
 ## License  
