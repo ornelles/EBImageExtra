@@ -4,8 +4,17 @@
 \alias{locatorStack}
 \title{Select Frames from a Plotted Image Stack}
 \usage{
-locatorStack(x, labels, nx, col = "red", asImage = FALSE,
-  offset = c(0.05, 0.05), adj = c(0, 1), combine = TRUE, ...)
+locatorStack(
+  x,
+  labels,
+  nx,
+  col = "red",
+  asImage = FALSE,
+  offset = c(0.05, 0.05),
+  adj = c(0, 1),
+  combine = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{An \code{Image} object or \code{array} of such objects}

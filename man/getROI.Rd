@@ -4,9 +4,22 @@
 \alias{getROI}
 \title{Get Region of Interest}
 \usage{
-getROI(img, x, y, x2, y2, w, h, show, asCorner = FALSE,
+getROI(
+  img,
+  x,
+  y,
+  x2,
+  y2,
+  w,
+  h,
+  show,
+  asCorner = FALSE,
   which.corner = c("bottomleft", "topleft", "bottomright", "topright"),
-  pch = 3, col = "magenta", border = col, lwd = 2)
+  pch = 3,
+  col = "magenta",
+  border = col,
+  lwd = 2
+)
 }
 \arguments{
 \item{img}{An \code{Image} object}

@@ -4,8 +4,17 @@
 \alias{putROI}
 \title{Put an Image (ROI) into Another Image}
 \usage{
-putROI(img, roi, position, show, frac = NULL, mag = NULL,
-  frac.default = 1/3, lwd = 2, col = "white")
+putROI(
+  img,
+  roi,
+  position,
+  show,
+  frac = NULL,
+  mag = NULL,
+  frac.default = 1/3,
+  lwd = 2,
+  col = "white"
+)
 }
 \arguments{
 \item{img}{the larger \code{Image} object to receive the roi;

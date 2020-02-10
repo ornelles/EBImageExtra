@@ -4,9 +4,21 @@
 \alias{scaleBar}
 \title{Add Scale Bar to Image}
 \usage{
-scaleBar(x, y = NULL, width, distance, label = NULL, col = "white",
-  col.text, cex = 3/4, adj = c(0.5, -0.5), col.line, lwd = 1,
-  lend = 1, ...)
+scaleBar(
+  x,
+  y = NULL,
+  width,
+  distance,
+  label = NULL,
+  col = "white",
+  col.text,
+  cex = 3/4,
+  adj = c(0.5, -0.5),
+  col.line,
+  lwd = 1,
+  lend = 1,
+  ...
+)
 }
 \arguments{
 \item{x, y}{Central coordinates of the scale bar in pixels}

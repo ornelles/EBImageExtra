@@ -4,9 +4,20 @@
 \alias{boxtext}
 \title{Add Text with Background Box}
 \usage{
-boxtext(x, y, labels = NA, col.text = NULL, col.bg = NA,
-  border.bg = NA, adj = NULL, pos = NULL, offset = 0.5,
-  padding = c(0.5, 0.5), cex = 1, font = graphics::par("font"))
+boxtext(
+  x,
+  y,
+  labels = NA,
+  col.text = NULL,
+  col.bg = NA,
+  border.bg = NA,
+  adj = NULL,
+  pos = NULL,
+  offset = 0.5,
+  padding = c(0.5, 0.5),
+  cex = 1,
+  font = graphics::par("font")
+)
 }
 \arguments{
 \item{x}{numeric vector of x-coordinates where the text labels should be 

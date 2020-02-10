@@ -4,8 +4,15 @@
 \alias{labelStack}
 \title{Label Frames of an Image Stack}
 \usage{
-labelStack(x, labels = TRUE, nx, col = "white", offset = c(0.05,
-  0.05), adj = c(0, 1), ...)
+labelStack(
+  x,
+  labels = TRUE,
+  nx,
+  col = "white",
+  offset = c(0.05, 0.05),
+  adj = c(0, 1),
+  ...
+)
 }
 \arguments{
 \item{x}{A recently plotted \code{Image} object or \code{array} of such

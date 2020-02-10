@@ -4,9 +4,23 @@
 \alias{drawROI}
 \title{Draw a Rectangular Frame within an Image}
 \usage{
-drawROI(img, x, y, x2, y2, w, h, show, lwd = 2, col = "white",
-  asCorner = FALSE, which.corner = c("bottomleft", "topleft",
-  "topright", "bottomright"), sides = 1:4, pch = 3, col.pch = col)
+drawROI(
+  img,
+  x,
+  y,
+  x2,
+  y2,
+  w,
+  h,
+  show,
+  lwd = 2,
+  col = "white",
+  asCorner = FALSE,
+  which.corner = c("bottomleft", "topleft", "topright", "bottomright"),
+  sides = 1:4,
+  pch = 3,
+  col.pch = col
+)
 }
 \arguments{
 \item{img}{An \code{Image} object}
