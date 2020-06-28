@@ -11,7 +11,7 @@
 #'   the \code{distance} argument. To exclude any label, set this argument to
 #'   \code{""} or to \code{NA}
 #' @param col Default color (white) for \code{col.text} and \code{col.line}
-#' @param col.text,cex,adj,... Parameters passed to the \code{\link{text}}
+#' @param col.text,cex,adj,xpd,... Parameters passed to the \code{\link{text}}
 #'   function used to add the label
 #' @param col.line,lwd,lend Parameters passed to the \code{\link{lines}}
 #'   function used to draw the horizontal scale bar
@@ -42,14 +42,27 @@
 #' multiple clicks to \code{locator()} to get the position just right
 #' with only the last click being used.
 #'
+#' Pixels-per-micrometer calibration values for the Nikon TE300 at 1x1
+#' binning with the QImaging camera are:
+#' \preformatted{
+#' Objective   PPM value
+#'  20X ELWD    3.098
+#'  40X ELWD    6.157
+#'  60X ELWD    9.414
+#'  60X Apo     9.400
+#' 100X Apo    15.563
+#'   4X Apo     0.62 (estimated)
+#' }
+#'
 #' @return
-#' This function is called for side effects. No value is returned.
+#' This function is called for side effects but the location is returned
+#' invisibly as a list.
 #' 
 #' @export
 #' 
 scaleBar <- function(x, y = NULL, width, distance, label = NULL,
 	col = "white", col.text, cex = 3/4, adj = c(0.5, -0.5), col.line,
-	lwd = 1, lend = 1, ...)
+	lwd = 1, lend = 1, xpd = NA, ...)
 {
 	if (missing(distance) && is.list(x)) {
 		distance <- width; width <- y; y <- NULL
@@ -68,5 +81,7 @@ scaleBar <- function(x, y = NULL, width, distance, label = NULL,
 	else lab <- label
 	lines(xx, yy, lwd = lwd, lend = lend, col = col.line)
 	if (lab != "")
-		text(x, y, labels = lab, adj = adj, col = col.text, cex = cex, ...)
+		text(x, y, labels = lab, adj = adj, col = col.text,
+			cex = cex, xpd = xpd, ...)
+	invisible(list(x = x, y = y))
 }
