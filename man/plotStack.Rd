@@ -24,7 +24,7 @@ If missing, a square tile of images will be assumed}
 }
 \value{
 The image \code{x} is invisibly returned to permit passing the argument
-through a pipe. This function primarily called to plot an entire
+through a pipe. This function is primarily called to plot an entire
 \code{Image} object.
 }
 \description{
