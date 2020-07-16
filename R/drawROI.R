@@ -105,6 +105,12 @@ drawROI <- function(img, x, y, x2, y2, w, h, show,
   which.corner = c("bottomleft", "topleft", "topright", "bottomright"),
   sides = 1:4, pch = 3, col.pch = col)
 {
+	if (missing(img)) {
+		cat("Usage: drawROI(img, x, [y, x2, y2, w, h, show, ...])",
+				"  img is an Image object",
+				"  x, y specify coordinates or x is an 'roi'", sep = "\n")
+		return(invisible(NULL))
+	}
   if (!is(img, "Image"))
     stop("'img' must be an Image object")
   if (is(col, "numeric"))

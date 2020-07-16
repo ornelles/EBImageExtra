@@ -122,6 +122,12 @@ getROI <- function(img, x, y, x2, y2, w, h, show, asCorner = FALSE,
   which.corner = c("bottomleft", "topleft", "bottomright", "topright"),
   pch = 3, col = "magenta", border = col, lwd = 2)
 {
+	if (missing(img)) {
+		cat("Usage: getROI(img, x, [y, x2, y2, w, h, show, ...])",
+				"  img is an Image",
+				"  x, [y] specifies coordinates for the region of interest", sep = "\n")
+		return(invisible(NULL))
+	}
   if (!require("EBImage")) stop("This requires the EBImage package")
 
   if(!is(img, "Image")) stop("'img' must be an Image object")
