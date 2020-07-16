@@ -7,7 +7,7 @@
 scaleBar(
   x,
   y = NULL,
-  width,
+  pixels,
   distance,
   label = NULL,
   col = "white",
@@ -24,7 +24,7 @@ scaleBar(
 \arguments{
 \item{x, y}{Central coordinates of the scale bar in pixels}
 
-\item{width}{Width of the scale bar in pixels}
+\item{pixels}{Width of the scale bar in pixels}
 
 \item{distance}{Distance represented by the scale bar in microns}
 
@@ -46,7 +46,7 @@ This function is called for side effects but the location is returned
 invisibly as a list.
 }
 \description{
-Place a single horizontal scale bar \code{width} pixels wide corresponding
+Place a single horizontal scale bar \code{pixels} pixels wide corresponding
 to a physical distance \code{distance} with an optional \code{label}.
 }
 \details{
@@ -59,7 +59,7 @@ and places it 0.5 character widths above \code{x,y}.
  
 The \code{x,y} coordinates can be passed in a plotting structure
 appropriate for \code{\link{xy.coords}}. This function attempts to parse
-\code{distance} and \code{width} from the remaining arguments if they are
+\code{distance} and \code{pixels} from the remaining arguments if they are
 not named and if \code{x} is a list with components named "x" and "y". This 
 allows one to interactively place a scale bar with a function
 call such as in the following example. In this example, \code{ppm} stands

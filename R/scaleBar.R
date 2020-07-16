@@ -1,10 +1,10 @@
 #' Add Scale Bar to Image
 #' 
-#' Place a single horizontal scale bar \code{width} pixels wide corresponding
+#' Place a single horizontal scale bar \code{pixels} pixels wide corresponding
 #' to a physical distance \code{distance} with an optional \code{label}.
 #' 
 #' @param x,y Central coordinates of the scale bar in pixels
-#' @param width Width of the scale bar in pixels
+#' @param pixels Width of the scale bar in pixels
 #' @param distance Distance represented by the scale bar in microns
 #' @param label A suitable label that can be coerced to \code{character} or
 #'   an \code{expression}. If \code{NULL}, a label will be generated from
@@ -26,7 +26,7 @@
 #'  
 #' The \code{x,y} coordinates can be passed in a plotting structure
 #' appropriate for \code{\link{xy.coords}}. This function attempts to parse
-#' \code{distance} and \code{width} from the remaining arguments if they are
+#' \code{distance} and \code{pixels} from the remaining arguments if they are
 #' not named and if \code{x} is a list with components named "x" and "y". This 
 #' allows one to interactively place a scale bar with a function
 #' call such as in the following example. In this example, \code{ppm} stands
@@ -60,21 +60,35 @@
 #' 
 #' @export
 #' 
-scaleBar <- function(x, y = NULL, width, distance, label = NULL,
+scaleBar <- function(x, y = NULL, pixels, distance, label = NULL,
 	col = "white", col.text, cex = 3/4, adj = c(0.5, -0.5), col.line,
 	lwd = 1, lend = 1, xpd = NA, ...)
 {
+	
+	if (missing(x)) {
+		cat(c(
+			"Usage: scaleBar(x, [y], pixels, distance, ...)",
+			" Objective    PPM (pixels per micron)",
+			"  20X ELWD  3.098",
+			"  40X ELWD  6.157",
+			"  60X ELWD  9.414",
+			"  60X Apo   9.400",
+			" 100X Apo  15.563",
+			"   4X Apo   0.62 (estimated)"), sep = "\n")
+		return(invisible(NULL))
+	}
+		
 	if (missing(distance) && is.list(x)) {
-		distance <- width; width <- y; y <- NULL
+		distance <- pixels; pixels <- y; y <- NULL
 	}
 	distance <- distance[1]
-	width <- width[1]
+	pixels <- pixels[1]
 	p <- xy.coords(x, y, recycle = TRUE, setLab = FALSE)
 	x <- tail(p$x, 1)
 	y <- tail(p$y, 1)
 	if (missing(col.text)) col.text <- col
 	if (missing(col.line)) col.line <- col
-	xx <- x + c(-0.5, 0.5)*width
+	xx <- x + c(-0.5, 0.5)*pixels
 	yy <- c(y, y)
 	if (is.null(label)) lab <- bquote(.(distance)~~mu*m)
 	else if (is.na(label) || label == "") lab <- ""
