@@ -76,6 +76,6 @@ stackObjects2 <- function(mask, ref, combine = TRUE, bg.col = "black", ext)
 	}
 	if (!combine || length(ans) == 1)
 		return(ans[[1]])
-	else
-		return(combine(ans))
+	else 
+		return(abind(ans, along = length(dim(ans[[1]]) + 1)))
 }
