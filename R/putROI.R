@@ -77,7 +77,7 @@ putROI <- function(img, roi, position, show, frac = NULL, mag = NULL,
 {
 	if (missing(img)) {
 		cat("Usage: putROI(img, roi, [position, show, frac, mag, ...])",
-				"  img is an Image",
+				"  img is an Image object or image file name",
 				"  roi is a region of interest", sep = "\n")
 		return(invisible(NULL))
 	}
