@@ -6,8 +6,9 @@
 #' @param x,y \code{x,y} coordinates of one or both corners of
 #'   rectangular selection \emph{or} the center of the
 #'   rectangular selection \emph{or} a list of
-#'   corners of the selection (see details in \strong{Selecting
-#'   the ROI} below) 
+#'   corners of the selection \emph{or} an object of \code{class}
+#'   \code{"Roi"} with the \code{@loc} slot containing the 
+#'   desired coordinates (see details in \strong{Selecting the ROI} below) 
 #' @param x2,y2 optional second pair of x and y coordinates when
 #'   needed to specify the other corner of the rectangular selection 
 #' @param w,h optional width and height of the rectangular selection
@@ -39,19 +40,23 @@
 #' A rectangular region of interest (ROI) can be selected programmatically
 #' or interactively. The ROI is defined by a pair of points (in pixels)
 #' that define a diagonal of the region of interest. The pair of points
-#' can be specified by several means. The function will accept four values
+#' can be specified by several means. If \code{x} is a previously defined ROI,
+#' the coordinates of this ROI will be used to get the ROI. Otherwise, 
+#' the function expected four values for specifying the corner of the ROI as
 #' \code{x,y}, and \code{x2,y2} or a list of the two points. Without these
 #' arguments, the function invokes \code{\link{locator}} to allow the
 #' user to define the ROI. The ROI will be trimmed to the
 #' dimensions allowed by the original image. The rectangle can be specified
 #' either by the center or corner(s) as describe below. The first
-#' three options require no interaction with the user and only produce an
-#' image if \code{show = TRUE}. Options 4 and 5 below require interaction
+#' four options require no interaction with the user and only produce an
+#' image if \code{show = TRUE}. Options 5 and 6 below require interaction
 #' with the user and produce an image if \code{show} is missing or if
 #' \code{show = TRUE}. The returned object is an \code{Image} with
 #' an additional \code{class} and \code{slot} as described in the below.
 #' 
 #' \enumerate{
+#'   \item{\strong{Roi}.} If \code{x} is an object of \code{class = "Roi"},
+#'     the corners of the selection will be the value in the \code{@loc} slot.
 #'   \item{\strong{List}.} If \code{x} is a \code{list} of length 2, it
 #'     is assumed to hold opposite corners of the rectangular selection. This
 #'     is the typical result of a call to \code{locator(2)} after having
@@ -151,6 +156,10 @@ getROI <- function(img, x, y, x2, y2, w, h, show, asCorner = FALSE,
     pp <- locator(2, type = "p", pch = pch, col = col)
     pp <- lapply(pp, sort)
   }
+  else if (is(x, "Roi")) { # inset specified with @loc slot, done
+    show <- if (is.null(show)) FALSE else show
+    pp <- x@loc
+  }
   else if (!any(F[1:4])) {# inset specified, done
     show <- if (is.null(show)) FALSE else show
     pp <- list(x = sort(c(x, x2)), y = sort(c(y, y2)))
@@ -216,5 +225,5 @@ getROI <- function(img, x, y, x2, y2, w, h, show, asCorner = FALSE,
   idx <- lapply(dim(img), seq.int) # expanded img coordinates
   idx[1:2] <- pp
   ans <- do.call("[", c(list(img), idx)) # replace 1st two dimensions
-  return(Roi(ans, loc = loc))
+  return(EBImageExtra:::Roi(ans, loc = loc))
 }
