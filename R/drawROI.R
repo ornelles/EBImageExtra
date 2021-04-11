@@ -105,20 +105,25 @@ drawROI <- function(img, x, y, x2, y2, w, h, show,
   which.corner = c("bottomleft", "topleft", "topright", "bottomright"),
   sides = 1:4, pch = 3, col.pch = col)
 {
+# require EBImage
+  if (!require("EBImage"))
+		stop("This requires the EBImage package")
+
+# require Image object
 	if (missing(img)) {
 		cat("Usage: drawROI(img, x, [y, x2, y2, w, h, show, ...])",
 				"  img is an Image object",
 				"  x, y specify coordinates or x is an 'roi'", sep = "\n")
 		return(invisible(NULL))
 	}
-  if (!is(img, "Image"))
-    stop("'img' must be an Image object")
+  if (!is(img, "Image")) stop("'img' must be an Image object")
+  
+# create vector of logical flags for presence of arguments
+  F <- c(missing(x), missing(y), missing(x2), missing(y2),
+		missing(w), missing(h))
   if (is(col, "numeric"))
     col <- palette()[col]
   dm <- base::dim(img)[1:2]
-  
-# vector of flags for missing arguments
-  F <- c(missing(x),missing(y),missing(x2),missing(y2),missing(w),missing(h))
 
 # parse 'x' and remaining arguments to find corners of roi 
 	if (!F[1] && "loc" %in% slotNames(x)) { # 'x' is an Roi object

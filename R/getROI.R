@@ -127,26 +127,30 @@ getROI <- function(img, x, y, x2, y2, w, h, show, asCorner = FALSE,
   which.corner = c("bottomleft", "topleft", "bottomright", "topright"),
   pch = 3, col = "magenta", border = col, lwd = 2)
 {
+# require EBImage
+  if (!require("EBImage"))
+		stop("This requires the EBImage package")
+
+# require Image object
 	if (missing(img)) {
 		cat("Usage: getROI(img, x, [y, x2, y2, w, h, show, ...])",
 				"  img is an Image",
 				"  x, [y] specifies coordinates for the region of interest", sep = "\n")
 		return(invisible(NULL))
 	}
-  if (!require("EBImage")) stop("This requires the EBImage package")
-
   if(!is(img, "Image")) stop("'img' must be an Image object")
-  dm <- dim(img)[1:2]
-  which.corner <- sub("upper", "top", which.corner)
-  which.corner <- sub("lower", "bottom", which.corner)
-  which.corner = match.arg(which.corner)
 
 # process missing arguments
   F <- c(missing(x), missing(y), missing(x2), missing(y2),
       missing(w), missing(h))
 	if (missing(show)) show <- NULL
 
-# process based on the arguments
+  dm <- base::dim(img)[1:2]
+  which.corner <- sub("upper", "top", which.corner)
+  which.corner <- sub("lower", "bottom", which.corner)
+  which.corner = match.arg(which.corner)
+
+# proceed based on the combination of arguments that are present
   if (all(F[1:6])) { # nothing provided except image
     plot(img)
     show <- if (is.null(show)) TRUE else show
