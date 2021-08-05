@@ -10,6 +10,7 @@ keywords:
   - EBImage
   - "Image analysis"
 license: "GPL-3"
+repository-code: "https://github.com/ornelles/EBImageExtra"
 title: "EBImage Extra: Helper functions for EBImage"
 version: 0.0.0.2
 date-released: 2019-06-12
