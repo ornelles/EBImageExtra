@@ -1,5 +1,5 @@
 ### Description  
-This is a collection of functions to extend the `EBImage` package and provide helper functions for processing micrographs. These functions require the `EBImage` package and are typically used with the `virusTiter` package. The `virusTiter` package requires the `lattice` and `latticeExtra` packages.
+This is a collection of functions to extend the `EBImage` package and provide helper functions for processing micrographs. These functions require the `EBImage` package and are typically used with the `virustiter` package. The `virustiter` package requires the `lattice` and `latticeExtra` packages.
 
 ---  
 ### Functional Groups
