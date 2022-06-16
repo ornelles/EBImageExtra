@@ -21,6 +21,7 @@ This is a collection of functions to extend the `EBImage` package and provide he
 #### Filters  
 * `sobel` - the [Sobel filter](https://en.wikipedia.org/wiki/Sobel_operator) for edge detection
 * `usm` - the [Unsharp mask filter](https://en.wikipedia.org/wiki/Unsharp_masking) to sharpen images by increasing local contrast
+* `hpf` - the High pass filter to exclude slowly varying signals
 
 #### Region of interest management
 `EBImage` uses the `S4` `Image` class to store and process images. A region of interest is an `Image` object with the additional class named `Roi` and a slot named `loc` to store the original `x,y` and `x2,y2` location of the rectangular region of interest. This class of objects allows the image and original location to be passed in one object. 
@@ -35,7 +36,7 @@ This is a collection of functions to extend the `EBImage` package and provide he
 * `crop` - crop a grayscale or binary image to exclude zero pixels at the edges
 * `boxtext` - add text with a shaded background box to a plot
 * `dp` - wrapper to call `dev.print` for the current device window where the global logical variable `SaveImage` can be used to determine whether a file will be saved or not
-* `inset` - *function to be added...maybe* add a framed inset to an image by sequential use of getROI, drawROI, and putROI to select a region from an image, draw a frame about the selected region and then place the selection as a framed inset
+* `inset` - *function to be added...maybe...* add a framed inset to an image by sequential use of getROI, drawROI, and putROI to select a region from an image, draw a frame about the selected region and then place the selection as a framed inset
 
 At the moment, `inset` can be emulated by something like the following:
 ```
