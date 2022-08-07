@@ -4,9 +4,10 @@
 #' option of labeling each frame.
 #' 
 #' @param x An \code{Image} object or \code{array} of such objects
-#' @param labels If \code{FALSE}, no labels are added. If \code{TRUE} or
-#'   \code{NULL}, frames will be sequentially number. Other values of
-#'   \code{labels} will be used to label for each frame 
+#' @param labels If \code{FALSE} (default value), no labels are added.
+#'   If \code{TRUE} or \code{NULL}, frames will be sequentially number.
+#'   Other values for \code{labels} can be provided. Labels are placed in 
+#'   the upper left corner of each frame
 #' @param nx The number of frames in the x-direction of the image stack.
 #'   If missing, a square tile of images will be assumed
 #' @param cex Optional character expansion for \code{labels}
@@ -16,10 +17,11 @@
 #' @details
 #' The image in \code{x} will be plotted by the command
 #' \code{plot(x, all = TRUE, nx = nx)}. If \code{labels} is not \code{FALSE},
-#' labels will be generated and added with \code{\link{labelStack}} where
-#' \code{labels = TRUE} will simply number each frame. Other values of
-#' \code{labels} will be used as a label, replicating the values in
-#' \code{labels} as necessary.
+#' labels will be generated and added with \code{\link{labelStack}} with
+#' \code{adj} and \code{offset} changed from the default values to place the
+#' label in the upper left corner of each frame. \code{labels = TRUE} will
+#' simply number each frame. Other values of \code{labels} will be used as a
+#' label, replicating the values in \code{labels} as necessary.
 #' 
 #' @seealso
 #' \code{\link{labelStack}}, to place custom labels on each frame of the
@@ -54,10 +56,13 @@ plotStack <- function(x, labels = FALSE, nx, cex = 1, col = "white", ...)
 	plot(x, all = TRUE, nx = nx, ...)
 
 	if (identical(labels, NULL) | identical(labels, TRUE))
-		labelStack(x, labels = NULL, nx = nx, cex = cex, col = col)
+		labelStack(x, labels = NULL, nx = nx, cex = cex, col = col,
+		offset = c(0.05, 0.05), adj = c(0, 1))
 	else if (is(labels, "expression") | is(labels, "character"))
-		labelStack(x, labels = labels, nx = nx, cex = cex, col = col)
+		labelStack(x, labels = labels, nx = nx, cex = cex, col = col,
+		offset = c(0.05, 0.05), adj = c(0, 1))
 	else if (!is(labels, "logical"))
-		labelStack(x, labels = as.character(labels), nx = nx, cex = cex, col = col)
+		labelStack(x, labels = as.character(labels), nx = nx, cex = cex, col = col,
+		offset = c(0.05, 0.05), adj = c(0, 1))
 	invisible(x)
 }

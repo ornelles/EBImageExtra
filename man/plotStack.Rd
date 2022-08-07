@@ -9,9 +9,10 @@ plotStack(x, labels = FALSE, nx, cex = 1, col = "white", ...)
 \arguments{
 \item{x}{An \code{Image} object or \code{array} of such objects}
 
-\item{labels}{If \code{FALSE}, no labels are added. If \code{TRUE} or
-\code{NULL}, frames will be sequentially number. Other values of
-\code{labels} will be used to label for each frame}
+\item{labels}{If \code{FALSE} (default value), no labels are added.
+If \code{TRUE} or \code{NULL}, frames will be sequentially number.
+Other values for \code{labels} can be provided. Labels are placed in 
+the upper left corner of each frame}
 
 \item{nx}{The number of frames in the x-direction of the image stack.
 If missing, a square tile of images will be assumed}
@@ -34,10 +35,11 @@ option of labeling each frame.
 \details{
 The image in \code{x} will be plotted by the command
 \code{plot(x, all = TRUE, nx = nx)}. If \code{labels} is not \code{FALSE},
-labels will be generated and added with \code{\link{labelStack}} where
-\code{labels = TRUE} will simply number each frame. Other values of
-\code{labels} will be used as a label, replicating the values in
-\code{labels} as necessary.
+labels will be generated and added with \code{\link{labelStack}} with
+\code{adj} and \code{offset} changed from the default values to place the
+label in the upper left corner of each frame. \code{labels = TRUE} will
+simply number each frame. Other values of \code{labels} will be used as a
+label, replicating the values in \code{labels} as necessary.
 }
 \examples{
 # Sample color image
