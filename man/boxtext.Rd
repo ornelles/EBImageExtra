@@ -60,20 +60,21 @@ code{par("cex")} yields the final character size.}
 }
 \value{
 Returns the coordinates of the background rectangle(s). If 
-multiple labels are placed in a vector then the coordinates are returned
-as a matrix with columns corresponding to xleft, xright, ybottom, ytop. 
-If just one label is placed, the coordinates are returned as a vector.
+  multiple labels are placed in a vector then the coordinates are returned
+  as a matrix with columns corresponding to xleft, xright, ybottom, ytop. 
+  If just one label is placed, the coordinates are returned as a vector.
 }
 \description{
 Place text given in the vector \code{labels} 
 onto a plot in the base graphics system on top of a colored background.
 }
 \examples{
-## Create noisy background
-plot(x = runif(1000), y = runif(1000), type = "p", pch = 16, 
-col = "#40404060")
-boxtext(x = 0.5, y = 0.5, labels = "some Text", col.bg = "#b2f4f480", 
-  pos = 4, font = 2, cex = 1.3, padding = 1)
+# Create noisy background
+  plot(x = runif(1000), y = runif(1000), type = "p", pch = 16, 
+  col = "#40404060")
+  boxtext(x = 0.5, y = 0.5, labels = "some Text", col.bg = "#b2f4f480", 
+    pos = 4, font = 2, cex = 1.3, padding = 1)
+
 }
 \author{
 Ian Kopacka

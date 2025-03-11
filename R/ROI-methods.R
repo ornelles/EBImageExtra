@@ -64,6 +64,7 @@ as.Roi.Image <- function(img, resize = FALSE, ...)
 	}
 }
 
+#' @export
 as.Roi.default <- function(img, ...) as.Roi(img, ...)
 
 #' @rdname as.Roi

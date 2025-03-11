@@ -7,7 +7,7 @@ Depends: R (>= 3.2.1), lattice, EBImage
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 Collate: 
     'ROI-methods.R'
     'ROI-class.R'
@@ -27,6 +27,7 @@ Collate:
     'pnpoly.R'
     'putROI.R'
     'scaleBar.R'
+    'scaleBar2.R'
     'sobel.R'
     'stackObjects2.R'
     'usm.R'

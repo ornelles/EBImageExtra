@@ -16,8 +16,6 @@
 #'   (inches) rather than the normal default of \code{px} (pixels)
 #' @param ... additional paramters passed to \code{\link{dev.print}}
 #' 
-#' @details
-#' 
 #' @seealso
 #' \code{\link{dev.print}} that is called by this function
 #' 

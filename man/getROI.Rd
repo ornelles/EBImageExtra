@@ -37,23 +37,23 @@ needed to specify the other corner of the rectangular selection}
 \item{w, h}{optional width and height of the rectangular selection
 in pixels; required if \code{x2,y2} are missing}
 
-\item{show}{\code{logical} value to redraw the image the selection
-outlined by \code{\link{drawROI}}; if \code{missing} or \code{NULL}
-\code{show} will set to \code{TRUE} if the user interacts 
+\item{show}{if this value is \code{TRUE}, redraw the image the selection
+outlined by \code{\link{drawROI}}. If this value is \code{missing} or
+\code{NULL} this will be set to \code{TRUE} if the user interacts 
 with the image and \code{FALSE} if no interaction is required}
 
 \item{asCorner}{\code{logical} value to use the
 point \code{x,y} as the corner of the selection or as the center of
-the selection}
+the selection, default value of \code{FALSE}}
 
 \item{which.corner}{identifies the
 corner of the rectangle specified by \code{x,y};
 applies only if \code{asCorner = TRUE}}
 
-\item{pch}{plotting character used by \code{link{locator}} to
+\item{pch}{plotting character used by \code{\link{locator}} to
 indicate mouse clicks, the default value of 3 shows a small cross}
 
-\item{col}{color for plotting character used by \code{link{locator}};
+\item{col}{color for plotting character used by \code{\link{locator}};
 use \code{NA} for no plotting character}
 
 \item{border}{border color of rectangle if \code{show = TRUE}; if not
@@ -86,7 +86,7 @@ either by the center or corner(s) as describe below. The first
 four options require no interaction with the user and only produce an
 image if \code{show = TRUE}. Options 5 and 6 below require interaction
 with the user and produce an image if \code{show} is missing or if
-\code{show = TRUE}. The returned object is an \code{Image} with
+\code{show == TRUE}. The returned object is an \code{Image} with
 an additional \code{class} and \code{slot} as described in the below.
 
 \enumerate{

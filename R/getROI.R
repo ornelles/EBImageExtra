@@ -13,19 +13,19 @@
 #'   needed to specify the other corner of the rectangular selection 
 #' @param w,h optional width and height of the rectangular selection
 #'   in pixels; required if \code{x2,y2} are missing 
-#' @param show \code{logical} value to redraw the image the selection
-#'   outlined by \code{\link{drawROI}}; if \code{missing} or \code{NULL}
-#'   \code{show} will set to \code{TRUE} if the user interacts 
+#' @param show if this value is \code{TRUE}, redraw the image the selection
+#'   outlined by \code{\link{drawROI}}. If this value is \code{missing} or
+#'   \code{NULL} this will be set to \code{TRUE} if the user interacts 
 #'   with the image and \code{FALSE} if no interaction is required
 #' @param asCorner \code{logical} value to use the
 #'   point \code{x,y} as the corner of the selection or as the center of
-#'   the selection
+#'   the selection, default value of \code{FALSE}
 #' @param which.corner identifies the
 #'   corner of the rectangle specified by \code{x,y};
 #'   applies only if \code{asCorner = TRUE}
-#' @param pch plotting character used by \code{link{locator}} to
+#' @param pch plotting character used by \code{\link{locator}} to
 #'    indicate mouse clicks, the default value of 3 shows a small cross
-#' @param col color for plotting character used by \code{link{locator}};
+#' @param col color for plotting character used by \code{\link{locator}};
 #'   use \code{NA} for no plotting character
 #' @param border border color of rectangle if \code{show = TRUE}; if not
 #'   specified, the value for \code{col} is used
@@ -51,7 +51,7 @@
 #' four options require no interaction with the user and only produce an
 #' image if \code{show = TRUE}. Options 5 and 6 below require interaction
 #' with the user and produce an image if \code{show} is missing or if
-#' \code{show = TRUE}. The returned object is an \code{Image} with
+#' \code{show == TRUE}. The returned object is an \code{Image} with
 #' an additional \code{class} and \code{slot} as described in the below.
 #' 
 #' \enumerate{

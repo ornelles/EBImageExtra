@@ -4,56 +4,60 @@
 #' onto a plot in the base graphics system on top of a colored background.
 #' 
 #' @param x numeric vector of x-coordinates where the text labels should be 
-#' written. If the length of \code{x} and \code{y} differs, the shorter one 
-#' is recycled.
+#'   written. If the length of \code{x} and \code{y} differs, the shorter one 
+#'   is recycled.
 #' @param y numeric vector of y-coordinates where the text labels should be 
-#' written. 
+#'   written. 
 #' @param labels a character vector specifying the text to be written.
 #' @param col.text the color of the text 
 #' @param col.bg color(s) to fill or shade the rectangle(s) with. The default 
-#' \code{NA} means do not fill, i.e., draw transparent rectangles.
+#'   \code{NA} means do not fill, i.e., draw transparent rectangles.
 #' @param border.bg color(s) for rectangle border(s). The default \code{NA}
 #' omits borders. 
 #' @param adj one or two values in [0, 1] which specify the x (and optionally 
-#' y) adjustment of the labels. 
+#'   y) adjustment of the labels. 
 #' @param pos a position specifier for the text. If specified this overrides 
-#' any adj value given. Values of 1, 2, 3 and 4, respectively indicate 
-#' positions below, to the left of, above and to the right of the specified 
-#' coordinates.
+#'   any adj value given. Values of 1, 2, 3 and 4, respectively indicate 
+#'   positions below, to the left of, above and to the right of the specified 
+#'   coordinates.
 #' @param offset when \code{pos} is specified, this value gives the offset of 
-#' the label from the specified coordinate in fractions of a character width.
+#'   the label from the specified coordinate in fractions of a character width.
 #' @param padding factor used for the padding of the box around 
-#' the text. Padding is specified in fractions of a character width. If a 
-#' vector of length two is specified then different factors are used for the
-#' padding in x- and y-direction.  
+#'   the text. Padding is specified in fractions of a character width. If a 
+#'   vector of length two is specified then different factors are used for the
+#'   padding in x- and y-direction.  
 #' @param cex numeric character expansion factor; multiplied by 
-#' code{par("cex")} yields the final character size. 
+#'   code{par("cex")} yields the final character size. 
 #' @param font the font to be used
 #'
 #' @return Returns the coordinates of the background rectangle(s). If 
-#' multiple labels are placed in a vector then the coordinates are returned
-#' as a matrix with columns corresponding to xleft, xright, ybottom, ytop. 
-#' If just one label is placed, the coordinates are returned as a vector.
+#'   multiple labels are placed in a vector then the coordinates are returned
+#'   as a matrix with columns corresponding to xleft, xright, ybottom, ytop. 
+#'   If just one label is placed, the coordinates are returned as a vector.
+#'
 #' @author Ian Kopacka
+#'
 #' @examples
-#' ## Create noisy background
-#' plot(x = runif(1000), y = runif(1000), type = "p", pch = 16, 
-#' col = "#40404060")
-#' boxtext(x = 0.5, y = 0.5, labels = "some Text", col.bg = "#b2f4f480", 
-#'   pos = 4, font = 2, cex = 1.3, padding = 1)
+#' # Create noisy background
+#'   plot(x = runif(1000), y = runif(1000), type = "p", pch = 16, 
+#'   col = "#40404060")
+#'   boxtext(x = 0.5, y = 0.5, labels = "some Text", col.bg = "#b2f4f480", 
+#'     pos = 4, font = 2, cex = 1.3, padding = 1)
+#'
 #' @export
 
 boxtext <- function(x, y, labels = NA, col.text = NULL, col.bg = NA, 
-		border.bg = NA, adj = NULL, pos = NULL, offset = 0.5, 
-		padding = c(0.5, 0.5), cex = 1, font = graphics::par('font')){
+	border.bg = NA, adj = NULL, pos = NULL, offset = 0.5, 
+	padding = c(0.5, 0.5), cex = 1, font = graphics::par('font'))
+{
 
-	## The Character expansion factor to be used:
+# the character expansion factor to be used:
 	theCex <- graphics::par('cex')*cex
 
-	## Is y provided:
+# is y provided?
 	if (missing(y)) y <- x
 
-	## Recycle coords if necessary:	 
+# recycle coords if necessary:	 
 	if (length(x) != length(y)){
 		lx <- length(x)
 		ly <- length(y)
@@ -64,14 +68,14 @@ boxtext <- function(x, y, labels = NA, col.text = NULL, col.bg = NA,
 		}			
 	}
 
-	## Width and height of text (absolute value for inverted coordinates)
+# width and height of text (absolute value for inverted coordinates)
 	textHeight <- abs(graphics::strheight(labels, cex = theCex, font = font))
 	textWidth <- abs(graphics::strwidth(labels, cex = theCex, font = font))
 
-	## Width of one character:
+# width of one character:
 	charWidth <- graphics::strwidth("e", cex = theCex, font = font)
 
-	## Is 'adj' of length 1 or 2?
+# is 'adj' of length 1 or 2?
 	if (!is.null(adj)){
 		if (length(adj == 1)){
 			adj <- c(adj[1], 0.5)			 
@@ -80,7 +84,7 @@ boxtext <- function(x, y, labels = NA, col.text = NULL, col.bg = NA,
 		adj <- c(0.5, 0.5)
 	}
 
-	## Is 'pos' specified?
+# is 'pos' specified?
 	if (!is.null(pos)){
 		if (pos == 1){
 			adj <- c(0.5, 1)
@@ -101,29 +105,29 @@ boxtext <- function(x, y, labels = NA, col.text = NULL, col.bg = NA,
 		offsetVec <- c(0, 0)
 	}
 
-	## Padding for boxes:
+# padding for boxes
 	if (length(padding) == 1){
 		padding <- c(padding[1], padding[1])
 	}
 
-	## Midpoints for text:
+# midpoints for text
 	xMid <- x + (-adj[1] + 1/2)*textWidth + offsetVec[1]
 	yMid <- y + (adj[2] + 1/2)*textHeight + offsetVec[2] # change sign for adj[2]
 
-	## Draw rectangles:
+# draw rectangles:
 	rectWidth <- textWidth + 2*padding[1]*charWidth
 	rectHeight <- textHeight + 2*padding[2]*charWidth	 
 	graphics::rect(xleft = xMid - rectWidth/2, 
-			ybottom = yMid - rectHeight/2, 
-			xright = xMid + rectWidth/2, 
-			ytop = yMid + rectHeight/2,
-			col = col.bg, border = border.bg)
+		ybottom = yMid - rectHeight/2, 
+		xright = xMid + rectWidth/2, 
+		ytop = yMid + rectHeight/2,
+		col = col.bg, border = border.bg)
 
-	## Place the text:
+# place the text
 	graphics::text(xMid, yMid, labels, col = col.text, cex = theCex, font = font, 
 			adj = c(0.5, 0.5))	
 
-	## Return value:
+# return value
 	if (length(xMid) == 1){
 		invisible(c(xMid - rectWidth/2, xMid + rectWidth/2, yMid - rectHeight/2,
 						yMid + rectHeight/2))

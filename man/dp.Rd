@@ -34,9 +34,6 @@ if nothing was saved.
 \description{
 This is a wrapper to plot the current device to a file.
 }
-\details{
-
-}
 \seealso{
 \code{\link{dev.print}} that is called by this function
 }
