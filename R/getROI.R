@@ -160,7 +160,7 @@ getROI <- function(img, x, y, x2, y2, w, h, show, asCorner = FALSE,
     pp <- locator(2, type = "p", pch = pch, col = col)
     pp <- lapply(pp, sort)
   }
-  else if (!any(F[1:4])) {# inset specified, done
+  else if (!any(F[1:4])) { # inset specified by x, x2, y and y2
     show <- if (is.null(show)) FALSE else show
     pp <- list(x = sort(c(x, x2)), y = sort(c(y, y2)))
   }
@@ -170,6 +170,11 @@ getROI <- function(img, x, y, x2, y2, w, h, show, asCorner = FALSE,
 			pp <- x@loc
     else if (is(x, "list") && length(x) == 2 && all(lengths(x) == 2))
       pp <- setNames(lapply(x, sort), c("x", "y"))
+    else if (is(x, "list") && length(x) == 2 && all(lengths(x) == 1)) {
+			w <- ceiling(w - 1); h <- ceiling(h - 1)
+			pp <- list(x = floor(p$x + c(-1, 1)*w/2), y = floor(p$y + c(-1, 1)*h/2))
+      pp <- setNames(lapply(x, sort), c("x", "y"))
+    }
     else
       stop ("if only 'x' is provided, it must be an Roi or a list of two points")
   }
