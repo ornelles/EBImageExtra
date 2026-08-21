@@ -1,5 +1,5 @@
 ### Description  
-This is a collection of functions to extend the `EBImage` package and provide helper functions for processing micrographs. These functions require the `EBImage` package and are typically used with the `virustiter` package. The `virustiter` package requires the `lattice` and `latticeExtra` packages.
+This is a collection of functions to extend the `EBImage` package and provide helper functions for processing micrographs. These functions require the `EBImage` package and are typically used with the `virustiter` package. The `virustiter` package requires the `lattice` and `latticeExtra` packages. The `perimeter` and `circularity` functions are coded in C++ and require compilation.
 
 ---  
 ### Functional Groups
@@ -10,6 +10,7 @@ This is a collection of functions to extend the `EBImage` package and provide he
 * `ni` - a vectorized wrapper to the `normalize()` function with defaults for 12-bit images
 * `bresenham` - Bresenham's integer line "plotting" algorithm
 * `pnpoly` - determine if points are within a polygon (algorithm of W. Randolph Franklin)
+* `crop` - crop an image to the visible pictures
 
 #### Image stacks  
 * `stackObjects2` - place detected objects *with* the bounding box in an image stack

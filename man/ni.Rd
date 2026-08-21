@@ -31,11 +31,12 @@ Vectorized wrapper for \code{\link[EBImage]{normalize}} with a default
 }
 \details{
 See \code{\link[EBImage]{normalize}} for details. The default here differs
-from \code{\link{normalize}} the default value for \code{ir} forces
+from \code{\link[EBImage]{normalize}}. The default value for \code{ir} forces
 the call to use \code{separate = FALSE}. The default value sets
 \code{inputRange} to \code{c(0,2^-4)}, which is appropriate for
 12-bit images. This function provides an easier-to-type replacement for 
-\code{\link{normalize}} while extending it to accept lists of images.
+\code{\link[EBImage]{normalize}} while extending it to accept lists of
+images.
 
 If \code{ir} is a \code{numeric} value of length 1 between 1 and 16,
 it is interpreted as the effective bit depth of the input image and

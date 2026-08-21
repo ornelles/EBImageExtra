@@ -10,7 +10,8 @@ circularity(x)
 perimeter(x)
 }
 \arguments{
-\item{x}{An \code{Image} object mask with a single object to be analyzed.}
+\item{x}{An \code{Image} object mask with a single integer or binary
+object to be analyzed.}
 }
 \value{
 Circularity as a value between 0 (line) and 1 (circle)
@@ -21,7 +22,14 @@ The perimeter (in pixels) of a binary object
 Improved Circularity and Perimeter Calculation
 }
 \details{
-At the cost of increased computing time, these functions provide more precise
-measures of the circularity and perimeter of a binary object than the
-algorithm in \code{\link[EBImage]{computeFeatures}}.
+These functions provide more precise measures of the circularity and
+perimeter of an integer or binary object than the algorithm in
+ \code{\link[EBImage]{computeFeatures}}. Values are computed
+by the C++ code (\code{circularity_cpp} and \code{perimeter_cpp}).
+Because of digitization, the circularity can be greater
+than 1. This function truncates values greater than 1. Also,
+line-like objects with no interior pixels return an inappropriately
+high value for the circularity. The perimeter for such objects is
+calculated differently by treating each pixel as a unit square and
+counting their exposed sides.
 }

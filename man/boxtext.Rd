@@ -54,7 +54,7 @@ vector of length two is specified then different factors are used for the
 padding in x- and y-direction.}
 
 \item{cex}{numeric character expansion factor; multiplied by 
-code{par("cex")} yields the final character size.}
+\code{par("cex")} yields the final character size.}
 
 \item{font}{the font to be used}
 }

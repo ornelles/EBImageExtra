@@ -4,14 +4,14 @@
 \alias{crop}
 \title{Crop an Image to Visible Pixels}
 \usage{
-crop(img, border = 1, fill = 0)
+crop(img, border = 1L, fill = 0L)
 }
 \arguments{
 \item{img}{A grayscale or binary \code{Image} object of two dimensions}
 
 \item{border}{Single integer value of border to add to cropped image}
 
-\item{bg}{Background value for border}
+\item{fill}{Background value for border}
 }
 \value{
 A cropped image with the specified border
@@ -22,5 +22,5 @@ non-zero values plus a given border
 }
 \details{
 Non-zero pixels on the edge of the image are removed, leaving a border of
-\code{border} pixels of \code{bg} color.
+\code{border} pixels of \code{fill} color.
 }

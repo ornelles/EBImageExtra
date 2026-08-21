@@ -10,6 +10,9 @@ stackObjects2(mask, ref, combine = TRUE, bg.col = "black", ext)
 \item{mask}{An \code{Image} object or an \code{array} containing object
 masks. Object masks are sets of pixels with the same unique integer value.}
 
+\item{ref}{An \code{Image} object or an \code{array}, containing the
+intensity values of the objects identify by \code{mask}.}
+
 \item{combine}{If \code{mask} contains multiple images, should the resulting
 \code{list} of image stacks be combined using \code{\link[EBImage]{combine}}
 into a single image stack.}

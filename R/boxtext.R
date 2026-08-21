@@ -27,7 +27,7 @@
 #'   vector of length two is specified then different factors are used for the
 #'   padding in x- and y-direction.  
 #' @param cex numeric character expansion factor; multiplied by 
-#'   code{par("cex")} yields the final character size. 
+#'   \code{par("cex")} yields the final character size. 
 #' @param font the font to be used
 #'
 #' @return Returns the coordinates of the background rectangle(s). If 

@@ -127,10 +127,6 @@ getROI <- function(img, x, y, x2, y2, w, h, show, asCorner = FALSE,
   which.corner = c("bottomleft", "topleft", "bottomright", "topright"),
   pch = 3, col = "magenta", border = col, lwd = 2)
 {
-# require EBImage
-  if (!require("EBImage"))
-		stop("This requires the EBImage package")
-
 # require Image object
 	if (missing(img)) {
 		cat("Usage: getROI(img, x, [y, x2, y2, w, h, show, ...])",
@@ -227,5 +223,5 @@ getROI <- function(img, x, y, x2, y2, w, h, show, asCorner = FALSE,
   idx <- lapply(dim(img), seq.int) # expanded img coordinates
   idx[1:2] <- pp
   ans <- do.call("[", c(list(img), idx)) # replace 1st two dimensions
-  return(EBImageExtra:::Roi(ans, loc = loc))
+  return(Roi(ans, loc = loc))
 }

@@ -12,7 +12,7 @@
 #'   If missing, a square tile of images will be assumed
 #' @param cex Optional character expansion for \code{labels}
 #' @param col Optional color for \code{labels}, default of "white"
-#' @param ... Additional parameters passed to \code{\link{plot.Image}} 
+#' @param ... Additional parameters passed to \code{\link[EBImage]{display}} 
 #' 
 #' @details
 #' The image in \code{x} will be plotted by the command

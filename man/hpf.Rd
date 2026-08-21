@@ -25,5 +25,5 @@ Attenuate slowly varying signals in an \code{Image} object
 \details{
 This function subtracts the blurred image from the original image and
 adds the mean value of the original image. The resulting pixels are
-trimmed so that the lowest value is `code{min.value}.
+trimmed so that the lowest value is \code{min.value}.
 }

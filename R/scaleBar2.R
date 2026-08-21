@@ -67,7 +67,7 @@ scaleBar2 <- function(x, y = NULL, distance, scale, units = "µm",
 	if (missing(x)) {
 		cat(c(
 			"Usage: scaleBar2(x, [y], distance, scale, ...)",
-			" Objective  scale (µm per pixel)",
+			"Objective scale (\u00B5m per pixel)",
 			"  20X ELWD  0.3228",
 			"  40X ELWD  0.1624",
 			"  60X ELWD  0.1062",

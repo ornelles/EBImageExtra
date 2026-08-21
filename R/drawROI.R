@@ -105,10 +105,6 @@ drawROI <- function(img, x, y, x2, y2, w, h, show,
   which.corner = c("bottomleft", "topleft", "topright", "bottomright"),
   sides = 1:4, pch = 3, col.pch = col)
 {
-# require EBImage
-  if (!require("EBImage"))
-		stop("This requires the EBImage package")
-
 # require Image object
 	if (missing(img)) {
 		cat("Usage: drawROI(img, x, [y, x2, y2, w, h, show, ...])",

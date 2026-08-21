@@ -21,7 +21,7 @@ If missing, a square tile of images will be assumed}
 
 \item{col}{Optional color for \code{labels}, default of "white"}
 
-\item{...}{Additional parameters passed to \code{\link{plot.Image}}}
+\item{...}{Additional parameters passed to \code{\link[EBImage]{display}}}
 }
 \value{
 The image \code{x} is invisibly returned to permit passing the argument

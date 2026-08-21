@@ -1,7 +1,7 @@
 Package: EBImageExtra
 Title: Helper Functions for EBImage
-Version: 0.0.0.2
-Authors@R: person("David", "Ornelles", email = "ornelles@wakehealth.edu", role = c("aut", "cre"))
+Version: 0.0.1.0
+Authors@R: person("David", "Ornelles", email = "david.ornelles@wfusm.edu", role = c("aut", "cre"))
 Description: Helper functions extending the functionality of EBImage.
 Depends: R (>= 3.2.1), lattice, EBImage
 License: GPL-3
@@ -9,20 +9,24 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
 Collate: 
+    'EBImageExtra-package.R'
     'ROI-methods.R'
     'ROI-class.R'
+    'RcppExports.R'
     'boxtext.R'
     'bresenham.R'
     'circularity.R'
     'crop.R'
     'dp.R'
     'drawROI.R'
+    'getFrames.R'
     'getROI.R'
     'hpf.R'
     'interleave.R'
     'labelStack.R'
     'locatorStack.R'
     'ni.R'
+    'niq.R'
     'plotStack.R'
     'pnpoly.R'
     'putROI.R'
@@ -31,3 +35,8 @@ Collate:
     'sobel.R'
     'stackObjects2.R'
     'usm.R'
+LinkingTo: 
+    Rcpp
+Imports: 
+    methods,
+    Rcpp

@@ -12,6 +12,8 @@ as.ROI(img, ...)
 \arguments{
 \item{img}{object of class \code{Image}}
 
+\item{...}{for possible future use}
+
 \item{resize}{re-assign \code{"loc" slot} if \code{TRUE}}
 }
 \value{

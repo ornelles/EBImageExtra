@@ -82,8 +82,6 @@ getInset <- function(img, x, y, x2, y2, w, h, method = c("center", "corner"),
 	which.corner = c("bottomleft", "topleft", "bottomright", "topright"),
 	pch = 3, col = "magenta", border = col, lwd = 2, markup = TRUE)
 {
-	if (!require("EBImage")) stop("This requires the EBImage package")
-
 	if(!is(img, "Image")) stop("'img' must be an Image object")
 	dm <- dim(img)[1:2]
 	method <- match.arg(method)

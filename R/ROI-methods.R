@@ -4,6 +4,7 @@
 #'
 #' @param img object of class \code{Image}
 #' @param resize re-assign \code{"loc" slot} if \code{TRUE} 
+#' @param ... for possible future use
 #'
 #' @details
 #' This adds the \code{class} "Roi" to \code{Image} objects and places the
