@@ -26,7 +26,7 @@ circularity <- function(x)
 		if (!is.Image(x) && colorMode(x) != 0 && !is.integer(x))
 			stop("integer or binary mask is expected")
 	# return circularity
-		4 * pi * sum(x != 0) / perimeter_cpp(x)^2
+		circularity_cpp(x)
 }
 
 #' @name perimeter

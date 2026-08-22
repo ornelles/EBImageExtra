@@ -2,9 +2,9 @@
 % Please edit documentation in R/getFrames.R
 \name{getFrames}
 \alias{getFrames}
-\title{Corrected getFrames function from EBImage}
+\title{Adjusted getFrames function from EBImage}
 \usage{
-getFrames(y, i, type = c("render", "total"))
+getFrames(y, i, type = c("render", "total"), combine = FALSE)
 }
 \arguments{
 \item{y}{An \code{Image} object or array.}
@@ -14,15 +14,19 @@ missing, all frames are returned.}
 
 \item{type}{A character string with \code{total} or \code{render}. The
 \emph{new} default is \code{render}.}
+
+\item{combine}{Logical (FALSE) to combine frames into a single object.}
 }
 \value{
-Returns i-th frame(s) containing the image \code{y}. If \code{type} is
-\code{total}, the total number of frames is independent of the color mode
-and equals the product of all dimensions except the first two.
+Returns frame(s) indicated in \code{i} in the image \code{y}. If \code{type}
+is \code{total}, the total number of frames is independent of the color mode
+and equals the product of all dimensions except the first two. The frames
+are returned as a list unless \code{combine} was set to \code{TRUE}.
 }
 \description{
-This corrects the frame argument error in the EBImage code and sets the 
-default from "total" to "render".
+This corrects the frame argument error in the EBImage code for multiple
+frames, sets the default from "total" to "render", and introduces the
+option to combine the frames into a single object.
 }
 \seealso{
 \code{\link[EBImage]{getFrame}}

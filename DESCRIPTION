@@ -7,7 +7,7 @@ Depends: R (>= 3.2.1), lattice, EBImage
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Collate: 
     'EBImageExtra-package.R'
     'ROI-methods.R'
