@@ -8,16 +8,18 @@ This is a collection of functions to extend the `EBImage` package and provide he
 * `circularity` - more precisely calculate the circularity of an image object
 * `perimeter` - more precisely calculate the perimeter of an image object
 * `ni` - a vectorized wrapper to the `normalize()` function with defaults for 12-bit images
+* `niq` - normalize each frame of an image to the range specified
 * `bresenham` - Bresenham's integer line "plotting" algorithm
 * `pnpoly` - determine if points are within a polygon (algorithm of W. Randolph Franklin)
-* `crop` - crop an image to the visible pictures
+* `crop` - crop an image to the visible pixels
+* `getFrames` - corrects `frame` argument error in the EBImage code with option to combine the frames
 
 #### Image stacks  
-* `stackObjects2` - place detected objects *with* the bounding box in an image stack
-* `interleave` - reorganize an image stack by interleaving the images
 * `plotStack` - plot an image stack with optional labels
-* `locatorStack` - interact with a plotted image stack to select frames
 * `labelStack` - label frames of a plotted image stack
+* `locatorStack` - interact with a plotted image stack to select frames
+* `interleave` - reorganize an image stack by interleaving the images
+* `stackObjects2` - place detected objects *with* the bounding box in an image stack
 
 #### Filters  
 * `sobel` - the [Sobel filter](https://en.wikipedia.org/wiki/Sobel_operator) for edge detection
@@ -33,7 +35,8 @@ This is a collection of functions to extend the `EBImage` package and provide he
 * `as.Roi` - convert `Image` object to `Roi` object or reset the `loc` slot of an `Roi` object to the image dimensions
 
 #### Micrograph utilities  
-* `scaleBar` - add horizontal scale bar to image
+* `scaleBar` - add horizontal scale bar to image as per distance and pixels
+* `scaleBar2` - add horizontal scale bar as per scale factor and pixels (different from `scaleBar`)
 * `crop` - crop a grayscale or binary image to exclude zero pixels at the edges
 * `boxtext` - add text with a shaded background box to a plot
 * `dp` - wrapper to call `dev.print` for the current device window where the global logical variable `SaveImage` can be used to determine whether a file will be saved or not
